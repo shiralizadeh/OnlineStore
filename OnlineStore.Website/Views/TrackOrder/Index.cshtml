@@ -1,0 +1,38 @@
+﻿@model string
+@{
+    ViewBag.Title = "پیگیری سفارش";
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    BreadCrumbs = new List<BreadCrumbLink>() {
+        new BreadCrumbLink() { Title = StaticValues.HomeTitle, Link = "/" },
+        new BreadCrumbLink() { Title = "پیگیری سفارش", Link = "/TrackOrder" },
+    }
+})
+
+
+<div class="responsive-box">
+    <div class="track-order-box">
+        @Html.Raw(HttpUtility.HtmlDecode(Model))
+        <form id="TrackOrderForm" class="validate ajax track-order-form" action="/TrackOrder/ShowStatus" method="post">
+            <div class="row">
+                <label for="SaleReferenceID" class="label-salereferenceid">لطفا کد رهگیری خرید خود را در باکس زیر وارد نمایید:</label>
+            </div>
+            <div class="row">
+                <input id="SaleReferenceID" name="SaleReferenceID" type="text" placeholder="کد پیگیری" class="required" maxlength="50">
+                <button class="btn-submit" type="submit">نمایش وضعیت</button>
+            </div>
+        </form>
+        <div class="message-box hide"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+@section Styles{
+    <link href="/css/track-order.min.css" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="/js/track-order.min.js"></script>
+}

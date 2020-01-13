@@ -1,0 +1,14 @@
+﻿@{
+    var rnd = new Random();
+    var index = 0;
+}
+
+@foreach (var item in StaticValues.Features.OrderBy(x => rnd.Next()).Take(6))
+{
+    <div class="feature feature-@item.ID.ToString("00")" data-index="@(index++)">
+        <i></i>
+        <h2>@item.Title</h2>
+        <h3>@item.Description</h3>
+    </div>
+}
+<div class="clear"></div>

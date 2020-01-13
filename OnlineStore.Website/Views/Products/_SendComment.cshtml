@@ -1,0 +1,26 @@
+﻿<form id="AddComment" class="validate ajax" method="post">
+    @Html.Partial("_Loading")
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <input id="UserName" name="UserName" type="text" placeholder="نام و نام خانوادگی" class="form-control input-md required" maxlength="50">
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <input id="Email" name="Email" type="text" placeholder="پست الکترونیک" class="form-control input-md email" maxlength="100">
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-group">
+                <input id="Subject" name="Subject" type="text" placeholder="موضوع" class="form-control input-md" maxlength="300">
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-group">
+                <textarea id="Text" name="Text" rows="5" placeholder="نظر شما" class="form-control required"></textarea>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-default btn-comment" type="submit">ارسال</button>
+</form>

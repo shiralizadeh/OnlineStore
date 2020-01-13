@@ -1,0 +1,64 @@
+﻿@model Colleague
+
+@{
+    ViewBag.Title = "بررسی فرم تقاضای همکاری";
+}
+
+@using (Html.BeginForm("Edit", "Colleagues", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="col-sm-6">
+        @Html.Partial("_Status")
+        <fieldset>
+            <legend>اطلاعات شخصی</legend>
+            <div class="form-group">
+                @Html.LabelFor(model => model.FirstName):
+                <label>@Model.FirstName</label>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.LastName):
+                <label>@Model.LastName</label>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.CompanyName):
+                <label>@Model.CompanyName</label>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>اطلاعات تماس</legend>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email):
+                <label>@Model.Email</label>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Phone):
+                <label>@Model.Phone</label>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Mobile):
+                <label>@Model.Mobile</label>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.CompanyAddress):
+                <label>@Model.CompanyAddress</label>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>زمینه همکاری</legend>
+            <div class="form-group">
+                @Html.LabelFor(model => model.CooperationDescription):
+                <label>@Model.CooperationDescription</label>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Text):
+                <label>@Model.Text</label>
+            </div>
+        </fieldset>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ColleagueStatus)
+            @Html.EnumDropDownListFor(model => model.ColleagueStatus, new { @class = "form-control required" })
+        </div>
+        <button type="submit" class="btn btn-success">تایید</button>
+        <a href="/Admin/Colleagues" class="btn btn-warning">بازگشت</a>
+    </div>
+}

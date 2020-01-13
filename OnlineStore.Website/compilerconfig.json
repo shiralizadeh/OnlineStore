@@ -1,0 +1,134 @@
+﻿[
+  {
+    "outputFile": "css/admin/template.css",
+    "inputFile": "css/admin/template.scss"
+  },
+  {
+    "outputFile": "css/admin/filter-box.css",
+    "inputFile": "css/admin/filter-box.scss"
+  },
+  {
+    "outputFile": "css/admin/simple-search.css",
+    "inputFile": "css/admin/simple-search.scss"
+  },
+  {
+    "outputFile": "css/admin/list-items.css",
+    "inputFile": "css/admin/list-items.scss"
+  },
+  {
+    "outputFile": "css/home.css",
+    "inputFile": "css/scss/home.scss"
+  },
+  {
+    "outputFile": "css/product-details.css",
+    "inputFile": "css/scss/product-details.scss"
+  },
+  {
+    "outputFile": "css/template.css",
+    "inputFile": "css/scss/template.scss"
+  },
+  {
+    "outputFile": "css/cart.css",
+    "inputFile": "css/scss/cart.scss"
+  },
+  {
+    "outputFile": "css/compare-products.css",
+    "inputFile": "css/scss/compare-products.scss"
+  },
+  {
+    "outputFile": "css/products-list.css",
+    "inputFile": "css/scss/products-list.scss"
+  },
+  {
+    "outputFile": "css/login.css",
+    "inputFile": "css/scss/login.scss"
+  },
+  {
+    "outputFile": "css/register.css",
+    "inputFile": "css/scss/register.scss"
+  },
+  {
+    "outputFile": "css/contact-us.css",
+    "inputFile": "css/scss/contact-us.scss"
+  },
+  {
+    "outputFile": "css/blog-details.css",
+    "inputFile": "css/scss/blog-details.scss"
+  },
+  {
+    "outputFile": "css/my-account.css",
+    "inputFile": "css/scss/my-account.scss"
+  },
+  {
+    "outputFile": "css/factor.css",
+    "inputFile": "css/scss/factor.scss"
+  },
+  {
+    "outputFile": "css/advanced-search.css",
+    "inputFile": "css/scss/advanced-search.scss"
+  },
+  {
+    "outputFile": "css/blog.css",
+    "inputFile": "css/scss/blog.scss"
+  },
+  {
+    "outputFile": "css/errors.css",
+    "inputFile": "css/scss/errors.scss"
+  },
+  {
+    "outputFile": "css/forgot-password.css",
+    "inputFile": "css/scss/forgot-password.scss"
+  },
+  {
+    "outputFile": "css/reset-password.css",
+    "inputFile": "css/scss/reset-password.scss"
+  },
+  {
+    "outputFile": "css/producer-details.css",
+    "inputFile": "css/scss/producer-details.scss"
+  },
+  {
+    "outputFile": "css/admin/product-sorted.css",
+    "inputFile": "css/admin/product-sorted.scss"
+  },
+  {
+    "outputFile": "css/partner-orders.css",
+    "inputFile": "css/scss/partner-orders.scss"
+  },
+  {
+    "outputFile": "css/admin/dashboard.css",
+    "inputFile": "css/admin/dashboard.scss"
+  },
+  {
+    "outputFile": "css/employments.css",
+    "inputFile": "css/scss/employments.scss"
+  },
+  {
+    "outputFile": "css/colleagues.css",
+    "inputFile": "css/scss/colleagues.scss"
+  },
+  {
+    "outputFile": "css/admin/postal-information.css",
+    "inputFile": "css/admin/postal-information.scss"
+  },
+  {
+    "outputFile": "css/admin/price-list.css",
+    "inputFile": "css/admin/price-list.scss"
+  },
+  {
+    "outputFile": "css/track-order.css",
+    "inputFile": "css/scss/track-order.scss"
+  },
+  {
+    "outputFile": "css/admin/price-list-logs.css",
+    "inputFile": "css/admin/price-list-logs.scss"
+  },
+  {
+    "outputFile": "css/package-details.css",
+    "inputFile": "css/scss/package-details.scss"
+  },
+  {
+    "outputFile": "css/admin/product-prices.css",
+    "inputFile": "css/admin/product-prices.scss"
+  }
+]

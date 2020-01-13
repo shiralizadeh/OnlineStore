@@ -1,0 +1,37 @@
+﻿@model List<RecentPost>
+
+@if (Model.Count > 0)
+{
+    <div class="related-posts-box">
+        <aside>
+            <div class="box-header box-header-01">
+                <h2>
+                    مطالب مرتبط
+                </h2>
+                <div class="box-control">
+                    <a href="#" class="btn-next">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a href="#" class="btn-prev">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="box-content">
+                <ul id="RelatedPosts" class="owl-carousel">
+                    @foreach (var item in Model)
+                    {
+                        var group = Groups.GetByID(item.GroupID);
+                        var url = UrlProvider.GetPostUrl(item.ID, item.Title, group.TitleEn);
+
+                        <li>
+                            <img src="@UrlProvider.GetPostImage(item.Image, StaticValues.ThumbnailPostImageSize)" alt="@item.Title" title="@item.Title" />
+                            <a href="@url" title="title" class="title">@item.Title</a>
+                            <span class="date">@Utilities.ToPersianDate(item.LastUpdate)</span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </aside>
+    </div>
+}

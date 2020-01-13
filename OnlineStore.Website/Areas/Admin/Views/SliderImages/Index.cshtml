@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "مدیریت اسلایدر ها";
+}
+
+<fieldset class="filter-box">
+    <legend>
+        <a class="filter-header">
+            <i class="open-icon icon icon-plus-sign"></i>
+            <span>جستجو</span>
+        </a>
+    </legend>
+    <div class="control-box">
+        <div class="row form-group">
+            <input type="text" id="Title" class="form-control col-sm-2" placeholder="عنوان..." />
+            <select id="SliderType" class="form-control col-sm-2">
+                <option value="-1">محل قرارگیری</option>
+                <option value="0">صفحه اصلی</option>
+            </select>
+            <a id="btnSearch" class="btn btn-info"><i class="icon-search"></i></a>
+        </div>
+    </div>
+</fieldset>
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "SliderImages",
+    Columns = new List<Column>(){
+                                   new Column() {
+                                       Title = "عنوان",
+                                       DataField = "Title"
+                                   },
+                                   new Column() {
+                                       Title = "زیر عنوان",
+                                       DataField = "SubTitle"
+                                   },
+                                   new Column() {
+                                       Title = "تاریخ شروع",
+                                       DataField = "toPersianDate(StartDate)"
+                                   },
+                                   new Column() {
+                                       Title = "تاریخ پایان",
+                                       DataField = "toPersianDate(EndDate)"
+                                   },
+                                   new Column() {
+                                       Title = "محل قرار گیری",
+                                       DataField = "fromSliderType(SliderType)"
+                                   },
+                                   new Column() {
+                                       Title = "عکس",
+                                       DataField = "toLink(Filename)"
+                                   },
+                                   new Column() {
+                                       Title = "وضعیت",
+                                       DataField = "toBooleanStatus(IsActive)"
+                                   },
+                                   new Column() {
+                                       Title = "در حال نمایش",
+                                       DataField = "toBooleanStatus(IsOnline)"
+                                   },
+                                   new Column() {
+                                       Title = "ترتیب نمایش",
+                                       DataField = "OrderID"
+                                   },
+                                   new Column() {
+                                       Title = "آخرین ویرایش",
+                                       DataField = "fromNow(LastUpdate)"
+                                   }
+                               }
+})
+
+@section Scripts {
+    <script type="text/javascript">
+
+        var $title = $('#Title'),
+            $sliderType = $('#SliderType');
+
+        jConfigGrid.init({
+            ajaxUrl: '/Admin/SliderImages/',
+            filter: function () {
+                return {
+                    Title: $title.val(),
+                    SliderType: $sliderType.val()
+                }
+            }
+        });
+    </script>
+}

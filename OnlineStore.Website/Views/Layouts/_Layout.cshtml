@@ -1,0 +1,583 @@
+﻿@{
+    var version = 4.7;
+
+    var emptyTitle = String.IsNullOrWhiteSpace(ViewBag.Title);
+    var title = (emptyTitle ? StaticValues.WebsiteTitle : ViewBag.Title);
+    var pageTitle = (emptyTitle ? title : title + " - " + StaticValues.WebsiteTitle);
+
+    var ogType = (string)ViewBag.OGType ?? "article";
+
+    var ogDescription = (string)ViewBag.Description ?? String.Empty;
+
+    var ogKeywords = (string)ViewBag.Keywords ?? String.Empty;
+
+    var ogImage = (string)ViewBag.OGImage ?? (StaticValues.WebsiteUrl + "/images/small-logo.jpg");
+
+    string googleMap = StaticContents.GetByName("GoogleMap").Content;
+
+    var absoluteUri = String.Empty;
+
+    if (!String.IsNullOrWhiteSpace(ViewBag.CanonicalUrl))
+    {
+        absoluteUri = StaticValues.WebsiteUrl + ViewBag.CanonicalUrl;
+    }
+    else
+    {
+        absoluteUri = StaticValues.WebsiteUrl + Request.Url.AbsolutePath;
+    }
+}
+<!DOCTYPE html>
+
+<html lang="fa-IR">
+<head>
+    <title>@title</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <meta name="msvalidate.01" content="FACC6DE2B0F4EE9AA86539D386B20032" />
+    <meta name="alexaVerifyID" content="65sGU9FV_wkdfKNBy0GLt-roAjk" />
+    <meta name="enamad" content="934904601" />
+    <meta name="samandehi" content="396656022" />
+
+    <meta name="description" content="@ogDescription" />
+    <meta name="keywords" content="@ogKeywords" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="copyright" content="@StaticValues.WebsiteTitle &copy; @DateTime.Now.Year" />
+
+    <link rel="publisher" href="https://plus.google.com/+OnlineStoreWebsite" />
+    <meta name="application-name" content="@StaticValues.WebsiteTitle" />
+
+    <meta property="og:title" content="@title" />
+    <meta property="og:type" content="@ogType" />
+    <meta property="og:image" content="@ogImage" />
+    <meta property="og:url" content="@absoluteUri" />
+    <meta property="og:description" content="@ogDescription" />
+    <meta property="og:site_name" content="@StaticValues.WebsiteTitle" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="@title" />
+    <meta name="twitter:image" content="@ogImage" />
+    <meta name="twitter:description" content="@ogDescription" />
+
+    @if (ViewBag.NoIndex == true)
+    {
+        <meta name="robots" content="noindex,nofollow" />
+    }
+    else
+    {
+        <meta name="robots" content="index,follow" />
+    }
+
+    @if (ViewBag.HasPaging == true)
+    {
+        var originalUrl = StaticValues.WebsiteUrl + ViewBag.OriginalUrl;
+
+        var nextpage = (int?)ViewBag.Nextpage;
+        var prevpage = (int?)ViewBag.Prevpage;
+
+
+        if (prevpage.HasValue)
+        {
+            <link rel="prev" href="@(originalUrl + "/" + prevpage.Value)">
+        }
+
+        if (nextpage.HasValue)
+        {
+            <link rel="next" href="@(originalUrl + "/" + nextpage.Value)">
+        }
+    }
+
+    <link rel="canonical" href="@absoluteUri" />
+    <link rel="alternate" hreflang="fa" href="@absoluteUri" />
+
+    <link rel="shortcut icon" href="/favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+
+    @*
+        <link rel="manifest" href="/favicon/manifest.json">*@
+    <meta name="msapplication-TileColor" content="#ff3d00">
+    <meta name="msapplication-TileImage" content="/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ff3d00">
+
+    <link href="/assets/font-awesome/font-awesome.min.css" rel="stylesheet" />
+    <link href="/assets/owl-carousel-v2/owl.carousel.min.css" rel="stylesheet" />
+    <link href="/assets/toastr/toastr.min.css" rel="stylesheet" />
+    <link href="/assets/animate/animate.min.css" rel="stylesheet" />
+    <link href="/assets/raty/jquery.raty.css" rel="stylesheet" />
+
+    @* ToolTip *@
+    <link href="/assets/tooltipster-master/css/tooltipster.css" rel="stylesheet" />
+
+    <link href="/css/template.min.css?ver=@version" rel="stylesheet" />
+
+    @RenderSection("Styles", false)
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <header>
+        <div class="header">
+            <div class="static-header">
+                <div class="responsive-box">
+                    <div class="right-box">
+                        @(Html.Raw(String.Format(Request.RawUrl == "/" ? "<h1>{0}</h1>" : "<span>{0}</span>", StaticValues.WebsiteTitle)))
+                        <span class="separator">|</span>
+                        <span><span>تلفن:</span> @StaticValues.Phone</span>
+                    </div>
+                    <div class="left-box">
+                        <ul class="left-menu">
+                            <li class="highlight">
+                                <a href="/SpecialOffers"><i class="fa fa-certificate"></i>تخفیف های ویژه</a>
+                                <span class="separator">|</span>
+                            </li>
+                            <li>
+                                <a href="/TrackOrder"><i class="fa fa-map-marker"></i>پیگیری سفارش</a>
+                                <span class="separator">|</span>
+                            </li>
+                            <li>
+                                <a href="/Blog"><i class="fa fa-file-text"></i>بلاگ</a>
+                                <span class="separator">|</span>
+                            </li>
+                            <li>
+                                <a href="/ContactUs"><i class="fa fa-phone"></i>تماس با ما</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="main-header">
+                <div class="responsive-box">
+                    <div class="logo">
+                        <a href="/">
+                            <img src="@StaticValues.Logo" alt="@StaticValues.WebsiteTitle" />
+                        </a>
+                    </div>
+                    <div class="search-box">
+                        @Html.Partial("/Views/Layouts/_SimpleSearch.cshtml")
+                    </div>
+                    @Html.Partial("_MiniCart")
+                    <div class="support">
+                        <a href="/Support">
+                            <i class="icon"><i class="fa fa-question-circle"></i></i>
+                            <div class="arrow">
+                                <i class="fa fa-chevron-down"></i>
+                            </div>
+                            <p>
+                                راهنمای مشتریان
+                                <span>پاسخ سوالات شما</span>
+                            </p>
+                        </a>
+                        <div class="content-box">
+                            <div class="content">
+                                <p>راهنمای مشتریان:</p>
+                                <span>
+                                    <a href="tel:+985138407540" target="_blank">051 38407540</a>
+                                </span>
+                                <p>تماس سریع در تلگرام:</p>
+                                <span>
+                                    <a href="https://telegram.me/OnlineStore" target="_blank">@@OnlineStore</a>
+                                </span>
+                                <ul>
+                                    <li>
+                                        <a href="/TrackOrder"><i class="fa fa-angle-left"></i>پیگیری سفارش</a>
+                                    </li>
+                                    <li>
+                                        <a href="/Payment-Methods"><i class="fa fa-angle-left"></i>شیوه های پرداخت</a>
+                                    </li>
+                                    <li>
+                                        <a href="/Shipping-Methods"><i class="fa fa-angle-left"></i>نحوه حمل و تحویل کالا</a>
+                                    </li>
+                                    <li>
+                                        <a href="/Shipping-Cost"><i class="fa fa-angle-left"></i>نحوه محاسبه هزینه ی ارسال</a>
+                                    </li>
+                                    <li>
+                                        <a href="/Guarantee-Of-Origin"><i class="fa fa-angle-left"></i>ضمانت تطابق کالا با سایت</a>
+                                    </li>
+                                    <li>
+                                        <a href="/Return-Product"><i class="fa fa-angle-left"></i>امکان بازگرداندن کالا تا 10 روز</a>
+                                    </li>
+                                    <li>
+                                        <a href="/Privacy-Policy"><i class="fa fa-angle-left"></i>سیاست حفظ حریم خصوصی</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="account">
+                        <a href="/Login?ReturnUrl=@HttpUtility.UrlEncode(Request.RawUrl)">
+                            <i class="icon"><i class="fa fa-user"></i></i>
+                            <div class="arrow">
+                                <i class="fa fa-chevron-down"></i>
+                            </div>
+                            <p>
+                                حساب کاربری
+                                <span>ورود و ثبت نام</span>
+                            </p>
+                        </a>
+                        <div class="content-box">
+                            <div class="content">
+                                <div class="profile@(User.Identity.IsAuthenticated ? " authenticated" : String.Empty)">
+                                    <div class="profile-image">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                    @if (!User.Identity.IsAuthenticated)
+                                    {
+                                        <a class="btn-login" href="/Login?ReturnUrl=@HttpUtility.UrlEncode(Request.RawUrl)">ورود</a>
+                                        <p>
+                                            کاربر جدید هستید؟
+                                            <a href="/Register">ثبت نام</a>
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        var user = OSUsers.GetByID(User.Identity.GetUserId());
+                                        <p>
+                                            @(user.Firstname + " " + user.Lastname)
+                                        </p>
+                                        <a class="btn-logout" href="/Logout">خروج</a>
+                                    }
+                                </div>
+                                <div class="user-pages">
+                                    <p>
+                                        @if (!User.Identity.IsAuthenticated)
+                                        {
+                                            <span>میهمان عزیز</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@(User.Identity.GetUserName()) عزیز</span>
+                                        }
+                                        ، خوش آمدید.
+                                    </p>
+                                    <ul>
+                                        <li><a href="/My-Account/My-Profile"><i class="fa fa-angle-left"></i>پروفایل کاربر</a></li>
+                                        <li><a href="/My-Account/My-Wishes"><i class="fa fa-angle-left"></i>آرزوهای من</a></li>
+                                        <li><a href="/My-Account/My-Orders"><i class="fa fa-angle-left"></i>سفارشات</a></li>
+                                        <li><a href="/TrackOrder"><i class="fa fa-angle-left"></i>پیگیری سفارش</a></li>
+                                        <li><a href="/Logout"><i class="fa fa-angle-left"></i>خروج</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="main-box">
+        @RenderBody()
+    </div>
+    <footer>
+        <div class="footer-header">
+            <div class="responsive-box">
+                <div class="social-networks">
+                    <section>
+                        <h1>ارتباط خود را با ما قوی تر کنید!</h1>
+                        <div>
+                            <a class="rss" href="/RSS"></a>
+                            <a class="facebook" href="https://www.facebook.com/OnlineStore"></a>
+                            <a class="google-plus" href="https://plus.google.com/+OnlineStoreWebsite"></a>
+                            <a class="twitter" href="http://twitter.com/OnlineStore"></a>
+                            <a class="youtube" href="https://www.youtube.com/c/OnlineStoreWebsite"></a>
+                            <a class="instagram" href="https://www.instagram.com/OnlineStore"></a>
+                            <a class="telegram" href="https://telegram.me/joinchat/Cl2yBz0TGFPGGIlL5AsK4Q"></a>
+                            <a class="aparat" href="http://www.aparat.com/OnlineStore"></a>
+                            <a class="linkedin" href="https://www.linkedin.com/company/OnlineStore"></a>
+                            <div class="g-plusone" data-annotation="inline" data-width="300"></div>
+                        </div>
+                    </section>
+                </div>
+                <div class="mobile-apps">
+                    <section>
+                        <h1>منتظر اپلیکیشن آنلاین استور باشید!</h1>
+                        <div>
+                            <a href="#" class="android"></a>
+                            <a href="#" class="ios"></a>
+                        </div>
+                    </section>
+                </div>
+                <div class="newsletter">
+                    <section>
+                        <h1>با عضویت در خبرنامه اولین نفر باشید!</h1>
+                        <div class="input-box newsletter-box">
+                            <input type="text" placeholder="ایمیل یا شماره موبایل خود را وارد کنید..." value="" />
+                            <a href="#" class="btn-join">عضویت</a>
+                            <div class="clear"></div>
+                        </div>
+                    </section>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="responsive-box">
+                <div class="row contact-links">
+                    <div class="column address">
+                        <section>
+                            <h1>آنلاین استور</h1>
+                            <i class="small-logo"></i>
+                            <p>آدرس دفتر مرکزی:</p>
+                            <p><i class="fa fa-map-marker"></i>@StaticValues.Address</p>
+                            <p><i class="fa fa-home"></i>کد پستی: @StaticValues.PostalCode</p>
+                            <a href="@googleMap" class="map-link" target="_blank"><i class="fa fa-map-marker"></i> نمایش در نقشه گوگل</a>
+                        </section>
+                    </div>
+                    <div class="column tels">
+                        <section>
+                            <h1>اطلاعات تماس</h1>
+                            <ul>
+                                <li>
+                                    <i class="fa fa-paper-plane"></i>تماس سریع در تلگرام
+                                    <a href="https://telegram.me/OnlineStoreHelp" target="_blank">@@OnlineStoreHelp</a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-phone"></i>کارشناس فروش
+                                    <a href="tel:+985138407540">051-38407540</a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-phone"></i>دفتر فروش تهران
+                                    <a href="tel:+985138407540">0912-0062417</a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-phone"></i>پیگیری سفارشات
+                                    <a href="tel:+985138407540">051-38477375</a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-phone"></i>انتقاد و پیشنهاد
+                                    <a href="tel:+985138407540">051-38477376</a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-phone"></i>فکس
+                                    <a href="tel:+985138407540">051-38477377</a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-envelope"></i>ایمیل
+                                    <a href="mailto:info@OnlineStore.com">info@OnlineStore.com</a>
+                                </li>
+                            </ul>
+                            <a href="/ContactUs" class="contact-link" target="_blank"><i class="fa fa-envelope"></i> تماس با مدیر سایت</a>
+                        </section>
+                    </div>
+                    <div class="column help">
+                        <section>
+                            <h1>راهنمای مشتریان</h1>
+                            <ul>
+                                <li>
+                                    <a href="/FAQ">پرسش های متداول</a>
+                                </li>
+                                <li>
+                                    <a href="/Payment-Methods">شیوه های پرداخت</a>
+                                </li>
+                                <li>
+                                    <a href="/Shipping-Methods">نحوه حمل و تحویل کالا</a>
+                                </li>
+                                <li>
+                                    <a href="/Shipping-Cost">نحوه محاسبه هزینه ی ارسال</a>
+                                </li>
+                                <li>
+                                    <a href="/Guarantee-Of-Origin">ضمانت تطابق کالا با سایت</a>
+                                </li>
+                                <li>
+                                    <a href="/Return-Product">امکان بازگرداندن کالا تا 10 روز</a>
+                                </li>
+                                <li>
+                                    <a href="/Privacy-Policy">سیاست حفظ حریم خصوصی</a>
+                                </li>
+                            </ul>
+                        </section>
+                    </div>
+                    <div class="column quicklinks">
+                        <section>
+                            <h1>دسترسی سریع</h1>
+                            <ul>
+                                <li>
+                                    <a href="/TrackOrder">پیگیری سفارش</a>
+                                </li>
+                                <li>
+                                    <a href="/Login?ReturnUrl=@HttpUtility.UrlEncode(Request.RawUrl)">ورود به سایت</a>
+                                </li>
+                                <li>
+                                    <a href="/Register">عضویت در سایت</a>
+                                </li>
+                                <li>
+                                    <a href="/Colleagues">جذب تامین کننده</a>
+                                </li>
+                                <li>
+                                    <a href="/Employments">استخدام در آنلاین استور</a>
+                                </li>
+                                <li>
+                                    <a href="/AboutUs">درباره ما</a>
+                                </li>
+                                <li>
+                                    <a href="/ContactUs">تماس با ما</a>
+                                </li>
+                            </ul>
+                        </section>
+                    </div>
+                </div>
+                <div class="row group-links">
+                    <div class="footer-groups">
+                        <nav>
+                            <h1>گروه محصولات</h1>
+                            @Html.Partial("/Views/Layouts/_GroupsLeafs.cshtml")
+                        </nav>
+                    </div>
+                    <div class="certificates-box">
+                        <div class="certificates">
+                            <div class="enamad"><a href="http://trustseal.enamad.ir/Verify.aspx?id=1309&p=nbpdfuixdrfsjzpg" onclick='window.open("http://trustseal.enamad.ir/Verify.aspx?id=1309&p=nbpdfuixdrfsjzpg", "Popup","toolbar=no, location=no, statusbar=no, menubar=no, scrollbars=1, resizable=0, width=580, height=600, top=30"); return false;' title='نماد اعتماد الکترونیکی' rel="nofollow"></a></div>
+                            <div class="samandehi"><a href="http://logo.samandehi.ir/Verify.aspx?id=40216&p=aodsobpduiwkrfthgvka" onclick='window.open("http://logo.samandehi.ir/Verify.aspx?id=40216&p=aodsobpduiwkrfthgvka", "Popup","toolbar=no, scrollbars=no, location=no, statusbar=no, menubar=no, resizable=0, width=450, height=630, top=30"); return false;' title='نماد ستاد ساماندهی' rel="nofollow"></a></div>
+                            <div class="behpardakht"><a href="http://behpardakht.com/" title='به پرداخت ملت' rel="nofollow"></a></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="copyright">
+                @Html.Partial("/Views/Layouts/_CopyRight.cshtml")
+            </div>
+        </div>
+        <a href="#" class="goto-top">
+            <i class="fa fa-caret-up"></i>
+            بالا
+        </a>
+    </footer>
+
+    <!--scripts-->
+    <script src="/js/jquery-1.11.3.min.js"></script>
+    <script src="/assets/owl-carousel-v2/owl.carousel.min.js"></script>
+    <script src="/assets/toastr/toastr.min.js"></script>
+    <script src="/assets/tooltipster-master/js/jquery.tooltipster.min.js"></script>
+    <script src="/assets/underscore/underscore-min.js"></script>
+    <script src="/assets/raty/jquery.raty.min.js"></script>
+    <script src="/assets/jquery.validate/jquery.validate.min.js"></script>
+    <script src="/assets/nicescroll/jquery.nicescroll.min.js"></script>
+
+    <script src="/js/main.min.js?ver=@version"></script>
+    <script src="/js/cart.min.js?ver=@version"></script>
+    <script src="/js/products.min.js?ver=@version"></script>
+    <script src="/js/simple-search.min.js?ver=@version"></script>
+    <script src="/js/newsletter-membership.min.js?ver=@version"></script>
+
+    <script>
+        var isRial = @(ExtensionMethods.IsRial ? "true"  : "false");
+        var isAuthenticated = @(User.Identity.IsAuthenticated ? "true" : "false");
+    </script>
+
+    @RenderSection("Scripts", false)
+
+    <script type="application/ld+json">
+        {
+        "@@context": "http://schema.org",
+        "@@type": "Organization",
+        "name" : "@StaticValues.WebsiteTitle",
+        "alternateName" : "OnlineStore",
+        "url": "@StaticValues.WebsiteUrl",
+        "logo": "@(StaticValues.WebsiteUrl + "/images/template/logo.jpg")",
+        "contactPoint" : [{
+        "@@type" : "ContactPoint",
+        "telephone" : "+98-51-38407540",
+        "contactType" : "customer service",
+        "contactOption" : "TollFree",
+        "areaServed" : "IR",
+        "availableLanguage" : "Persian"
+        }],
+        "sameAs" : [
+
+
+        "https://plus.google.com/+OnlineStoreWebsite",
+        "https://www.youtube.com/c/OnlineStoreWebsite",
+        "https://twitter.com/OnlineStore",
+        "https://www.facebook.com/OnlineStore",
+        "https://instagram.com/OnlineStore",
+
+        "http://www.aparat.com/OnlineStore",
+        "http://www.cloob.com/name/OnlineStore",
+        "http://facenama.com/OnlineStore",
+        "http://www.hammihan.com/profile/OnlineStore",
+        "http://OnlineStore.iteg.ir/"
+
+        @*
+            "https://www.linkedin.com/company/OnlineStore",
+        *@
+
+        ],
+        "potentialAction": {
+        "@@type": "SearchAction",
+        "target": "@(StaticValues.WebsiteUrl + "/Search?text={search_term_string}")",
+        "query-input": {
+        "@@type": "PropertyValueSpecification",
+        "valueRequired": true,
+        "valueMaxlength": 250,
+        "valueName": "search_term_string"
+        }
+        }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+        "@@context": "http://schema.org",
+        "@@type": "WebSite",
+        "name": "آنلاین استور",
+        "alternateName": "@StaticValues.WebsiteTitle",
+        "url": "@StaticValues.WebsiteUrl"
+        }
+    </script>
+
+    @*<!--Start of Zopim Live Chat Script-->
+    <script type="text/javascript">
+        window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+        d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+        _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute("charset","utf-8");
+            $.src="//v2.zopim.com/?43KtFWybVFTUQC0g5BYwtrz8Yga7hJk4";z.t=+new Date;$.
+            type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
+    </script>
+    <!--End of Zopim Live Chat Script-->*@
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-74857354-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <script type="text/javascript">
+        var _paq = _paq || [];
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+            var u="//pw.online-store.com/";
+            _paq.push(['setTrackerUrl', u+'piwik.php']);
+            _paq.push(['setSiteId', 1]);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+        })();
+    </script>
+    <noscript><p><img src="//pw.online-store.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+    <a href="http://www.alexa.com/siteinfo/online-store.com" class="hide">
+        <script type="text/javascript" src="http://xslt.alexa.com/site_stats/js/s/a?url=online-store.com" async defer></script>
+    </a>
+</body>
+</html>

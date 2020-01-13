@@ -1,0 +1,19 @@
+﻿@model List<ScoresAverage>
+
+<div class="average">
+    <ul class="score-parameter">
+        @foreach (var item in Model)
+            {
+            <li>
+                <span>@item.Title</span>
+                <select id="Parameter@(item.ScoreParameterID)" data-rate="@item.Average">
+                    <option value="1"></option>
+                    <option value="2"></option>
+                    <option value="3"></option>
+                    <option value="4"></option>
+                    <option value="5"></option>
+                </select>
+            </li>
+        }
+    </ul>
+</div>

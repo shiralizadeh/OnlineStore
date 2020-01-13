@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "مرتب سازی محصولات";
+}
+
+<div class="product-stored-box">
+    <fieldset class="filter-box">
+        <legend>
+            <a class="filter-header">
+                <i class="open-icon icon icon-plus-sign"></i>
+                <span>جستجو</span>
+            </a>
+        </legend>
+        <div class="control-box" style="display: block;">
+            <div class="row form-group">
+                <div>
+                    @Html.Partial("_TreeView", new TreeViewSettings()
+               {
+                   ControllerName = "/Admin/Groups",
+                   JsonMothod = "GetGroups",
+                   FieldName = "JSONGroups",
+                   TreeViewSelectMode = TreeViewSelectMode.Multiple,
+                   SelectedItems = new List<int>()
+               })
+                </div>
+                <label id="GroupsError" class="error" style="display: none;"></label>
+                <a class="btn btn-info btn-search"><i class="icon-search"></i></a>
+            </div>
+        </div>
+    </fieldset>
+    <a class="icon-refresh hide" href="#"></a>
+    <div class="result-box"></div>
+</div>
+@section Styles{
+    <link href="/css/admin/product-sorted.min.css" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="/assets/admin/jquery-ui/jquery-ui-1.10.1.custom.min.js"></script>
+    <script src="/js/admin/product-sorted.js"></script>
+}

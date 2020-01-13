@@ -1,0 +1,25 @@
+﻿@model AjaxSettings
+
+@using (Html.BeginForm("Product", "Copy", FormMethod.Post, new { @class = "validate" }))
+{
+    <div class="col-xs-8">
+        @Html.Partial("_ProductSimpleSearch", Model)
+    </div>
+    <input id="ProductID" type="hidden" name="ProductID" />
+        <button id="CopyProduct" type="submit" class="btn btn-warning col-xs-1">کپی کن</button>
+}
+
+@section Styles{
+    <link href="/css/admin/simple-search.css" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="/js/admin/product-simple-search.js"></script>
+
+    <script>
+        function ProductSelected(id) {
+            var $productID = $('#ProductID');
+            $productID.val(id);
+        }
+    </script>
+}

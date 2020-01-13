@@ -1,0 +1,151 @@
+﻿@import "mixins";
+
+.register-box {
+    .desc {
+        color: $black_2;
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    .register-form {
+        padding: 10px;
+        margin-left: 10px;
+        background-color: #fff;
+
+        .btn-submit {
+            margin-right: 308px;
+        }
+
+        .image-box {
+            margin-right: 122px;
+
+            .user-image {
+                width: 70px;
+            }
+
+            .fa-user {
+                font-size: 40px;
+            }
+        }
+
+        .sex-row {
+            display: inline-block;
+
+            .radio {
+                display: inline;
+
+                label {
+                    vertical-align: middle;
+                    width: auto;
+                }
+            }
+        }
+    }
+
+    .rules {
+        margin-top: 0;
+        background-color: #fff;
+
+        li {
+            color: $black_4;
+            font-size: 14px;
+            line-height: 30px;
+            margin-bottom: 10px;
+
+            .fa-caret-left {
+                @include fontAwesome;
+                margin-left: 5px;
+                color: $color;
+            }
+        }
+    }
+}
+
+/*(max-width: 480px)*/
+@include breakpoint('MobilePortrait') {
+    .row {
+        input[type="text"],
+        input[type="password"],
+        textarea {
+            width: 95%;
+        }
+
+        select {
+            width: 100%;
+        }
+    }
+
+    .register-box .register-form {
+        margin-left: 0;
+
+        .btn-submit {
+            margin-right: 0;
+        }
+
+        .user-image {
+            margin: 10px;
+        }
+    }
+
+    .left-column {
+        margin-top: 10px;
+    }
+}
+/*(min-width: 480px) and (max-width: 595px)*/
+@include breakpoint('MobileLandscape') {
+    .register-box .register-form {
+        margin-left: 0;
+
+        .btn-submit {
+            margin-right: 0;
+        }
+
+        .label-error {
+            margin-right: 120px;
+        }
+
+        .user-image {
+            margin: 10px;
+        }
+    }
+
+    .left-column {
+        margin-top: 10px;
+    }
+}
+
+/*(min-width: 595px) and (max-width: 690px)*/
+@include breakpoint('SmallTabletPortrait') {
+    .register-box .register-form {
+        margin-left: 0;
+
+        .label-error {
+            margin-right: 120px;
+        }
+    }
+
+    .left-column {
+        margin-top: 10px;
+    }
+}
+
+/*(min-width: 690px) and (max-width: 960px)*/
+@include breakpoint('TabletPortrait') {
+    .register-box .register-form {
+        margin-left: 0;
+
+        .label-error {
+            margin-right: 120px;
+        }
+    }
+
+    .left-column {
+        margin-top: 10px;
+    }
+}
+/*(min-width: 960px) and (max-width: 1024px)*/
+@include breakpoint('SmallTabletLandscape') {
+    .label-error {
+        margin-right: 120px;
+    }
+}

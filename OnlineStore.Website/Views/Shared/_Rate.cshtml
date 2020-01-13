@@ -1,0 +1,36 @@
+﻿@model float
+
+@{
+    int intValue = (int)Model;
+    float decimalValue = Model - intValue;
+    int counter;
+}
+
+<a href="#" class="rate" data-score="@Model">
+    @for (counter = 0; counter < intValue; counter++)
+    {
+        <img src="/assets/raty/images/star-on.png" />
+    }
+    @if (decimalValue != 0)
+    {
+        if (0.25 < decimalValue && decimalValue <= 0.75)
+        {
+            <img src="/assets/raty/images/star-half.png" />
+        }
+        else if (decimalValue <= 0.25)
+        {
+            <img src="/assets/raty/images/star-off.png" />
+        }
+        else
+        {
+            <img src="/assets/raty/images/star-on.png" />
+        }
+
+        counter++;
+    }
+    @for (int i = 0; i < 5 - counter; i++)
+    {
+        <img src="/assets/raty/images/star-off.png" />
+    }
+</a>
+

@@ -1,0 +1,200 @@
+﻿@model List<ViewPriceList>
+@{
+    Layout = null;
+    var col1 = Model.Where(item => item.ColumnID == 1);
+    var col2 = Model.Where(item => item.ColumnID == 2);
+    var col3 = Model.Where(item => item.ColumnID == 3);
+    var col4 = Model.Where(item => item.ColumnID == 4);
+    var col5 = Model.Where(item => item.ColumnID == 5);
+    var dateNow = Utilities.ToPersianDateTime(DateTime.Now);
+}
+
+<title>لیست قیمت بنک داری</title>
+
+<!-- Bootstrap core CSS -->
+<link href="~/assets/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link href="~/assets/bootstrap/bootstrap-rtl.min.css" rel="stylesheet" />
+
+<link href="~/css/admin/style.css" rel="stylesheet">
+<link href="/css/admin/price-list.min.css" rel="stylesheet" />
+
+<div class="print-list-box">
+    <table class="print-list">
+        <tr>
+            <td>
+                <div class="print-header">
+                    <span class="hamiran">حامیران</span>
+                    <span class="phones">38477375 - 38477376 - 38477377 - 38477378 - 38477379</span>
+                    <span class="date">@dateNow</span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table class="print-body">
+                    <tr>
+                        <td class="column">
+                            @foreach (var item in col1)
+                            {
+                                <table>
+                                    <tr>
+                                        <td colspan="3">
+                                            <img alt="@item.SectionTitle" title="@item.SectionTitle" src="@UrlProvider.GetPriceListSectionImage(item.SectionImage, StaticValues.SectionImageSize)" />
+                                        </td>
+                                    </tr>
+                                    @if (item.PriceListProducts.Count > 0)
+                                    {
+
+                                        foreach (var product in item.PriceListProducts)
+                                        {
+                                            string addClass = String.Empty;
+
+                                            if (product.PriceListProductType == PriceListProductType.Type2)
+                                            {
+                                                addClass = "price-item-color";
+                                            }
+                                            <tr class="@addClass">
+                                                <td><span class="title">@product.Title</span><span class="sub-title">@product.SubTitle</span></td>
+                                                <td>@(product.IsAvailable ? product.Price.ToString() : "***")</td>
+                                                <td>@(!String.IsNullOrWhiteSpace(product.Guarantee) ? product.Guarantee : "***" )</td>
+                                            </tr>
+                                        }
+                                    }
+                                </table>
+                            }
+                        </td>
+                        <td class="column">
+                            @foreach (var item in col2)
+                            {
+                                <table>
+                                    <tr>
+                                        <td colspan="3">
+                                            <img alt="@item.SectionTitle" title="@item.SectionTitle" src="@UrlProvider.GetPriceListSectionImage(item.SectionImage, StaticValues.SectionImageSize)" />
+                                        </td>
+                                    </tr>
+                                    @if (item.PriceListProducts.Count > 0)
+                                    {
+
+                                        foreach (var product in item.PriceListProducts)
+                                        {
+                                            string addClass = String.Empty;
+
+                                            if (product.PriceListProductType == PriceListProductType.Type2)
+                                            {
+                                                addClass = "price-item-color";
+                                            }
+                                            <tr class="@addClass">
+                                                <td><span class="title">@product.Title</span><span class="sub-title">@product.SubTitle</span></td>
+                                                <td>@(product.IsAvailable ? product.Price.ToString() : "***")</td>
+                                                <td>@(!String.IsNullOrWhiteSpace(product.Guarantee) ? product.Guarantee : "***" )</td>
+                                            </tr>
+                                        }
+                                    }
+                                </table>
+                            }
+                        </td>
+                        <td class="column">
+                            @foreach (var item in col3)
+                            {
+                                <table>
+                                    <tr>
+                                        <td colspan="3">
+                                            <img alt="@item.SectionTitle" title="@item.SectionTitle" src="@UrlProvider.GetPriceListSectionImage(item.SectionImage, StaticValues.SectionImageSize)" />
+                                        </td>
+                                    </tr>
+                                    @if (item.PriceListProducts.Count > 0)
+                                    {
+
+                                        foreach (var product in item.PriceListProducts)
+                                        {
+                                            string addClass = String.Empty;
+
+                                            if (product.PriceListProductType == PriceListProductType.Type2)
+                                            {
+                                                addClass = "price-item-color";
+                                            }
+                                            <tr class="@addClass">
+                                                <td><span class="title">@product.Title</span><span class="sub-title">@product.SubTitle</span></td>
+                                                <td>@(product.IsAvailable ? product.Price.ToString() : "***")</td>
+                                                <td>@(!String.IsNullOrWhiteSpace(product.Guarantee) ? product.Guarantee : "***" )</td>
+                                            </tr>
+                                        }
+                                    }
+                                </table>
+                            }
+                        </td>
+                        <td class="column">
+                            @foreach (var item in col4)
+                            {
+                                <table>
+                                    <tr>
+                                        <td colspan="3">
+                                            <img alt="@item.SectionTitle" title="@item.SectionTitle" src="@UrlProvider.GetPriceListSectionImage(item.SectionImage, StaticValues.SectionImageSize)" />
+                                        </td>
+                                    </tr>
+                                    @if (item.PriceListProducts.Count > 0)
+                                    {
+
+                                        foreach (var product in item.PriceListProducts)
+                                        {
+                                            string addClass = String.Empty;
+
+                                            if (product.PriceListProductType == PriceListProductType.Type2)
+                                            {
+                                                addClass = "price-item-color";
+                                            }
+                                            <tr class="@addClass">
+                                                <td><span class="title">@product.Title</span><span class="sub-title">@product.SubTitle</span></td>
+                                                <td>@(product.IsAvailable ? product.Price.ToString() : "***")</td>
+                                                <td>@(!String.IsNullOrWhiteSpace(product.Guarantee) ? product.Guarantee : "***" )</td>
+                                            </tr>
+                                        }
+                                    }
+                                </table>
+                            }
+                        </td>
+                        <td class="column">
+                            @foreach (var item in col5)
+                            {
+                                <table>
+                                    <tr>
+                                        <td colspan="3">
+                                            <img alt="@item.SectionTitle" title="@item.SectionTitle" src="@UrlProvider.GetPriceListSectionImage(item.SectionImage, StaticValues.SectionImageSize)" />
+                                        </td>
+                                    </tr>
+                                    @if (item.PriceListProducts.Count > 0)
+                                    {
+
+                                        foreach (var product in item.PriceListProducts)
+                                        {
+                                            string addClass = String.Empty;
+
+                                            if (product.PriceListProductType == PriceListProductType.Type2)
+                                            {
+                                                addClass = "price-item-color";
+                                            }
+                                            <tr class="@addClass">
+                                                <td><span class="title">@product.Title</span><span class="sub-title">@product.SubTitle</span></td>
+                                                <td>@(product.IsAvailable ? product.Price.ToString() : "***")</td>
+                                                <td>@(!String.IsNullOrWhiteSpace(product.Guarantee) ? product.Guarantee : "***" )</td>
+                                            </tr>
+                                        }
+                                    }
+                                </table>
+                            }
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="print-footer">
+                    <img src="/images/admin/print-logo.jpg" alt="@StaticValues.WebsiteTitle" class="logo" />
+                    <div class="clear"></div>
+                    <div class="text-footer">* همکار گرامی تسویه فقط <span>نقدی</span> می باشد *</div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

@@ -1,0 +1,45 @@
+﻿@model ProducerSettings
+
+@{
+    var producerDetail = Model.ProducerDetails;
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    ShowTitle = true,
+    BreadCrumbs = new List<BreadCrumbLink>()
+    {
+        new BreadCrumbLink() { Title = StaticValues.HomeTitle, Link = "/" },
+        new BreadCrumbLink() { Title = producerDetail.TitleEn }
+    }
+})
+
+<div class="responsive-box">
+    <div class="producer-details-box">
+        @if (!String.IsNullOrWhiteSpace(producerDetail.Filename))
+        {
+            <img class="producer-image" src="@UrlProvider.GetProducerImage(producerDetail.Filename,StaticValues.ProducerImageSize)" />
+        }
+        @Html.Raw(HttpUtility.HtmlDecode(producerDetail.Text))
+        <div class="clear"></div>
+        <div class="box-header">
+            <h2>
+                لینک های مرتبط
+            </h2>
+        </div>
+        <div class="box-content">
+            <div class="groups">
+                <span>|</span>
+                @foreach (var item in Model.ProductGroups)
+                {
+                    @:<a href="@UrlProvider.GetGroupUrl(item.TitleEn,producerDetail.TitleEn)" target="_blank">@(item.Perfix + " " + producerDetail.Title)</a><span>|</span>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+@section Styles{
+    <link href="/css/producer-details.min.css" rel="stylesheet" />
+}

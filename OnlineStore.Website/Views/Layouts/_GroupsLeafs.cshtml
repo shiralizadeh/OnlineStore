@@ -1,0 +1,20 @@
+﻿@{
+    var db = OnlineStoreDbContext.Entity;
+
+    List<Group> leafs = (from item in db.Groups
+                         where item.GroupType == GroupType.Products
+                         && !(db.Groups.Any(ch => ch.ParentID == item.ID))
+                         select item).ToList();
+
+    var index = 0;
+
+}
+
+@foreach (var item in leafs)
+{
+    @:<a href="@UrlProvider.GetGroupUrl(item.TitleEn)">@item.Title</a>
+    if (index < leafs.Count - 1)
+    {
+        <span>|</span>
+    }
+}

@@ -1,0 +1,103 @@
+﻿@model PriceSettings
+
+@{
+    var prices = Model.Prices;
+
+    PriceItem minPrice,
+              maxPrice;
+
+    if (prices != null && prices.Count > 0)
+    {
+        minPrice = prices.OrderBy(item => item.Price).First();
+        maxPrice = prices.OrderByDescending(item => item.Price).First();
+    }
+    else
+    {
+        minPrice = maxPrice = new PriceItem();
+    }
+}
+
+@if (Model.SimplePrice && (Model.IsUnavailable || minPrice.Price == 0))
+{
+    <div class="row">
+        @switch (Model.PriceStatus)
+        {
+            case PriceStatus.Normal:
+                <div class="price-isunavailable">
+                    <i class="fa fa-times-circle"></i>
+                    موجود نیست
+                </div>
+                break;
+            case PriceStatus.ComingSoon:
+                <div class="price-comingsoon">
+                    <i class="fa fa-clock-o"></i>
+                    به زودی
+                </div>
+                break;
+            case PriceStatus.ContactUs:
+                <div class="price-contactus">
+                    <i class="fa fa-phone"></i>
+                    تماس بگیرید
+                </div>
+                break;
+            default:
+                break;
+        }
+    </div>
+}
+else
+{
+    if (!Model.SimplePrice)
+    {
+        if (minPrice.DiscountPercent > 0)
+        {
+            <div class="row">
+                <div class="price-discount">
+                    <div class="original-price">
+                        @Html.Raw(minPrice.Price.ToPrice("{0} <span>{1}</span>"))
+                    </div>
+                    <div class="discount-price" title="@minPrice.DiscountPercent% تخفیف">
+                        @Html.Raw((minPrice.Price - minPrice.DiscountPrice).ToPrice("{0} <span>{1} تخفیف</span>"))
+                    </div>
+                </div>
+                <div class="topay-price">
+                    @Html.Raw(minPrice.DiscountPrice.ToPrice("{0} <span>{1}</span>"))
+                </div>
+                @if (Model.IsFreeDelivery)
+                {
+                    <div class="free-delivery hasdiscount animated"></div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="regular-price">
+                    @Html.Raw(minPrice.Price.ToPrice("{0} <span>{1}</span>"))
+                </div>
+                @if (Model.IsFreeDelivery)
+                {
+                    <div class="free-delivery animated"></div>
+                }
+            </div>
+        }
+    }
+    else
+    {
+        if (minPrice.DiscountPercent > 0)
+        {
+            <div class="original-price">
+                @Html.Raw(minPrice.Price.ToPrice("{0} <span class='price-unit'>{1}</span>"))
+            </div>
+            <div class="topay-price">
+                @Html.Raw(minPrice.DiscountPrice.ToPrice("{0} <span class='price-unit'>{1}</span>"))
+            </div>
+        }
+        else
+        {
+            <div class="regular-price">
+                @Html.Raw(minPrice.Price.ToPrice("{0} <span class='price-unit'>{1}</span>"))
+            </div>
+        }
+    }
+}

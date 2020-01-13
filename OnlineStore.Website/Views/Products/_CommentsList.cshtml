@@ -1,0 +1,34 @@
+﻿@model List<ViewProductComment>
+
+    @{
+        string userFullName;
+    }
+
+    <div class="comment-list">
+        @foreach (var item in Model)
+        {
+            if (!String.IsNullOrWhiteSpace(item.UserID))
+            {
+                userFullName = OSUsers.GetByID(item.UserID).Firstname + " " + OSUsers.GetByID(item.UserID).Lastname;
+            }
+            else
+            {
+                userFullName = item.UserName;
+            }
+
+            <div class="comment-item">
+                <div class="media">
+                    <div class="media-left">
+                        <img alt="@userFullName" title="@userFullName" src="@(item.UserID != null
+                                                                            ? (StaticPaths.OSUsers + OSUsers.GetByID(item.UserID).ImageFile)
+                                                                            : StaticPaths.OSUsers + "70x70.jpg")">
+                    </div>
+                    <div class="media-body">
+                        <div class="comment-date"> @(Utilities.ToPersianDate(item.LastUpdate))</div>
+                        <div class="comment-title">@userFullName</div>
+                        @item.Text
+                    </div>
+                </div>
+            </div>
+        }
+    </div>

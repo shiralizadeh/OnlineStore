@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "ابزارهای مدیریتی";
+}
+
+<div class="row">
+    <div class="col-sm-6">
+        @Html.Partial("_Status")
+    </div>
+</div>
+@using (Html.BeginForm("UpdateIsUnavailable", "Toolbox", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="col-sm-2">
+        <button type="submit" class="btn btn-success">تعیین موجودی</button>
+    </div>
+}
+
+@using (Html.BeginForm("UpdateAttrOptions", "Toolbox", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="col-sm-2">
+        <button type="submit" class="btn btn-success">بروز رسانی ویژگی های قابل جستجو</button>
+    </div>
+}
+
+@section Scripts{
+    <script src="/js/admin/content-showeditor.js"></script>
+}

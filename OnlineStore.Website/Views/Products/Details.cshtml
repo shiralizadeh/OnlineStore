@@ -1,0 +1,406 @@
+﻿@model ProductDetailSettings
+
+@{
+    var version = 4.1;
+
+    var productDetail = Model.ProductDetail;
+
+    var metaName = (productDetail.DisplayTitleType == DisplayTitleType.Title_Fa ? productDetail.Title : productDetail.Title_En);
+    var metaAlternateName = (productDetail.DisplayTitleType == DisplayTitleType.Title_Fa ? productDetail.Title_En : productDetail.Title);
+
+    var producer = Model.Producer;
+
+    var title = productDetail.Title + " - " + productDetail.Title_En;
+
+    var productImage = Model.ProductImages;
+    var imageAlt = productDetail.Title + " - " + productDetail.Title_En;
+    var defaultImage = StaticPaths.ProductImages + Model.DefaultImage.Filename;
+
+    var productText = HttpUtility.HtmlDecode(productDetail.Text);
+
+    var compareUrl = UrlProvider.GetCompareUrl(productDetail.ID);
+
+    var totalScore = Utilities.CalcRaty(productDetail.SumScore.Value, productDetail.ScoreCount, productDetail.ProductScore).ToString("0.0");
+    var countRates = productDetail.ScoreCount + 1;
+
+    var bestPrice = productDetail.MinPrice;
+    var price = (bestPrice.DiscountPrice > 0 ? bestPrice.DiscountPrice : bestPrice.Price);
+
+    var isUnavailable = (productDetail.IsUnavailable || bestPrice.Price == 0);
+
+    var summary = ViewBag.Description;
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    ShowTitle = false,
+    BreadCrumbs = Model.BreadCrumbLinks
+})
+
+<div class="responsive-box">
+    <div class="content-column">
+        <div class="product-details-box">
+            <div class="product-details" data-productid="@productDetail.ID">
+                <div class="rate-comment">
+                    <a class="rate score" data-score="@totalScore"></a>
+
+                    <p>
+                        (
+                        <span class="total-score">@totalScore</span>
+                        از
+                        <span class="count-score">@countRates</span>
+                        نفر)
+                    </p>
+                    @if (Model.CommentsCount > 0)
+                    {
+                        <a href="#" class="comment-count">@Model.CommentsCount نظر</a>
+                    }
+                </div>
+                <div class="product-gallary">
+                    <a href="#" class="fa fa-share-alt btn-send-to-friend" title="ارسال به دوست" data-mfp-src="#SendEmail"></a>
+                    <div id="SendEmail" class="white-popup mfp-hide">
+                        @Html.Partial("_SendToFriend")
+                    </div>
+                    <div id="wrapper">
+                        <div id="surround">
+                            <img class="cloudzoom" alt="@imageAlt" id="zoom1" src="@defaultImage" data-cloudzoom='zoomSizeMode:"image", autoInside: 1023'>
+                            <div id="ProductGallery">
+                                <div class="thumbelina-but horiz left"><i class="fa fa-angle-left"></i></div>
+                                <ul>
+                                    @foreach (var item in productImage)
+                                    {
+                                    <li>
+                                        <img class="cloudzoom-gallery" src="@(UrlProvider.GetProductImage(item.Filename,StaticValues.ThumbnailProductImageSize))" alt="@imageAlt"
+                                             data-cloudzoom="useZoom:'.cloudzoom', image:'@(StaticPaths.ProductImages + item.Filename)' ">
+                                    </li>
+                                    }
+                                </ul>
+                                <div class="thumbelina-but horiz right"><i class="fa fa-angle-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-features">
+                    <h1>
+                        <span class="title-fa">@productDetail.Title</span>
+                        <span class="title-en@(productDetail.Title_En.Length <= 60 ? String.Empty : " long")">@productDetail.Title_En</span>
+                    </h1>
+                    <div class="product-availability-box">
+                        @if (isUnavailable)
+                        {
+                            switch (Model.ProductDetail.PriceStatus)
+                            {
+                                case PriceStatus.Normal:
+                                    <div class="product-unavailable">
+                                        <i class="fa fa-times-circle"></i>
+                                        موجود نیست
+                                    </div>
+                                    break;
+                                case PriceStatus.ComingSoon:
+                                    <div class="product-comingsoon">
+                                        <i class="fa fa-clock-o"></i>
+                                        به زودی
+                                    </div>
+                                    break;
+                                case PriceStatus.ContactUs:
+                                    <div class="product-contactus">
+                                        <i class="fa fa-phone"></i>
+                                        تماس بگیرید <span>(از ساعت 10 الی 13 و 16 الی 20 با تلفن 05138407540)</span>
+                                    </div>
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            <div class="product-available">
+                                <i class="fa fa-check-circle">
+                                </i>
+                                موجود
+                            </div>
+                        }
+                    </div>
+                    @if (Model.CommentsCount == 0 && Model.ScoreParameters.Count > 0)
+                    {
+                        <div class="product-firstcomment">
+                            <a href="#">
+                                <i class="fa fa-pencil-square-o"></i>
+                                اولین نفری باشید که نظر میده
+                            </a>
+                        </div>
+                    }
+
+                    @if (productDetail.HasVarients && productDetail.Prices.Count > 0 && !isUnavailable)
+                    {
+                        var minPrice = (JsonProductVarient)productDetail.Prices.OrderBy(item => item.Price).First();
+
+                        var attrIDs = productDetail.Prices
+                                                .SelectMany(item => ((JsonProductVarient)item).Attributes)
+                                                .GroupBy(item => item.AttributeID).Select(item => item.Key).ToList();
+
+                        var attrs = Attributes.GetByIDs(attrIDs);
+
+                        if (productDetail.Prices.Count > 0)
+                        {
+                            <script>
+                                var productVarients = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(productDetail.Prices));
+                            </script>
+                        }
+
+                        <div class="product-varients">
+                            @foreach (var attr in attrs)
+                            {
+                                var options = AttributeOptions.GetByAttributeID(attr.ID);
+                                var isColor = (attr.ID == 18);
+
+                                var opt = options.Single(item => minPrice.Attributes.Any(at => at.AttributeOptionID == item.ID));
+                                options.Remove(opt);
+                                options.Insert(0, opt);
+
+                                <div class="row" data-attributeid="@attr.ID">
+                                    <div class="attr-title">@attr.Title:</div>
+                                    @foreach (var op in options)
+                                    {
+                                        var isExists = productDetail.Prices
+                                                       .Select(item => (JsonProductVarient)item)
+                                                       .Any(item => item.Attributes.Any(a => a.AttributeOptionID == op.ID));
+                                        if (isExists)
+                                        {
+                                            <a href="#" class="attr-op @(isColor ? "attr-color": "") @(minPrice.Attributes.Any(at => at.AttributeOptionID == op.ID) ? "selected" : String.Empty)" data-optionid="@op.ID">
+                                                @if (isColor)
+                                                {
+                                                    <span class="color" style="background-color: @(OnlineStore.Providers.Utilities.GetColorByOptionID(op.ID));"></span>
+                                                }
+                                                @op.Title
+                                            </a>
+                                        }
+                                    }
+                                </div>
+                            }
+                        </div>
+                    }
+                    @if (!isUnavailable)
+                    {
+                        <div class="product-price-box">
+                            @Html.Partial("_Price", new PriceSettings() { Prices = productDetail.Prices, IsFreeDelivery = productDetail.IsFreeDelivery, SimplePrice = false })
+                        </div>
+                    }
+                    @if (Model.Gifts.Count > 0)
+                    {
+                        <div class="product-gifts">
+                            <div class="row">
+                                <ul>
+                                    @foreach (var gift in Model.Gifts)
+                                    {
+                                        var group = Groups.GetByID(gift.GroupID.Value);
+                                        var url = UrlProvider.GetProductUrl(gift.ID, group.UrlPerfix, gift.DisplayTitle);
+
+                                        <li><a href="@url" class="tooltipster-left" title="هدیه ویژه">@gift.DisplayTitle</a></li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                    <div class="product-controls">
+                        <div class="row">
+                            @if (isUnavailable)
+                            {
+                            <a href="#" class="btn-add-request" data-mfp-src="#AddRequest">
+                                درخواست دهید
+                            </a>
+                            <div id="AddRequest" class="white-popup mfp-hide">
+                                @Html.Partial("_AddRequest")
+                            </div>
+                            }
+                            else
+                            {
+                            <a href="#" class="btn-add-cart">
+                                افزودن به سبد خرید
+                            </a>
+                            }
+
+                            <a href="#" class="btn-wish">
+                                <i class="fa fa-heart"></i>
+                                آرزوی من
+                            </a>
+                            <a href="@compareUrl" class="btn-compare">
+                                <i class="fa fa-exchange"></i>
+                                مقایسه محصول
+                            </a>
+                        </div>
+                    </div>
+                    @Html.Partial("_SocialNetworks", new SocialNetworkLink())
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="product-tabs">
+                <div class="box-header" id="TabBoxes">
+                </div>
+                <div class="box-content">
+                    @if (!String.IsNullOrWhiteSpace(productText))
+                    {
+                        <div id="ProductDescription" class="product-desc">
+                            <h2>
+                                بررسی تخصصی
+                                <span>@title</span>
+                            </h2>
+                            @Html.Raw(productText)
+                        </div>
+                    }
+
+                    @if (Model.ProductAttributes.Count > 0)
+                    {
+                        <div id="ProductAttributes">
+                            <h2>
+                                مشخصات فنی
+                                <span>@title</span>
+                            </h2>
+                            @Html.Partial("_ProductAttributes", Model.ProductAttributes)
+                        </div>
+                    }
+                    @if (Model.ScoreParameters.Count > 0)
+                    {
+                        <div id="ProductComments" class="product-comments">
+                            <h2>
+                                نظرات
+                                <span>@title</span>
+                            </h2>
+                            <a href="#" class="btn-send-score" data-mfp-src="#SendScore">امتیاز شما به این محصول</a>
+                            <a target="_blank" href="/RSS/LatestComments/@productDetail.ID" aria-hidden="true" class="fa fa-rss-square rss-link"></a>
+                            <div id="SendScore" class="white-popup mfp-hide">
+                                @Html.Partial("_SendScore", Model.ScoreParameters)
+                            </div>
+                            <div class="clear"></div>
+                            @Html.Partial("_ScoresAverage", Model.ScoresAverages)
+                            <div class="clear"></div>
+                            @Html.Partial("_ScoreCommentsList", Model.ScoreComments)
+                        </div>
+                    }
+                    <div id="ProductQuestions" class="product-questions">
+                        <h2>
+                            پرسش و پاسخ
+                            <span>@title</span>
+                        </h2>
+                        @Html.Partial("_QuestionsList", Model.ProductQuestions)
+                        @Html.Partial("_SendQuestion")
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            @if (Model.ProductAccessories.Count > 0)
+            {
+                <div class="product-accessories-box">
+                    @Html.Partial("_ProductAccessories", Model.ProductAccessories)
+                </div>
+            }
+            <div class="similar-products-box">
+                <section>
+                    <div class="box-header box-header-03">
+                        <h1>
+                            <i class="fa fa-th"></i>
+                            محصولات مشابه @productDetail.DisplayTitle
+                        </h1>
+                        <div class="box-control">
+                            <a href="#" class="btn-next">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a href="#" class="btn-prev">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="box-content">
+                        <ul class="owl-carousel similar-products">
+                            @foreach (var product in Model.SimilarProducts)
+                            {
+                                @Html.Partial("_ProductItem", product)
+                            }
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <div class="left-column">
+        <div class="small-box features-box">
+            <section>
+                <div class="box-header hide">
+                    <h1>خدمات آنلاین استور</h1>
+                </div>
+                <div class="box-content">
+                    @Html.Partial("_Features")
+                </div>
+            </section>
+        </div>
+        @if (Model.RelatedProducts.Products.Count > 0)
+        {
+            <div class="small-box related-products">
+                @Html.Partial("_RelatedProducts", Model.RelatedProducts)
+            </div>
+        }
+    </div>
+    <div class="clear"></div>
+</div>
+
+@section Styles{
+    <link href="/assets/cloudzoom/cloudzoom.css" type="text/css" rel="stylesheet" />
+    <link href="/assets/thumbelina/thumbelina.css" type="text/css" rel="stylesheet" />
+    <link href="/assets/barRating/themes/bars-movie.css" rel="stylesheet" />
+    <link href="/assets/Magnific/magnific-popup.css" rel="stylesheet" />
+    <link href="/css/magnific-popup.css" rel="stylesheet" />
+
+    <link href="/css/product-details.min.css?ver=@version" rel="stylesheet" />
+
+}
+
+@section Scripts{
+    <script src="/assets/cloudzoom/cloudzoom.js"></script>
+    <script src="/assets/thumbelina/thumbelina.js"></script>
+    <script src="/assets/barRating/jquery.barrating.js"></script>
+    <script src="/assets/sticky/jquery.sticky.js"></script>
+    <script src="/assets/Magnific/jquery.magnific-popup.min.js"></script>
+
+    <script src="/js/send-question.min.js?ver=@version"></script>
+    <script src="/js/product-scores.min.js?ver=@version"></script>
+    <script src="/js/product-details.min.js?ver=@version"></script>
+
+    <script type="application/ld+json">
+        {
+        "@@context": "http://schema.org/",
+        "@@type": "Product",
+        "name": "@metaName",
+        "alternateName": "@metaAlternateName",
+        "image": "@(StaticValues.WebsiteUrl + defaultImage)",
+        "description": "@summary",
+        "brand": {
+        "@@type": "Thing",
+        "name": "@producer.TitleEn",
+        "alternateName": "@producer.Title"
+        },
+        "aggregateRating": {
+        "@@type": "AggregateRating",
+        "worstRating": "0",
+        "bestRating": "5",
+        "ratingValue": "@totalScore",
+        "reviewCount": "@countRates"
+        },
+        "offers": {
+        "@@type": "Offer",
+        "priceCurrency": "IRR",
+        "price": "@price.ToString("0.00")",
+        "priceValidUntil": "@productDetail.LastUpdate.AddYears(1)",
+        "itemCondition": "http://schema.org/NewCondition",
+        @if (!isUnavailable)
+        {
+            @:"availability": "http://schema.org/InStock",
+        }
+
+        "seller": {
+        "@@type": "Organization",
+        "name": "@StaticValues.WebsiteTitle"
+        }
+        }
+        }
+    </script>
+}

@@ -1,0 +1,66 @@
+﻿/*border*/
+.pngs {
+  background-image: url(/images/Template/pngs.png?v=1.4); }
+
+.post-list ul li {
+  background-color: #fff;
+  padding: 10px;
+  font-size: 14px;
+  color: #263238;
+  margin: 0 10px 15px 0; }
+  .post-list ul li h1 {
+    font-size: 16px; }
+    .post-list ul li h1 a {
+      line-height: 25px; }
+      .post-list ul li h1 a:hover {
+        color: #ff3d00; }
+  .post-list ul li ul.icons {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    width: 315px;
+    height: 45px; }
+    .post-list ul li ul.icons li {
+      float: right;
+      margin: 0; }
+      .post-list ul li ul.icons li i {
+        margin-left: 15px;
+        color: #78909c; }
+      .post-list ul li ul.icons li a,
+      .post-list ul li ul.icons li span {
+        font-size: 11px;
+        display: inline-block;
+        color: #78909c; }
+  .post-list ul li .post-content {
+    border-top: solid 1px #eceff1;
+    padding-top: 20px; }
+    .post-list ul li .post-content .img-link {
+      float: right;
+      display: inline-block;
+      margin-left: 20px; }
+    .post-list ul li .post-content .text {
+      line-height: 30px;
+      padding-right: 10px; }
+    .post-list ul li .post-content .bottom {
+      margin-top: 20px;
+      position: relative; }
+
+/*(max-width: 480px)*/
+@media only screen and (max-width: 479px) {
+  .content-column {
+    margin-top: 10px; } }
+
+/*(min-width: 480px) and (max-width: 595px)*/
+@media only screen and (min-width: 480px) and (max-width: 599px) {
+  .content-column {
+    margin-top: 10px; } }
+
+/*(min-width: 595px) and (max-width: 690px)*/
+@media only screen and (min-width: 595px) and (max-width: 689px) {
+  .content-column {
+    margin-top: 10px; } }
+
+/*(min-width: 690px) and (max-width: 960px)*/
+@media only screen and (min-width: 690px) and (max-width: 959px) {
+  .content-column {
+    margin-top: 10px; } }
+

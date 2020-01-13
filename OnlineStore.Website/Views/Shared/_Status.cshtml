@@ -1,0 +1,11 @@
+﻿@if (this.IsPost)
+{
+    if (this.IsSuccess())
+    {
+        @Html.Partial("_Success")
+    }
+    else
+    {
+        @Html.Partial("_Error", this.GetErrors())
+    }
+}

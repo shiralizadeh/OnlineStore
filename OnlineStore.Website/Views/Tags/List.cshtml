@@ -1,0 +1,172 @@
+﻿@model TagsSettings
+
+@{
+    var version = 1.0;
+    string originalUrl = Model.OriginalUrl;
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    ShowTitle = true,
+    Title = Model.PageTitle,
+    BreadCrumbs = new List<BreadCrumbLink>()
+    {
+        new BreadCrumbLink() { Title = StaticValues.HomeTitle, Link = "/" },
+        new BreadCrumbLink() { Title = "کلیدواژه (" + ViewBag.KeyWord + ")", Link = "#" },
+    }
+})
+
+<script>
+    var productsListOptions = {
+        PageTitle: '',
+        PageIndex: @Model.CurrentPageIndex,
+        PageSize: 24,
+        PageOrder: 'Weight'
+    };
+</script>
+<script>
+    var groupUrl = '/tags/' + @ViewBag.KeyWord;
+</script>
+
+<script id="ProductItemTemplate" type="text/html">
+    <li class="product-item" data-productid="{{ID}}" data-productvarientid="{{ProductVarientID}}">
+        <a href="{{Url}}" title="{{ToolTip}}">
+            <img src="{{ImageFile}}" alt="{{DisplayTitle}}" title="{{DisplayTitle}}" />
+        </a>
+        <a href="/Products/{{GroupUrl}}">
+            <span class="group-title">{{GroupTitle}}</span>
+        </a>
+        <a href="{{Url}}" class="product-title">
+            <h2>{{DisplayTitle}}</h2>
+        </a>
+        <a href="{{Url}}" class="product-alternate-title">
+            <h3>{{DisplayTitleOther}}</h3>
+        </a>
+        <span class="product-price">
+            {{Price}}
+        </span>
+        <div class="controls">
+            <a href="#" class="btn-add-cart">
+                <i class="fa fa-cart-plus"></i>
+            </a>
+            <div class="compare-wish">
+                <a href="{{CompareUrl}}">مقایسه محصول</a>
+                <span class="separator">|</span>
+                <a href="#" class="link-wishlist">آرزوی من</a>
+            </div>
+            <div class="rate-comment">
+                <a href="#" class="rate">{{Score}}</a>
+                {{CommentBox}}
+            </div>
+        </div>
+    </li>
+</script>
+
+<div class="responsive-box">
+    <div class="content-column">
+        <div class="products-list-box">
+            @if (Model.Products.Count > 0)
+            {
+                <div class="products-list">
+                    <ul>
+                        @foreach (var item in Model.Products)
+                        {
+                            @Html.Partial("_ProductItem", item)
+                        }
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+            }
+
+            <div class="alert-warning alert-empty @(Model.Products.Count > 0 ? "hide" : "")">
+                موردی یافت نشد!
+            </div>
+
+            @if (Model.Products.Count() > 0)
+            {
+                <div class="paging-box">
+                    <nav class="text-center">
+                        <ul class="paging">
+                            @if (Model.CurrentPageIndex > 0)
+                            {
+                                <li class="page-prev">
+                                    <a href="@(originalUrl)/@(Model.CurrentPageIndex)" data-index="@(Model.CurrentPageIndex)">
+                                        <i class="fa fa-chevron-right"></i>
+                                        قبلی
+                                    </a>
+                                </li>
+                            }
+
+                            @if (Model.CurrentPageIndex - 5 > 0)
+                            {
+                                <li class="page-last">
+                                    <a href="@(originalUrl)/1" data-index="1">
+                                        1
+                                    </a>
+                                </li>
+                            }
+
+                            @if (Model.CurrentPageIndex - 6 > 0)
+                            {
+                                <li class="page-last">
+                                    <a href="@(originalUrl)/@(Model.CurrentPageIndex - 5)" data-index="@(Model.CurrentPageIndex - 5)">
+                                        ...
+                                    </a>
+                                </li>
+                            }
+
+                            @foreach (var item in Model.Paging)
+                            {
+                                if (Model.CurrentPageIndex + 1 == item)
+                                {
+                                    <li class="current">@item</li>
+                                }
+                                else
+                                {
+                                    <li><a href="@(originalUrl)/@(item)" data-index="@(item)">@item</a></li>
+                                }
+                            }
+
+                            @if (Model.TotalPages > Model.CurrentPageIndex + 7)
+                            {
+                                <li class="page-last">
+                                    <a href="@(originalUrl)/@(Model.CurrentPageIndex + 7)" data-index="@(Model.CurrentPageIndex + 7)">
+                                        ...
+                                    </a>
+                                </li>
+                            }
+
+                            @if (Model.TotalPages > Model.CurrentPageIndex + 6)
+                            {
+                                <li class="page-last">
+                                    <a href="@(originalUrl)/@(Model.TotalPages)" data-index="@(Model.TotalPages)">
+                                        @Model.TotalPages
+                                    </a>
+                                </li>
+                            }
+
+                            @if (Model.TotalPages > Model.CurrentPageIndex + 1)
+                            {
+                                <li class="page-next">
+                                    <a href="@(originalUrl)/@(Model.CurrentPageIndex + 2)" data-index="@(Model.CurrentPageIndex + 2)">
+                                        بعدی
+                                        <i class="fa fa-chevron-left"></i>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+@section Styles {
+    <link href="/css/products-list.min.css?ver=@version" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="/js/products-list.min.js?ver=@version"></script>
+}

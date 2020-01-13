@@ -1,0 +1,75 @@
+﻿@model ContactUsInfo
+
+@{
+    var version = 1.2;
+
+    ViewBag.Title = "تماس با ما";
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    ShowTitle = true,
+    BreadCrumbs = new List<BreadCrumbLink>() {
+        new BreadCrumbLink() { Title = StaticValues.HomeTitle, Link = "/" },
+        new BreadCrumbLink() { Title = "تماس با ما", Link = "/ContactUs" },
+    }
+})
+
+<div class="responsive-box contactus-box">
+    <div class="content-column">
+        <div class="contact-content-box">
+            @Html.Raw(Model.Content)
+            <form id="SendMessage" class="validate ajax contact-form" action="/ContactUs/SendMessage" method="post">
+                <div class="row">
+                    <label for="FullName">نام و نام خانوادگی</label>
+                    <input id="FullName" name="FullName" type="text" class="required" maxlength="100" />
+                </div>
+                <div class="row">
+                    <label for="Email">پست الکترونیک</label>
+                    <input id="Email" name="Email" type="text" class="required email" />
+                </div>
+                <div class="row">
+                    <label for="Subject">موضوع</label>
+                    <input id="Subject" name="Subject" type="text" class="required" maxlength="300">
+                </div>
+                <div class="row">
+                    <label for="Message">پیام</label>
+                    <textarea id="Message" name="Message" class="required" maxlength="1000"></textarea>
+                </div>
+                <div class="row">
+                    <button type="submit" class="btn-submit">ارسال پیام</button>
+                </div>
+            </form>
+            <div class="message-box hide">
+                @Html.Partial("_Success")
+            </div>
+        </div>
+    </div>
+    <div class="left-column">
+        <div class="small-box contact-info-box">
+            <div class="box-header box-header-02">
+                <h2>اطلاعات تماس</h2>
+            </div>
+            <div class="box-content">
+                <div class="contact-info">
+                    <p><i class="fa fa-envelope"></i>@StaticValues.Email</p>
+                    <p><i class="fa fa-phone"></i>@StaticValues.Phone</p>
+                    <p><i class="fa fa-map-marker"></i>@StaticValues.Address</p>
+                    <p><i class="fa fa-home"></i>کد پستی: @StaticValues.PostalCode</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="map" class="map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1352.0698155009645!2d59.580260392059394!3d36.29333693786605!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f6c916c30e4fcc7%3A0x543b95c16091e17!2z2YHYsdmI2LTar9in2Ycg2KfbjNmG2KrYsdmG2KrbjCDYr9mG24zYp9uMINiv24zYrNuM2KrYp9mE!5e0!3m2!1sen!2sir!4v1462628185879" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+    </div>
+</div>
+
+@section Styles{
+    <link href="~/css/contact-us.min.css?ver=@version" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="/js/send-contact-message.min.js?ver=@version"></script>
+}

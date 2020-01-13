@@ -1,0 +1,39 @@
+﻿@model EditScoreParameter
+
+@{
+    ViewBag.Title = "ویرایش پارامتر امتیازدهی";
+}
+
+@using (Html.BeginForm("Edit", "ScoreParameters", FormMethod.Post, new { @class = "validate" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="col-sm-6">
+        @Html.Partial("_Status")
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Groups)
+            <div>
+                @Html.Partial("_TreeView", new TreeViewSettings()
+           {
+               ControllerName = "/Admin/Groups",
+               JsonMothod = "GetGroups",
+               FieldName = "JSONGroups",
+               TreeViewSelectMode = TreeViewSelectMode.Multiple,
+               SelectedItems = Model.Groups,
+           })
+            </div>
+            <label id="GroupsError" class="error" style="display: none;"></label>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title)
+            @Html.TextBoxFor(model => model.Title, new { @class = "form-control required" })
+        </div>
+        <div class="checkbox">
+            @Html.CheckBoxFor(model => model.IsActive)
+            @Html.LabelFor(model => model.IsActive)
+        </div>
+        <button type="submit" class="btn btn-success">ثبت</button>
+        <a href="/Admin/ScoreParameters" class="btn btn-warning">بازگشت</a>
+    </div>
+}

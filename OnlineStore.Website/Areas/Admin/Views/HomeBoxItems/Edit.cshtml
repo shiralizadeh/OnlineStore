@@ -1,0 +1,80 @@
+﻿@model HomeBoxItem
+
+@{
+    ViewBag.Title = "ویرایش تصویر";
+    string url = Request.Url.AbsoluteUri,
+           backUrl;
+    int homeBoxID = -1;
+
+    if (Model.ID != -1)
+    {
+        if (!url.Contains("HomeBoxID"))
+        {
+            url += "?HomeBoxID=" + Model.HomeBoxID;
+        }
+
+        backUrl = "/Admin/HomeBoxItems/index?HomeBoxID=" + Model.HomeBoxID;
+        homeBoxID = Model.HomeBoxID;
+    }
+    else
+    {
+        backUrl = "/Admin/HomeBoxItems/index?HomeBoxID=" + Request.QueryString["HomeBoxID"];
+        homeBoxID = Int32.Parse(Request.QueryString["HomeBoxID"]);
+    }
+}
+
+<form action="@url" class="validate" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+
+    <div class="col-sm-6">
+        @Html.Partial("_Status")
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title)
+            @Html.TextBoxFor(model => model.Title, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.SubTitle)
+            @Html.TextBoxFor(model => model.SubTitle, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Filename)
+
+            @if (!String.IsNullOrWhiteSpace(Model.Filename))
+            {
+                <img src="@(StaticPaths.SliderImages + Model.Filename)" alt="فایل آپلود شده" class="pull-left" width="200" />
+            }
+            <input type="file" id="ImageFile" name="ImageFile" />
+            @Html.HiddenFor(model => model.Filename)
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Link)
+            @Html.TextBoxFor(model => model.Link, new { @class = "form-control" })
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PersianStartDate)
+                    @Html.TextBoxFor(model => model.PersianStartDate, new { @class = "form-control persiandate required", autocomplete = "off" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PersianEndDate)
+                    @Html.TextBoxFor(model => model.PersianEndDate, new { @class = "form-control persiandate required", autocomplete = "off" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.OrderID)
+            @Html.TextBoxFor(model => model.OrderID, new { @class = "form-control required number", })
+        </div>
+        <div class="checkbox">
+            @Html.CheckBoxFor(model => model.IsActive)
+            @Html.LabelFor(model => model.IsActive)
+        </div>
+        <input type="hidden" name="HomeBoxID" id="HomeBoxID" value="@homeBoxID" />
+        <button type="submit" class="btn btn-success">ثبت</button>
+        <a href="@backUrl" class="btn btn-warning">بازگشت</a>
+    </div>
+</form>

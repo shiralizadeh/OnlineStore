@@ -1,0 +1,151 @@
+﻿@model EditOSUser
+
+@{
+    ViewBag.Title = "پروفایل من";
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    BreadCrumbs = new List<BreadCrumbLink>() {
+        new BreadCrumbLink() { Title = "حساب من", Link = "/My-Account" },
+        new BreadCrumbLink() { Title = "پروفایل من", Link = "/My-Account/My-Profile" },
+    }
+})
+<div class="responsive-box register-box">
+    <div class="content-column">
+        <section class="register-form">
+            @using (Html.BeginForm("Index", "Profile", FormMethod.Post, new { @class = "validate form-horizontal", enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken();
+
+                <h2 class="desc">جهت ویرایش اطلاعات لطفا فیلدهای دلخواه را تکمیل نمایید.</h2>
+                @Html.Partial("_Status")
+                <div class="row">
+                    @Html.LabelFor(model => model.Firstname)
+                    @Html.TextBoxFor(model => model.Firstname, new { @class = "required", @maxlength = "50" })
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.Lastname)
+                    @Html.TextBoxFor(model => model.Lastname, new { @class = "required", @maxlength = "50" })
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.Email)
+                    @Html.TextBoxFor(model => model.Email, new { @class = "required", @maxlength = "256" })
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.NationalCode)
+                    @Html.TextBoxFor(model => model.NationalCode, new { @maxlength = "10" })
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.PersianBirthDate, new { @class = "col-md-2 control-label" })
+                    @Html.TextBoxFor(model => model.PersianBirthDate, new { @class = "form-control persiandate", @maxlength = "50" })
+                </div>
+                <div class="row">
+                    <label>جنسیت:</label>
+                    <div class="sex-row">
+                        <div class="radio">
+                            <input type="radio" name="Gender" id="Gender_0" value="True" @(Model.Gender == true ? "checked" : "") />
+                            <label for="Gender_0">
+                                مرد
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <input type="radio" name="Gender" id="Gender_1" value="False" @(Model.Gender == false ? "checked" : "") />
+                            <label for="Gender_1">
+                                زن
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.Phone)
+                    @Html.TextBoxFor(model => model.Phone, new { @maxlength = "50" })
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.Mobile)
+                    @Html.TextBoxFor(model => model.Mobile, new { @maxlength = "50" })
+                </div>
+                <div class="row">
+                    <label>محل سکونت</label>
+                    @Html.Partial("/Views/Cities/_CitiesList.cshtml")
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.HomeAddress)
+                    @Html.TextAreaFor(model => model.HomeAddress, new { @maxlength = "500" })
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.PostalCode)
+                    @Html.TextBoxFor(model => model.PostalCode, new { @maxlength = "10" })
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.CardNumber)
+                    @Html.TextBoxFor(model => model.CardNumber, new { @maxlength = "50" })
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.Password)
+                    @Html.TextBoxFor(model => model.Password, new { @type = "password", @maxlength = "20" })
+                    @if (!String.IsNullOrWhiteSpace(Model.Id))
+                    {
+                        <span class="label-error">درصورت خالی گذاشتن کلمه عبور تغییر نخواهد کرد.</span>
+                    }
+                </div>
+                <div class="row">
+                    <label for="ConfirmPassword">تکرار کلمه عبور</label>
+                    <input id="ConfirmPassword" type="password" data-rule-equalTo="#Password">
+                </div>
+                <div class="row">
+                    <div class="image-box">
+                        @if (!String.IsNullOrWhiteSpace(Model.ImageFile))
+                        {
+                            <img src="@(StaticPaths.OSUsers + Model.ImageFile)" alt="تصویر شما" class="user-image" />
+                        }
+                        else
+                        {
+                            <i class="fa fa-user"></i>
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="ImageFile">تصویر شما</label>
+                    <input type="file" id="ImageFile" name="ImageFile" />
+                </div>
+                <div class="row">
+                    <button class="btn-submit" type="submit">ویرایش</button>
+                </div>
+            }
+        </section>
+    </div>
+    <div class="left-column">
+        <div class="small-box rules">
+            <div class="box-header box-header-02">
+                <h2>قوانین</h2>
+            </div>
+            <div class="box-content">
+                <ul>
+                    <li>حداقل تعداد کاراکتر مجاز برای کلمه عبور 6 عدد است.</li>
+                    <li>درصورت خالی گذاشتن کلمه عبور تغییر نخواهد کرد.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+@section Styles{
+    <link href="/assets/PersianDateTimePicker/jquery.Bootstrap-PersianDateTimePicker.min.css" rel="stylesheet" />
+    <link href="/assets/icheck/square/green.css" rel="stylesheet" />
+    <link href="/css/register.min.css" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script>
+        var initStateID = @(Model.StateID.HasValue ? Model.StateID.Value.ToString() : "null"),
+            initCityID = @(Model.CityID.HasValue ? Model.CityID.Value.ToString() : "null");
+    </script>
+
+    <script src="/assets/PersianDateTimePicker/calendar.min.js"></script>
+    <script src="/assets/PersianDateTimePicker/jquery.Bootstrap-PersianDateTimePicker.min.js"></script>
+    <script src="/assets/icheck/icheck.min.js"></script>
+    <script src="/js/cities.js"></script>
+
+}

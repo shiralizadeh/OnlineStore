@@ -1,0 +1,150 @@
+﻿@model AdvancedSearch
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    BreadCrumbs = new List<BreadCrumbLink>() {
+        new BreadCrumbLink() { Title = StaticValues.HomeTitle, Link = "/" },
+        new BreadCrumbLink() { Title = "جستجو", Link = "/Search" },
+    }
+})
+
+
+<div class="responsive-box">
+    <div class="advanced-search-box">
+        @using (Html.BeginForm("Index", "Search", FormMethod.Get))
+        {
+            <div class="search-box">
+                <input type="search" value="@HttpContext.Current.Request.QueryString["text"]" class="input-text" autocomplete="off" name="text" id="Search" placeholder="جستجوی آنلاین استور...">
+                <button type="submit" class="btn-search"><span class="fa fa-search"></span></button>
+            </div>
+        }
+        <div class="box-header">
+            <h2>
+                محصولات
+            </h2>
+        </div>
+        <div class="box-content">
+            <div class="products-list-box">
+                @if (Model.Products.Count > 0)
+            {
+                    <div class="products-list">
+                        <ul>
+                            @foreach (var item in Model.Products)
+                            {
+                                @Html.Partial("_ProductItem", item)
+                            }
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert-warning alert-empty">
+                        محصولی یافت نشد!
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="box-header">
+            <h2>
+                اخبار
+            </h2>
+        </div>
+        <div class="box-content">
+            @if (Model.Blogs.Count > 0)
+            {
+                <section class="post-list">
+                    <ul>
+                        @foreach (var item in Model.Blogs)
+                {
+                    var url = UrlProvider.GetPostUrl(item.ID, item.Title, item.GroupTitle);
+                            <li>
+                                <h3>
+                                    <a href="@url" title="@item.Title">
+                                        @item.Title
+                                    </a>
+                                </h3>
+
+                                <div class="post-content">
+                                    <a href="@url" class="img-link" title="@item.Title">
+                                        <img src="@item.Image" alt="@item.Title" title="@item.Title">
+                                    </a>
+                                    <div class="text">
+                                        @item.Summary
+                                    </div>
+                                    <div class="bottom">
+                                        <a href="@url" title="@item.Title" class="btn-more">ادامه مطلب</a>
+                                        @Html.Partial("_SocialNetworks", new SocialNetworkLink { Url = url, Title = item.Title })
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </section>
+            }
+            else
+            {
+                <div class="alert-warning alert-empty">
+                    خبری یافت نشد!
+                </div>
+            }
+
+        </div>
+
+        @if (Model.Groups.Count > 0)
+            {
+            <div class="box-header">
+                <h2>
+                    گروه محصولات
+                </h2>
+            </div>
+                <div class="box-content">
+                    <div class="group-box">
+                        <ul class="groups">
+                            @foreach (var item in Model.Groups)
+                            {
+                                <li>
+                                    <a title="@(item.Title)" href="@UrlProvider.GetGroupUrl(item.TitleEn)">
+                                        @item.Title (@item.TitleEn)
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+        }
+
+        @if (Model.Producers.Count > 0)
+            {
+            <div class="box-header">
+                <h2>
+                    برندها
+                </h2>
+            </div>
+            <div class="box-content">
+                <div class="producer-box">
+                    <ul class="brands">
+                        @foreach (var item in Model.Producers)
+                        {
+                            <li>
+                                <a title="@item.Title" href="#">
+                                    <img alt="@item.Title" title="@item.Title" src="@item.Filename" />
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        }
+        <div class="clear"></div>
+    </div>
+</div>
+
+@section Styles {
+    <link href="/css/advanced-search.min.css" rel="stylesheet" />
+    <link href="/css/products-list.min.css" rel="stylesheet" />
+    <link href="/css/blog.min.css" rel="stylesheet" />
+}

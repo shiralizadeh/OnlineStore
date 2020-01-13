@@ -1,0 +1,53 @@
+﻿@model List<ViewProductCommentRate>
+
+@{
+    var version = 1.0;
+    ViewBag.Title = "نقدهای من";
+
+    int i = 0;
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    BreadCrumbs = new List<BreadCrumbLink>() {
+        new BreadCrumbLink() { Title = "حساب من", Link = "/My-Account" },
+        new BreadCrumbLink() { Title = "نقدهای من", Link = "/My-Account/My-Likes" },
+    }
+})
+
+<div class="responsive-box">
+    <div class="user-panel">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ردیف</th>
+                        <th>محصول</th>
+                        <th>نظر</th>
+                        <th>پسندیده</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+            {
+                i++;
+                        <tr data-id="@item.ID">
+                            <td>@i</td>
+                            <td>@item.DisplayTitle</td>
+                            <td>@item.CommentText</td>
+                            <td>
+                                @(item.IsLike
+                                    ? Html.Raw("<i class='fa fa-times-circle'></i>")
+                                    : Html.Raw("<i class='fa fa-check-circle'></i>"))
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Styles{
+    <link href="/css/my-account.min.css?ver=@version" rel="stylesheet" />
+}

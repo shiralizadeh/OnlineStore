@@ -1,0 +1,54 @@
+﻿@model UserTask
+
+@{
+    ViewBag.Title = "ویرایش وظیفه";
+}
+
+@using (Html.BeginForm("Edit", "UserTasks", FormMethod.Post, new { @class = "validate" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="col-sm-6">
+        @Html.Partial("_Status")
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserID)
+            @Html.DropDownListFor(model => model.UserID, UserRoles.GetByRoles(new List<string>() { StaticValues.Writer,
+                                                                                                   StaticValues.Accountant,
+                                                                                                   StaticValues.Administrator }).Select(item => new SelectListItem() { Text = item.UserName, Value = item.Id }).ToList()
+                                , new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title)
+            @Html.TextBoxFor(model => model.Title, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Text)
+            @Html.TextAreaFor(model => model.Text, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Link)
+            @Html.TextBoxFor(model => model.Link, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.PersianUserTaskDate)
+            @Html.TextBoxFor(model => model.PersianUserTaskDate, new { @class = "form-control persiandate required", autocomplete = "off" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserTaskStatus)
+            @Html.EnumDropDownListFor(model => model.UserTaskStatus, new { @class = "form-control required" })
+        </div>
+        <button type="submit" class="btn btn-success">ثبت</button>
+        <a href="/Admin/UserTasks" class="btn btn-warning">بازگشت</a>
+    </div>
+}
+
+@section Scripts{
+    <script>
+        $('.persiandate').MdPersianDateTimePicker({
+            EnableTimePicker: true
+        }).on('keydown', function (e) {
+            if (e.keyCode != 9)
+                e.preventDefault();
+        });
+    </script>
+}

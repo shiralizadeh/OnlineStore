@@ -1,0 +1,15 @@
+﻿@model StaticContent
+
+@{
+    ViewBag.Title = "درباره ما";
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    BreadCrumbs = new List<BreadCrumbLink>() {
+        new BreadCrumbLink() { Title = StaticValues.HomeTitle, Link = "/" },
+        new BreadCrumbLink() { Title = "درباره ما", Link = "/درباره-ما" },
+    }
+})
+
+@Html.Raw(Model.Content)

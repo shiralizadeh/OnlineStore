@@ -1,0 +1,39 @@
+﻿@model List<ViewAttribute>
+
+@{
+    var model = Model.OrderBy(m => m.GroupOrderID).GroupBy(m => m.AttrGroupID);
+}
+
+<div class="attributes">
+    @foreach (var group in model)
+    {
+        var groupTitle = Model.First(m => m.AttrGroupID == group.Key).AttrGroupTitle;
+
+        <h3>
+            <a href="#" class="group-title">@groupTitle</a>
+        </h3>
+        <ul>
+            @foreach (var attr in group.ToList())
+            {
+                <li>
+                    <span class="title">@attr.Title</span><span class="value">
+                        @if (attr.Value != null && attr.Value.ToString() != String.Empty)
+                        {
+                            if (!String.IsNullOrWhiteSpace(attr.Perfix))
+                            {
+                                @Html.Raw(attr.Perfix + " ")
+                            }
+
+                            @Html.Raw(attr.Value)
+
+                            if (!String.IsNullOrWhiteSpace(attr.Posfix))
+                            {
+                                @Html.Raw(" " + attr.Posfix)
+                            }
+                        }
+                    </span>
+                </li>
+            }
+        </ul>
+    }
+</div>

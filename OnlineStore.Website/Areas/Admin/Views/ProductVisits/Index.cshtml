@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "مدیریت بازدید محصولات";
+}
+
+<fieldset class="filter-box">
+    <legend>
+        <a class="filter-header">
+            <i class="open-icon icon icon-plus-sign"></i>
+            <span>جستجو</span>
+        </a>
+    </legend>
+    <div class="control-box">
+        <div class="row form-group">
+            <div>
+                @Html.Partial("_TreeView", new TreeViewSettings()
+           {
+               ControllerName = "/Admin/Groups",
+               JsonMothod = "GetGroups",
+               FieldName = "JSONGroups",
+               TreeViewSelectMode = TreeViewSelectMode.Multiple,
+               SelectedItems = new List<int>()
+           })
+            </div>
+            <label id="GroupsError" class="error" style="display: none;"></label>
+        </div>
+        <div class="row form-group">
+            @Html.Partial("_ProductSimpleSearch", new AjaxSettings { Url = "/ProductVisits/Search" })
+            <a id="btnSearch" class="btn btn-info"><i class="icon-search"></i></a>
+        </div>
+        <div class="row form-group">
+            <input type="text" id="FromDate" class="form-control persiandate col-sm-2" placeholder="تاریخ شروع..." />
+            <input type="text" id="ToDate" class="form-control persiandate col-sm-2" placeholder="تاریخ پایان..." />
+        </div>
+    </div>
+</fieldset>
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "ProductVisits",
+    ShowAdd = false,
+    Editable = false,
+    Deletable = false,
+    Columns = new List<Column>(){
+
+                                new Column() {
+                                    Title = "عنوان محصول",
+                                    DataField = "ProductTitle"
+                                },
+                                new Column() {
+                                    Title = "بازدید کل",
+                                    DataField = "VisitsCount"
+                                },
+                                new Column() {
+                                    Title = "بازدید براساس IP",
+                                    DataField = "VisitsByIP"
+                                },
+
+    }
+})
+
+@section Scripts {
+    <script src="/js/admin/product-simple-search.js"></script>
+    <script type="text/javascript">
+        var $search = $('#Search'),
+            $fromDate = $('#FromDate'),
+            $toDarte = $('#ToDate'),
+            $groups = $('#hfJSONGroups');
+
+        jConfigGrid.init({
+            ajaxUrl: '/Admin/ProductVisits/',
+            filter: function () {
+                return {
+                    ProductID: $search.data('id'),
+                    FromDate: $fromDate.val(),
+                    ToDate: $toDarte.val(),
+                    Groups: eval($groups.val()),
+                }
+            }
+        });
+
+        $('#btnSearch').on('click', function (e) {
+            $search.removeAttr('disabled');
+        });
+    </script>
+}
+
+@section Styles{
+    <link href="/css/admin/simple-search.min.css" rel="stylesheet" />
+}

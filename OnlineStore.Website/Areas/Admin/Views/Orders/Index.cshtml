@@ -1,0 +1,168 @@
+﻿@{
+    ViewBag.Title = "مدیریت سفارشات";
+}
+
+<fieldset class="filter-box">
+    <legend>
+        <a class="filter-header">
+            <i class="open-icon icon icon-plus-sign"></i>
+            <span>جستجو</span>
+        </a>
+    </legend>
+    @using (Html.BeginForm("ExportToExcel", "Orders", FormMethod.Post))
+    {
+        <div class="control-box">
+            <div class="row form-group">
+                <input type="text" id="OrderID" name="OrderID" class="form-control col-sm-2 number" placeholder="کد سفارش..." />
+                <input type="text" id="SaleReferenceID" name="SaleReferenceID" class="form-control col-sm-2" placeholder="کد پیگیری..." />
+                <input type="text" id="UserName" name="UserName" class="form-control col-sm-2" placeholder="نام کاربری..." />
+            </div>
+            <div class="row form-group">
+                <input type="text" id="FromPrice" name="FromPrice" class="form-control col-sm-2 price" placeholder="از مبلغ (ریال)..." />
+                <input type="text" id="ToPrice" name="ToPrice" class="form-control col-sm-2 price" placeholder="تا مبلغ (ریال)..." />
+            </div>
+            <div class="row form-group">
+                <input type="text" id="FromDate" name="FromDate" class="form-control persiandate col-sm-2" placeholder="تاریخ شروع سفارش..." />
+                <input type="text" id="ToDate" name="ToDate" class="form-control persiandate col-sm-2" placeholder="تاریخ پایان سفارش..." />
+            </div>
+            <div class="row form-group">
+                <select id="CartStatus" name="CartStatus" class="form-control col-sm-2">
+                    <option value="-1">وضعیت پرداخت</option>
+                    <option value="2">پرداخت موفق</option>
+                    <option value="3">پرداخت ناموفق</option>
+                    <option value="4">در حال پرداخت</option>
+                    <option value="5">پرداخت در آینده</option>
+                </select>
+                <select id="SendStatus" name="SendStatus" class="form-control col-sm-2">
+                    <option value="-1">وضعیت ارسال</option>
+                    <option value="0">چک نشده</option>
+                    <option value="4">بررسی شده</option>
+                    <option value="1">ارسال شده</option>
+                    <option value="2">تحویل داده شد</option>
+                    <option value="3">برگشت داده شد</option>
+                </select>
+            </div>
+            <div class="row form-group">
+                <select id="PaymentMethodType" name="PaymentMethodType" class="form-control col-sm-2">
+                    <option value="-1">روش پرداخت</option>
+                    <option value="0">پرداخت آنلاین توسط کارت های شتاب</option>
+                    <option value="1">انتقال کارت به کارت شتاب</option>
+                    <option value="2">پرداخت در محل توسط کارت خوان</option>
+                </select>
+                <select id="SendMethodType" name="SendMethodType" class="form-control col-sm-2">
+                    <option value="-1">روش ارسال</option>
+                    <option value="0">پیک درون شهری فقط مشهد مقدس</option>
+                    <option value="1">پست پیشتاز</option>
+                    <option value="2">تیپاکس</option>
+                </select>
+                <a id="btnSearch" class="btn btn-info"><i class="icon-search"></i></a>
+            </div>
+            <div class="row form-group">
+                <button type="submit" class="btn btn-success" style="margin-right:5px">خروجی اکسل</button>
+            </div>
+        </div>
+    }
+</fieldset>
+<a class="btn btn-success print-data pull-left"><i class="icon-print" style="margin-left:10px"></i>پرینت اطلاعات پستی</a>
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = ViewBag.Controller,
+    ShowAdd = false,
+    Selectable = true,
+    Columns = new List<Column>() {
+
+        new Column() {
+            Title = "کد پیگیری",
+            DataField = "SaleReferenceID"
+        },
+
+        new Column() {
+            Title = "نام",
+            DataField = "Firstname"
+        },
+        new Column() {
+            Title = "نام خانوادگی",
+            DataField = "Lastname"
+        },
+        new Column() {
+            Title = "روش ارسال",
+            DataField = "fromSendMethodType(SendMethodType)"
+        },
+        new Column() {
+            Title = "روش پرداخت",
+            DataField = "fromPaymentMethodType(PaymentMethodType)"
+        },
+        new Column() {
+            Title = "مبلغ کل",
+            DataField = "formatPrice(Total)"
+        },
+        new Column() {
+            Title = "مبلغ قابل پرداخت",
+            DataField = "formatPrice(ToPay)"
+        },
+        new Column() {
+            Title = "تاریخ سفارش",
+            DataField = "toPersianDate(DateTime)"
+        },
+        new Column() {
+            Title = "وضعیت سفارش",
+            DataField = "fromCartStatus(CartStatus)"
+        },
+        new Column() {
+            Title = "وضعیت ارسال",
+            DataField = "fromOrderSendStatus(SendStatus)"
+        },
+        new Column() {
+            Title = "آخرین ویرایش",
+            DataField = "fromNow(LastUpdate)"
+        },
+        new Column() {
+            Title = "اطلاعات شخصی",
+            DataField = "toUser(UserID)"
+        },
+        new Column() {
+            Title = "کالاها",
+            DataField = "toOrderItemLink(ID)"
+        },
+        new Column() {
+            Title = "پرینت فاکتور",
+            DataField = "toPrintFactor(ID)"
+        },
+    }
+})
+
+@section Scripts{
+    <script type="text/javascript">
+        var $userName = $('#UserName'),
+            $orderID = $('#OrderID'),
+            $saleReferenceID = $('#SaleReferenceID'),
+            $fromPrice = $('#FromPrice'),
+            $toPrice = $('#ToPrice'),
+            $fromDate = $('#FromDate'),
+            $toDate = $('#ToDate'),
+            $cartStatus = $('#CartStatus'),
+            $sendStatus = $('#SendStatus'),
+            $sendMethodType = $('#SendMethodType'),
+            $paymentMethodType = $('#PaymentMethodType');
+
+        jConfigGrid.init({
+            ajaxUrl: '/Admin/@ViewBag.Controller/',
+            filter: function () {
+                return {
+                    UserName: $userName.val(),
+                    OrderID: $orderID.val(),
+                    FromPrice: $fromPrice.val(),
+                    ToPrice: $toPrice.val(),
+                    FromDate: $fromDate.val(),
+                    ToDate: $toDate.val(),
+                    CartStatus: $cartStatus.val(),
+                    SendStatus: $sendStatus.val(),
+                    SendMethodType: $sendMethodType.val(),
+                    PaymentMethodType: $paymentMethodType.val(),
+                    SaleReferenceID: $saleReferenceID.val()
+                }
+            }
+        });
+    </script>
+    <script src="/js/admin/orders.js"></script>
+}

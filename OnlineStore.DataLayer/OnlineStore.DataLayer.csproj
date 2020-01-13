@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9AB53147-06DE-40FB-8348-C9DB2B87742F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OnlineStore.DataLayer</RootNamespace>
+    <AssemblyName>OnlineStore.DataLayer</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ArticleRates.cs" />
+    <Compile Include="ArticleVisits.cs" />
+    <Compile Include="AttrGroupGroups.cs" />
+    <Compile Include="AttributeGroups.cs" />
+    <Compile Include="CartItemGifts.cs" />
+    <Compile Include="Colleagues.cs" />
+    <Compile Include="Emails.cs" />
+    <Compile Include="EmailSends.cs" />
+    <Compile Include="Employments.cs" />
+    <Compile Include="GroupBanners.cs" />
+    <Compile Include="Logs.cs" />
+    <Compile Include="EmailLogs.cs" />
+    <Compile Include="HomeBoxItems.cs" />
+    <Compile Include="Keywords.cs" />
+    <Compile Include="MenuItemBanners.cs" />
+    <Compile Include="MenuItems.cs" />
+    <Compile Include="OrderNotes.cs" />
+    <Compile Include="PackageImages.cs" />
+    <Compile Include="PackageProducts.cs" />
+    <Compile Include="Packages.cs" />
+    <Compile Include="PaymentLogs.cs" />
+    <Compile Include="PriceListLogs.cs" />
+    <Compile Include="PriceListProducts.cs" />
+    <Compile Include="PriceListSections.cs" />
+    <Compile Include="ProducerGroups.cs" />
+    <Compile Include="ProductAccessories.cs" />
+    <Compile Include="ProductCommentRates.cs" />
+    <Compile Include="ProductNotes.cs" />
+    <Compile Include="ProductKeywords.cs" />
+    <Compile Include="ProductPoints.cs" />
+    <Compile Include="ProductPricesLinks.cs" />
+    <Compile Include="ProductRates.cs" />
+    <Compile Include="ProductRequests.cs" />
+    <Compile Include="ProductSuggestions.cs" />
+    <Compile Include="ProductVarientPrices.cs" />
+    <Compile Include="ProductVarients.cs" />
+    <Compile Include="Banners.cs" />
+    <Compile Include="ArticleComments.cs" />
+    <Compile Include="Articles.cs" />
+    <Compile Include="AttrGroups.cs" />
+    <Compile Include="AttributeValues.cs" />
+    <Compile Include="AttributeOptions.cs" />
+    <Compile Include="Attributes.cs" />
+    <Compile Include="CartItems.cs" />
+    <Compile Include="Carts.cs" />
+    <Compile Include="Cities.cs" />
+    <Compile Include="ContactUsMessages.cs" />
+    <Compile Include="CustomerComments.cs" />
+    <Compile Include="EntityBase.cs" />
+    <Compile Include="GiftCards.cs" />
+    <Compile Include="Global.cs" />
+    <Compile Include="HomeBoxes.cs" />
+    <Compile Include="HomeBoxProducts.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="NewsLetterMembers.cs" />
+    <Compile Include="ProductMarks.cs" />
+    <Compile Include="ProductPrices.cs" />
+    <Compile Include="ProductQuestions.cs" />
+    <Compile Include="ProductComments.cs" />
+    <Compile Include="ProductDonwloads.cs" />
+    <Compile Include="ProductFiles.cs" />
+    <Compile Include="ProductImages.cs" />
+    <Compile Include="ProductProfits.cs" />
+    <Compile Include="ProductSupplies.cs" />
+    <Compile Include="PaymentMethods.cs" />
+    <Compile Include="ProductVarientAttributes.cs" />
+    <Compile Include="ProductVisits.cs" />
+    <Compile Include="RelatedArticles.cs" />
+    <Compile Include="ProductGifts.cs" />
+    <Compile Include="RelatedProducts.cs" />
+    <Compile Include="GroupScoreParameters.cs" />
+    <Compile Include="UserTasks.cs" />
+    <Compile Include="ScoreComments.cs" />
+    <Compile Include="ScoreParameters.cs" />
+    <Compile Include="ScoreParameterValues.cs" />
+    <Compile Include="SendMethods.cs" />
+    <Compile Include="SliderImages.cs" />
+    <Compile Include="Groups.cs" />
+    <Compile Include="OnlineStoreEntity.cs" />
+    <Compile Include="Producers.cs" />
+    <Compile Include="ProductDiscounts.cs" />
+    <Compile Include="ProductGroups.cs" />
+    <Compile Include="Products.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SMSLogs.cs" />
+    <Compile Include="SpecialOrders.cs" />
+    <Compile Include="StaticContents.cs" />
+    <Compile Include="UserNotifications.cs" />
+    <Compile Include="UserAddresses.cs" />
+    <Compile Include="UserWishes.cs" />
+    <Compile Include="UserScores.cs" />
+    <Compile Include="UserWorks.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OnlineStore.EntityFramework\OnlineStore.EntityFramework.csproj">
+      <Project>{b533a44a-fe62-4c5a-afab-7b04237bf5b8}</Project>
+      <Name>OnlineStore.EntityFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OnlineStore.Identity\OnlineStore.Identity.csproj">
+      <Project>{b37c691c-bc8d-4386-9814-61594d4b3866}</Project>
+      <Name>OnlineStore.Identity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OnlineStore.Models\OnlineStore.Models.csproj">
+      <Project>{18b952a1-02c3-449a-9eab-c9b3e42cd167}</Project>
+      <Name>OnlineStore.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OnlineStore.Providers\OnlineStore.Providers.csproj">
+      <Project>{24e9d4b8-84b2-42b6-9371-dc39f9aa66ab}</Project>
+      <Name>OnlineStore.Providers</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

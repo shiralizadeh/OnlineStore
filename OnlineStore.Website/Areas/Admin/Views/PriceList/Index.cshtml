@@ -1,0 +1,200 @@
+﻿@model List<ViewPriceList>
+
+@{
+    Layout = null;
+    var col1 = Model.Where(item => item.ColumnID == 1);
+    var col2 = Model.Where(item => item.ColumnID == 2);
+    var col3 = Model.Where(item => item.ColumnID == 3);
+    var col4 = Model.Where(item => item.ColumnID == 4);
+    var col5 = Model.Where(item => item.ColumnID == 5);
+}
+
+<title>لیست قیمت بنک داری</title>
+
+<!-- Bootstrap core CSS -->
+<link href="~/assets/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link href="~/assets/bootstrap/bootstrap-rtl.min.css" rel="stylesheet" />
+
+<link href="~/assets/admin/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link href="~/assets/icheck/square/green.css" rel="stylesheet" />
+
+<link href="~/css/admin/style.css" rel="stylesheet">
+<link href="~/css/admin/template.min.css" rel="stylesheet" />
+<link href="/assets/toastr/toastr.min.css" rel="stylesheet" />
+<link href="/css/admin/price-list.min.css" rel="stylesheet" />
+
+<a class="btn btn-success btn-print" href="/Admin/PriceList/Print/@Url.RequestContext.RouteData.Values["ID"]" target="_blank"><i class="icon-print"></i>پرینت</a>
+<div class="price-list-box">
+    <div class="column">
+        @foreach (var item in col1)
+        {
+            <div class="portlet" data-id="@item.SectionID">
+                <div class="portlet-content">
+                    <img alt="@item.SectionTitle" title="@item.SectionTitle" src="@UrlProvider.GetPriceListSectionImage(item.SectionImage, StaticValues.SectionImageSize)" />
+                    @if (item.PriceListProducts.Count > 0)
+                    {
+                        <ul>
+                            @foreach (var product in item.PriceListProducts)
+                            {
+                                string addClass = String.Empty;
+
+                                if (product.PriceListProductType == PriceListProductType.Type2)
+                                {
+                                    addClass = "price-item-color";
+                                }
+                                <li data-id="@product.ID">
+                                    <a href="#" class="icon-sort"></a>
+                                    <input type="checkbox" @(product.IsAvailable ? "checked" : "") class="checkbox" />
+                                    <input type="text" value="@product.Title" class="title @addClass" />
+                                    <input type="text" value="@product.SubTitle" class="sub-title @addClass" />
+                                    <input type="number" value="@product.Price" class="price @addClass" />
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    <div class="column">
+        @foreach (var item in col2)
+        {
+            <div class="portlet" data-id="@item.SectionID">
+                <div class="portlet-content">
+                    <img alt="@item.SectionTitle" title="@item.SectionTitle" src="@UrlProvider.GetPriceListSectionImage(item.SectionImage, StaticValues.SectionImageSize)" />
+                    @if (item.PriceListProducts.Count > 0)
+                    {
+                        <ul>
+                            @foreach (var product in item.PriceListProducts)
+                            {
+                                string addClass = String.Empty;
+
+                                if (product.PriceListProductType == PriceListProductType.Type2)
+                                {
+                                    addClass = "price-item-color";
+                                }
+                                <li data-id="@product.ID">
+                                    <a href="#" class="icon-sort"></a>
+                                    <input type="checkbox" @(product.IsAvailable ? "checked" : "") class="checkbox" />
+                                    <input type="text" value="@product.Title" class="title @addClass" />
+                                    <input type="text" value="@product.SubTitle" class="sub-title @addClass" />
+                                    <input type="number" value="@product.Price" class="price @addClass" />
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    <div class="column">
+        @foreach (var item in col3)
+        {
+            <div class="portlet" data-id="@item.SectionID">
+                <div class="portlet-content">
+                    <img alt="@item.SectionTitle" title="@item.SectionTitle" src="@UrlProvider.GetPriceListSectionImage(item.SectionImage, StaticValues.SectionImageSize)" />
+                    @if (item.PriceListProducts.Count > 0)
+                    {
+                        <ul>
+                            @foreach (var product in item.PriceListProducts)
+                            {
+                                string addClass = String.Empty;
+
+                                if (product.PriceListProductType == PriceListProductType.Type2)
+                                {
+                                    addClass = "price-item-color";
+                                }
+                                <li data-id="@product.ID">
+                                    <a href="#" class="icon-sort"></a>
+                                    <input type="checkbox" @(product.IsAvailable ? "checked" : "") class="checkbox" />
+                                    <input type="text" value="@product.Title" class="title @addClass" />
+                                    <input type="text" value="@product.SubTitle" class="sub-title @addClass" />
+                                    <input type="number" value="@product.Price" class="price @addClass" />
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    <div class="column">
+        @foreach (var item in col4)
+        {
+            <div class="portlet" data-id="@item.SectionID">
+                <div class="portlet-content">
+                    <img alt="@item.SectionTitle" title="@item.SectionTitle" src="@UrlProvider.GetPriceListSectionImage(item.SectionImage, StaticValues.SectionImageSize)" />
+                    @if (item.PriceListProducts.Count > 0)
+                    {
+                        <ul>
+                            @foreach (var product in item.PriceListProducts)
+                            {
+                                string addClass = String.Empty;
+
+                                if (product.PriceListProductType == PriceListProductType.Type2)
+                                {
+                                    addClass = "price-item-color";
+                                }
+                                <li data-id="@product.ID">
+                                    <a href="#" class="icon-sort"></a>
+                                    <input type="checkbox" @(product.IsAvailable ? "checked" : "") class="checkbox" />
+                                    <input type="text" value="@product.Title" class="title @addClass" />
+                                    <input type="text" value="@product.SubTitle" class="sub-title @addClass" />
+                                    <input type="number" value="@product.Price" class="price @addClass" />
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    <div class="column">
+        @foreach (var item in col5)
+        {
+            <div class="portlet" data-id="@item.SectionID">
+                <div class="portlet-content">
+                    <img alt="@item.SectionTitle" title="@item.SectionTitle" src="@UrlProvider.GetPriceListSectionImage(item.SectionImage, StaticValues.SectionImageSize)" />
+                    @if (item.PriceListProducts.Count > 0)
+                    {
+                        <ul>
+                            @foreach (var product in item.PriceListProducts)
+                            {
+                                string addClass = String.Empty;
+
+                                if (product.PriceListProductType == PriceListProductType.Type2)
+                                {
+                                    addClass = "price-item-color";
+                                }
+                                <li data-id="@product.ID">
+                                    <a href="#" class="icon-sort"></a>
+                                    <input type="checkbox" @(product.IsAvailable ? "checked" : "") class="checkbox" />
+                                    <input type="text" value="@product.Title" class="title @addClass" />
+                                    <input type="text" value="@product.SubTitle" class="sub-title @addClass" />
+                                    <input type="number" value="@product.Price" class="price @addClass" />
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+
+<script src="~/assets/jquery/jquery-1.11.3.min.js"></script>
+<script src="~/assets/admin/jquery-ui/jquery-ui-1.10.1.custom.min.js"></script>
+<script src="~/assets/bootstrap/bootstrap.min.js"></script>
+<script src="~/assets/jquery.validate/jquery.validate.min.js"></script>
+<script src="~/assets/admin/jquery-nicescroll/jquery.nicescroll.js"></script>
+<script src="~/assets/icheck/icheck.min.js"></script>
+<script src="~/assets/PersianDateTimePicker/calendar.min.js"></script>
+<script src="~/assets/PersianDateTimePicker/jquery.Bootstrap-PersianDateTimePicker.min.js"></script>
+<script src="~/assets/bootstrap.select/bootstrap-select.min.js"></script>
+<script src="~/assets/toastr/toastr.min.js"></script>
+<script src="/js/admin/price-list.min.js"></script>
+
+<!-- script for this page -->
+<script src="~/js/utilities.js"></script>
+<script src="~/js/admin/main.js"></script>

@@ -1,0 +1,238 @@
+﻿@model Employment
+@{
+    var content = StaticContents.GetByName("Employment").Content;
+    content = HttpUtility.HtmlDecode(content);
+
+    ViewBag.Title = "استخدام در آنلاین استور";
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    BreadCrumbs = new List<BreadCrumbLink>() {
+        new BreadCrumbLink() { Title = "آنلاین استور", Link = "/" },
+        new BreadCrumbLink() { Title = "استخدام در آنلاین استور", Link = "/Employments" }
+    }
+})
+
+<div class="responsive-box employment-box">
+    <div class="content-column">
+        <section class="employment-form">
+            @if (ViewBag.IsSuccess != null)
+            {
+                if (ViewBag.IsSuccess)
+                {
+                    <div class="alert alert-success">
+                        اطلاعات شما با موفقیت ثبت شد.<br />
+                        در صورت تایید، مدیریت آنلاین استور با شما تماس خواهد گرفت.
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-error">
+                        عملیات با خطا مواجه شد.
+                    </div>
+                }
+            }
+            else
+            {
+                using (Html.BeginForm("Index", "Employments", FormMethod.Post, new { @class = "validate", enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken();
+                    <div class="row">
+                        کاربر گرامی، تکمیل تمامی فیلدهای فرم استخدام الزامی می باشد. <br />
+                        لطفا اطلاعات ذیل را با دقت تکمیل نمایید.<br />
+                    </div>
+                    <div class="row">
+                        <div class="box-header box-header-01">
+                            <h1>
+                                <i class="fa fa-user"></i>
+                                اطلاعات شخصی
+                            </h1>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @Html.LabelFor(model => model.FirstName)
+                        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control required" })
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(model => model.LastName)
+                        @Html.TextBoxFor(model => model.LastName, new { @class = "form-control required" })
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(model => model.FatherName)
+                        @Html.TextBoxFor(model => model.FatherName, new { @class = "form-control required" })
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(model => model.IDNumber)
+                        @Html.TextBoxFor(model => model.IDNumber, new { @class = "form-control required" })
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(model => model.NationalCode)
+                        @Html.TextBoxFor(model => model.NationalCode, new { @class = "form-control required" })
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(model => model.Nationality)
+                        @Html.TextBoxFor(model => model.Nationality, new { @class = "form-control required" })
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(model => model.Religion)
+                        @Html.TextBoxFor(model => model.Religion, new { @class = "form-control required" })
+                    </div>
+                    <div class="row">
+                        <label>جنسیت:</label>
+                        <div class="radio">
+                            <input type="radio" name="Gender" id="Gender_0" value="True" @(Model.Gender == true ? "checked" : "") />
+                            <label for="Gender_0">
+                                مرد
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <input type="radio" name="Gender" id="Gender_1" value="False" @(Model.Gender == false ? "checked" : "") />
+                            <label for="Gender_1">
+                                زن
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(model => model.Age)
+                        @Html.TextBoxFor(model => model.Age, new { @class = "form-control required number" })
+                    </div>
+                    <div class="row">
+                        <div class="row">
+                            <label>وضعیت تاهل:</label>
+                            <div class="radio">
+                                <input type="radio" name="MarriedStatus" id="MarriedStatus_0" value="True" @(Model.MarriedStatus == true ? "checked" : "") />
+                                <label for="MarriedStatus_0">
+                                    متاهل
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <input type="radio" name="MarriedStatus" id="MarriedStatus_1" value="False" @(Model.MarriedStatus == false ? "checked" : "") />
+                                <label for="MarriedStatus_1">
+                                    مجرد
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row martial-row hide">
+                        @Html.LabelFor(model => model.MartialStatus)
+                        @Html.EnumDropDownListFor(model => model.MartialStatus, new { @class = "form-control" })
+                    </div>
+                    <div class="row">
+                        <div class="box-header box-header-01">
+                            <h1>
+                                <i class="fa fa-phone"></i>
+                                اطلاعات تماس
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(model => model.Email)
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control email required" })
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(model => model.Phone)
+                        @Html.TextBoxFor(model => model.Phone, new { @class = "form-control required" })
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(model => model.Mobile)
+                        @Html.TextBoxFor(model => model.Mobile, new { @class = "form-control required" })
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(model => model.Address)
+                        @Html.TextAreaFor(model => model.Address, new { @class = "form-control required" })
+                    </div>
+                    <div class="row">
+                        <div class="box-header box-header-01">
+                            <h1>
+                                <i class="fa fa-graduation-cap"></i>
+                                سوابق تحصیلی
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(model => model.StudyDegree)
+                        @Html.EnumDropDownListFor(model => model.StudyDegree, new { @class = "form-control required" })
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(model => model.StudyMajor)
+                        @Html.TextBoxFor(model => model.StudyMajor, new { @class = "form-control required" })
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(model => model.StudyText)
+                        @Html.TextAreaFor(model => model.StudyText, new { @class = "form-control" })
+                    </div>
+                    <div class="row">
+                        <div class="box-header box-header-01">
+                            <h1>
+                                <i class="fa fa-file-text-o"></i>
+                                سوابق شغلی
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(model => model.ResumeText)
+                        @Html.TextAreaFor(model => model.ResumeText, new { @class = "form-control" })
+                    </div>
+                    <div class="row">
+                        <div class="box-header box-header-01">
+                            <h1>
+                                <i class="fa fa-book"></i>
+                                مهارت های آموزشی
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(model => model.EducationCoursesText)
+                        @Html.TextAreaFor(model => model.EducationCoursesText, new { @class = "form-control" })
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(model => model.DominantLanguages)
+                        @Html.EnumDropDownListFor(model => model.DominantLanguages, new { @class = "form-control" })
+                    </div>
+                    <div class="row">
+                        <div class="box-header box-header-01">
+                            <h1>
+                                <i class="fa fa-file-pdf-o"></i>
+                                رزومه
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label>&nbsp;</label>
+                        <span class="label label-error">در صورت تمایل فایل رزومه خود را برای ما ارسال نمایید.</span>
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(model => model.ResumeFile)
+                        <input type="file" id="ResumeFile" name="ResumeFile" />
+                    </div>
+                    <div class="row">
+                        <button class="btn-submit" type="submit">ارسال درخواست</button>
+                    </div>
+                }
+            }
+        </section>
+    </div>
+    <div class="left-column">
+        <div class="small-box">
+            <div class="box-header box-header-02">
+                <h1>همکاری با ما</h1>
+            </div>
+            <div class="box-content">
+                @Html.Raw(content)
+            </div>
+        </div>
+        <div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+@section Styles{
+    <link href="/css/employments.min.css" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="/js/employments.min.js"></script>
+}

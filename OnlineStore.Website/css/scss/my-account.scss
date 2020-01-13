@@ -1,0 +1,278 @@
+﻿@import "mixins";
+
+ul.my-account {
+    $Size: 100px;
+
+    width: 400px;
+    float: right;
+
+    li {
+        float: right;
+        margin: 10px;
+        width: $Size;
+        background-color: $black_6;
+        list-style-type: none;
+        text-align: center;
+        position: relative;
+
+        a {
+            padding: 20px 0;
+            display: block;
+            color: #fff;
+            @include transition(0.2s);
+
+            &:hover {
+                background-color: lighten($color,10%);
+            }
+
+            i {
+                font-size: 30px;
+                display: block;
+                color: #fff;
+            }
+
+            span {
+                margin: {
+                    top: 20px;
+                }
+
+                display: block;
+                font-size: 12px;
+            }
+        }
+    }
+}
+
+.user-panel {
+    background-color: #fff;
+    padding: 10px;
+
+    .list-btns {
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        color: #fff;
+        display: inline-block;
+        padding: 0;
+        border-radius: 2px;
+
+        i {
+            display: block;
+            margin-top: 4px;
+        }
+    }
+
+    .btn-plus {
+        @extend .list-btns;
+        background-color: $green;
+        border: solid 1px darken($green, 5%);
+        float: left;
+
+        &:hover {
+            background: darken($green, 10%);
+        }
+    }
+
+    .btn-edit {
+        @extend .list-btns;
+        background-color: #337ab7;
+        border: solid 1px darken(#337ab7, 5%);
+
+        &:hover {
+            background: darken(#337ab7, 10%);
+        }
+    }
+
+    .btn-delete {
+        width: 22px;
+        height: 22px;
+        text-align: center;
+        color: #fff;
+        background-color: $red;
+        border: solid 1px darken($red, 5%);
+        padding: 0;
+        vertical-align: top;
+        cursor: pointer;
+        border-radius: 2px;
+
+        &:hover {
+            background: darken($red, 10%);
+        }
+    }
+
+    table.user-info {
+        margin: 20px 0;
+        width: 100%;
+        border: solid 1px #e5e5e5;
+        font-size: 13px;
+
+        tr {
+            td, th {
+                padding: 5px;
+            }
+
+            th {
+                color: $color;
+                font-weight: normal;
+            }
+        }
+    }
+
+    table {
+        td {
+            white-space: nowrap;
+        }
+    }
+}
+
+.edit-comment-box {
+    padding: 5% 0;
+
+    .comment {
+        width: 90%;
+    }
+}
+
+.reports {
+    float: left;
+    width: 50%;
+    font-size: 11px;
+
+    div.orders,
+    div.comments,
+    div.others {
+        float: left;
+        width: 200px;
+        margin: 10px;
+
+        table {
+            $padding: 10px;
+            margin: 0 auto;
+            width: 100%;
+
+            caption {
+                padding: $padding;
+                background-color: $black_2;
+                color: #fff;
+            }
+
+            tr:nth-child(2n+1) {
+                background-color: $black_9;
+            }
+
+            th, td {
+                padding: $padding;
+            }
+
+            i.fa {
+                margin-left: 2px;
+            }
+        }
+    }
+}
+
+/*(max-width: 480px)*/
+@include breakpoint('MobilePortrait') {
+    .reports {
+        width: 100%;
+
+        div.orders,
+        div.comments,
+        div.others {
+            width: 100%;
+        }
+    }
+
+    ul.my-account {
+        width: 100%;
+    }
+}
+
+/*(min-width: 480px) and (max-width: 595px)*/
+@include breakpoint('MobileLandscape') {
+    .reports {
+        width: 100%;
+
+        div.orders,
+        div.comments,
+        div.others {
+            width: 100%;
+        }
+    }
+
+    ul.my-account {
+        width: 100%;
+    }
+}
+
+/*(min-width: 595px) and (max-width: 690px)*/
+@include breakpoint('SmallTabletPortrait') {
+    .reports {
+        width: 100%;
+
+        div.orders,
+        div.comments,
+        div.others {
+            width: 100%;
+        }
+    }
+
+    ul.my-account {
+        width: 100%;
+    }
+}
+
+/*(min-width: 690px) and (max-width: 960px)*/
+@include breakpoint('TabletPortrait') {
+    .reports {
+        width: 50%;
+    }
+
+    ul.my-account {
+        width: 50%;
+    }
+}
+
+/*(min-width: 960px) and (max-width: 1024px)*/
+@include breakpoint('SmallTabletLandscape') {
+    .reports {
+        width: 50%;
+    }
+
+    ul.my-account {
+        width: 50%;
+    }
+}
+
+/*(min-width: 1024px) and (max-width: 1280px)*/
+@include breakpoint('TabletLandscape') {
+    .reports {
+        width: 50%;
+    }
+
+    ul.my-account {
+        width: 50%;
+    }
+}
+
+/*(min-width: 1280px) and (max-width: 1440px)*/
+@include breakpoint('WideScreen') {
+    .reports {
+        width: 50%;
+    }
+
+    ul.my-account {
+        width: 50%;
+    }
+}
+
+/*(min-width: 1440px)*/
+@include breakpoint('LargeScreen') {
+    .reports {
+        width: 50%;
+    }
+
+    ul.my-account {
+        width: 50%;
+    }
+}

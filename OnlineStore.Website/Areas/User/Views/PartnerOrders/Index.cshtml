@@ -1,0 +1,96 @@
+﻿@{
+    ViewBag.Title = "سفارش همکار";
+
+    var breadCrumbLinks = new List<BreadCrumbLink>() {
+        new BreadCrumbLink()
+        {
+            Title = StaticValues.HomeTitle,
+            Tooltip = StaticValues.HomeTitle_En,
+            Link = "/"
+        },
+        new BreadCrumbLink()
+        {
+            Title = "سفارش همکار",
+            Tooltip = "Partner Orders",
+            Link = "/PartnerOrders"
+        }
+    };
+
+    var banner_01 = Banners.GetByID(23);
+    var banner_02 = Banners.GetByID(24);
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    BreadCrumbs = breadCrumbLinks
+})
+
+<div class="responsive-box">
+    <div class="partner-orders-box">
+        @if (User.Identity.IsAuthenticated)
+        {
+            if (ViewBag.Success == true)
+            {
+                <div class="alert-success">
+                    <h4>
+                        <i class="fa fa-check"></i>
+                        تایید سفارش
+                    </h4>
+                    سفارش شما با موفقیت ثبت شد.
+                </div>
+            }
+
+            if (ViewBag.UserInfo != null && !ViewBag.UserInfo)
+            {
+                <div class="alert-warning">
+                    <h4>
+                        <i class="fa fa-exclamation-triangle"></i>
+                        هشدار
+                    </h4>
+                    لطفا به صفحه پروفایل خود مراجعه کنید و اطلاعات ذیل را تکمیل نمایید:<br />
+                    <p>• شماره تماس</p>
+                    <p>• شماره همراه</p>
+                    <p>• استان</p>
+                    <p>• شهر</p>
+                    <p>• آدرس</p>
+                    <a class="btn-submit" href="/My-Account/My-Profile">تکمیل اطلاعات کاربری</a>
+                </div>
+            }
+            else
+            {
+                <a href="@UrlProvider.GetBannerImage(banner_01.Filename)" target="_blank">
+                    <img src="@UrlProvider.GetBannerImage(banner_01.Filename)" alt="لیست قیمت همکار" />
+                </a>
+                <a href="@UrlProvider.GetBannerImage(banner_02.Filename)" target="_blank">
+                    <img src="@UrlProvider.GetBannerImage(banner_02.Filename)" alt="لیست قیمت همکار" />
+                </a>
+                <div class="submit-order">
+                    @using (Html.BeginForm("AddOrder", "PartnerOrders", FormMethod.Post))
+                    {
+                        <p>همکار گرامی برای ثبت سفارش خود توسط فرم زیر اقدام کنید.</p>
+                        <label>توضیحات سفارش:</label>
+                        <textarea name="Description"></textarea>
+                        <button class="btn btn-submit">ثبت</button>
+                    }
+                </div>
+            }
+        }
+        else
+        {
+            <div class="alert-error">
+                <h4>
+                    <i class="fa fa-times"></i>
+                    خطا
+                </h4>
+                همکار محترم، جهت استفاده از این بخش باید فرم عضویت در سایت را تکمیل نمایید.<br />
+                چنانچه عضو سایت هستید لطفا لینک ورود به سایت را کلیک نمایید.<br />
+                <a class="btn-warning" href="/Login">ورود به سایت</a>
+                <a class="btn-warning" href="/Register">عضویت در سایت</a>
+            </div>
+        }
+    </div>
+</div>
+
+@section Styles {
+    <link href="/css/partner-orders.min.css" rel="stylesheet" />
+}

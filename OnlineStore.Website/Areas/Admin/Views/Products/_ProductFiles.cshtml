@@ -1,0 +1,51 @@
+﻿@model List<EditProductFile>
+
+<script id="EditProductFileTemplate" type="text/template">
+    <div class="row">
+        <div class="col-md-4 text-center">
+            <button class="btn btn-warning btn-upload" data-toggle="button">
+                <span>آپلود</span>
+                <i class="icon-upload"></i>
+            </button>
+        </div>
+        <div class="col-md-4">
+            <input type="text" class="form-control" value="" />
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-xs btn-danger btn-delete" data-toggle="button">
+                <i class="icon-trash"></i>
+            </button>
+        </div>
+    </div>
+</script>
+
+<div class="row editproductfile">
+    <div class="col-md-6">
+        <div id="ProductFilesList">
+            @foreach (var item in Model)
+            {
+                <div class="row" data-id="@item.ID">
+                    <div class="col-md-4 text-center">
+                        <a href="/Files/ProductFiles/@item.Filename" target="_blank" class="btn btn-success"><span>آپلود شده </span><i class="icon-check"></i></a>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" value="@item.Title" />
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-xs btn-danger btn-delete" data-toggle="button">
+                            <i class="icon-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-6 col-md-offset-8">
+                <button id="AddProductFile" class="btn btn-xs btn-success" type="button" data-toggle="button">
+                    <i class="icon-plus-sign"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

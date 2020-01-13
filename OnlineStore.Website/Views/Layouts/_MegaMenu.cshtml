@@ -1,0 +1,236 @@
+﻿@{
+    var sliderImages = SliderImages.GetSlides(SliderType.Home);
+
+    var items = MenuItems.GetAll(true);
+
+    var all = AutoMapper.Mapper.Map<List<ViewMenuItem>>(items);
+    var root = all.Where(item => item.ParentID == null).OrderBy(item => item.OrderID);
+
+
+    var menuBanners = Banners.ShowPageBanners("MenuBanner");
+
+    var mBnr1 = menuBanners.Where(item => item.BannerType == "MenuBanner1").FirstOrDefault();
+    var mBnr2 = menuBanners.Where(item => item.BannerType == "MenuBanner2").FirstOrDefault();
+    var mBnr3 = menuBanners.Where(item => item.BannerType == "MenuBanner3").FirstOrDefault();
+    var mBnr4 = menuBanners.Where(item => item.BannerType == "MenuBanner4").FirstOrDefault();
+    var mBnr5 = menuBanners.Where(item => item.BannerType == "MenuBanner5").FirstOrDefault();
+
+}
+
+<div class="mega-menu">
+    <nav>
+        <h1>گروه های محصولات</h1>
+        <div class="mainlevels">
+            <ul>
+                <li data-id="-1" class="active"><a href="#"><i class="fa fa-certificate"></i>آنلاین استور امروز</a></li>
+                @foreach (var item in root)
+                {
+                    <li data-id="@item.ID"><a href="#"><i class="fa @(String.IsNullOrWhiteSpace(item.IconClass) ? "fa-plus" : item.IconClass)"></i>@item.Title</a></li>
+                }
+            </ul>
+        </div>
+        <div class="submenus">
+            <div class="menu-submenu firstpage active" data-id="-1">
+                <div class="banner-right">
+                    <div id="MegaMenuSlider" class="owl-carousel owl-theme">
+                        @foreach (var item in sliderImages.Shuffle())
+                        {
+                            <div class="item">
+                                @if (!String.IsNullOrWhiteSpace(item.Link) && item.Link != "#")
+                                {
+                                    <a href="@item.Link">
+                                        <img src="@(UrlProvider.GetSliderImage(item.Filename, StaticValues.SliderImageSize))" alt="@item.Title" />
+                                    </a>
+                                }
+                                else
+                                {
+                                    <img src="@(UrlProvider.GetSliderImage(item.Filename, StaticValues.SliderImageSize))" alt="@item.Title" />
+                                }
+                            </div>
+                        }
+                    </div>
+                    @*@if (mBnr1 != null)
+                    {
+                        if (mBnr1.Link != String.Empty && mBnr1.Link != "#")
+                        {
+                            <a href="@UrlProvider.GetBannerUrl(mBnr1.Key)" target="_blank"><img src="@(UrlProvider.GetBannerImage(mBnr1.Filename))" alt="@mBnr1.Title" /></a>
+                        }
+                        else
+                        {
+                            <img src="@(UrlProvider.GetBannerImage(mBnr1.Filename))" alt="@mBnr1.Title" />
+                        }
+                    }*@
+                </div>
+                <div class="banner-left">
+                    @if (mBnr2 != null)
+                    {
+                        if (mBnr2.Link != String.Empty && mBnr2.Link != "#")
+                        {
+                            <a href="@UrlProvider.GetBannerUrl(mBnr2.Key)" target="_blank"><img src="@(UrlProvider.GetBannerImage(mBnr2.Filename))" alt="@mBnr2.Title" /></a>
+                        }
+                        else
+                        {
+                            <img src="@(UrlProvider.GetBannerImage(mBnr2.Filename))" alt="@mBnr2.Title" />
+                        }
+                    }
+                </div>
+                <div class="clear"></div>
+                <div class="banner-bottom">
+                    <div class="banner-01">
+                        @if (mBnr3 != null)
+                        {
+                            if (mBnr3.Link != String.Empty && mBnr3.Link != "#")
+                            {
+                                <a href="@UrlProvider.GetBannerUrl(mBnr3.Key)" target="_blank"><img src="@(UrlProvider.GetBannerImage(mBnr3.Filename))" alt="@mBnr3.Title" /></a>
+                            }
+                            else
+                            {
+                                <img src="@(UrlProvider.GetBannerImage(mBnr3.Filename))" alt="@mBnr3.Title" />
+                            }
+                        }
+                    </div>
+                    <div class="banner-02">
+                        @if (mBnr4 != null)
+                        {
+                            if (mBnr4.Link != String.Empty && mBnr4.Link != "#")
+                            {
+                                <a href="@UrlProvider.GetBannerUrl(mBnr4.Key)" target="_blank"><img src="@(UrlProvider.GetBannerImage(mBnr4.Filename))" alt="@mBnr4.Title" /></a>
+                            }
+                            else
+                            {
+                                <img src="@(UrlProvider.GetBannerImage(mBnr4.Filename))" alt="@mBnr4.Title" />
+                            }
+                        }
+                    </div>
+                    <div class="banner-03">
+                        @if (mBnr5 != null)
+                        {
+                            if (mBnr5.Link != String.Empty && mBnr5.Link != "#")
+                            {
+                                <a href="@UrlProvider.GetBannerUrl(mBnr5.Key)" target="_blank"><img src="@(UrlProvider.GetBannerImage(mBnr5.Filename))" alt="@mBnr5.Title" /></a>
+                            }
+                            else
+                            {
+                                <img src="@(UrlProvider.GetBannerImage(mBnr5.Filename))" alt="@mBnr5.Title" />
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            @foreach (var parents in root)
+            {
+                var children_01 = all.Where(ch => ch.ParentID == parents.ID).OrderBy(item => item.OrderID);
+                var banners = MenuItemBanners.GetByMenuItemID(parents.ID);
+
+                var big = banners.Where(bnr => bnr.MenuItemBannerType == MenuItemBannerType.Type1).FirstOrDefault();
+                var small = banners.Where(bnr => bnr.MenuItemBannerType == MenuItemBannerType.Type2).FirstOrDefault();
+
+                var b1 = banners.Where(bnr => bnr.MenuItemBannerType == MenuItemBannerType.Type5).FirstOrDefault();
+                var b2 = banners.Where(bnr => bnr.MenuItemBannerType == MenuItemBannerType.Type4).FirstOrDefault();
+                var b3 = banners.Where(bnr => bnr.MenuItemBannerType == MenuItemBannerType.Type3).FirstOrDefault();
+
+                <div class="menu-submenu" data-id="@parents.ID">
+                    <div class="menu-columns">
+                        <a href="#"><h2>@parents.Title</h2></a>
+                        @foreach (var ch1 in children_01)
+                        {
+                            var children_02 = all.Where(ch => ch.ParentID == ch1.ID).OrderBy(item => item.OrderID);
+
+                            <div class="menu-column">
+                                <div class="content">
+                                    @if (ch1.MenuItemType == MenuItemType.Link && ch1.Link != String.Empty && ch1.Link != "#")
+                                    {
+                                        <a href="@UrlProvider.GetMenuItemUrl(ch1.Title, ch1.Link, (byte)ch1.MenuItemType)"><h3>@ch1.Title</h3></a>
+                                    }
+                                    else
+                                    {
+                                        <h3>@ch1.Title</h3>
+                                    }
+                                    <ul>
+                                        @foreach (var ch2 in children_02)
+                                        {
+                                            <li>
+                                                <a href="@UrlProvider.GetMenuItemUrl(ch2.Title, ch2.Link, (byte)ch2.MenuItemType)"><i class="fa fa-angle-left"></i>@ch2.Title</a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="banners">
+                        @if (big != null)
+                        {
+                            <div class="banner_big">
+                                @if (big.Link != String.Empty && big.Link != "#")
+                                {
+                                    <a href="@UrlProvider.GetBannerUrl(big.Key)"><img src="@(UrlProvider.GetMenuItemBannerImage(big.Filename,StaticValues.BigBannerSize))" alt="@parents.Title" /></a>
+                                }
+                                else
+                                {
+                                    <img src="@(UrlProvider.GetMenuItemBannerImage(big.Filename,StaticValues.BigBannerSize))" alt="@parents.Title" />
+                                }
+                            </div>
+                        }
+                        @if (small != null)
+                        {
+                            <div class="banner_small">
+                                @if (small.Link != String.Empty && small.Link != "#")
+                                {
+                                    <a href="@UrlProvider.GetBannerUrl(small.Key)"><img src="@(UrlProvider.GetMenuItemBannerImage(small.Filename,StaticValues.SmallBannerSize))" alt="@parents.Title" /></a>
+                                }
+                                else
+                                {
+                                    <img src="@(UrlProvider.GetMenuItemBannerImage(small.Filename,StaticValues.SmallBannerSize))" alt="@parents.Title" />
+                                }
+                            </div>
+                        }
+                        @if (b1 != null)
+                        {
+                            <div class="banner_b1">
+                                @if (b1.Link != String.Empty && b1.Link != "#")
+                                {
+                                    <a href="@UrlProvider.GetBannerUrl(b1.Key)"><img src="@(UrlProvider.GetMenuItemBannerImage(b1.Filename,StaticValues.OtherBannersSize))" alt="@parents.Title" /></a>
+                                }
+                                else
+                                {
+                                    <img src="@(UrlProvider.GetMenuItemBannerImage(b1.Filename,StaticValues.OtherBannersSize))" alt="@parents.Title" />
+                                }
+                            </div>
+                        }
+                        @if (b2 != null)
+                        {
+                            <div class="banner_b2">
+                                @if (b2.Link != String.Empty && b2.Link != "#")
+                                {
+                                    <a href="@UrlProvider.GetBannerUrl(b2.Key)"><img src="@(UrlProvider.GetMenuItemBannerImage(b2.Filename,StaticValues.OtherBannersSize))" alt="@parents.Title" /></a>
+                                }
+                                else
+                                {
+                                    <img src="@(UrlProvider.GetMenuItemBannerImage(b2.Filename,StaticValues.OtherBannersSize))" alt="@parents.Title" />
+                                }
+                            </div>
+                        }
+                        @if (b3 != null)
+                        {
+                            <div class="banner_b3">
+                                @if (b3.Link != String.Empty && b3.Link != "#")
+                                {
+                                    <a href="@UrlProvider.GetBannerUrl(b3.Key)"><img src="@(UrlProvider.GetMenuItemBannerImage(b3.Filename,StaticValues.OtherBannersSize))" alt="@parents.Title" /></a>
+                                }
+                                else
+                                {
+                                    <img src="@(UrlProvider.GetMenuItemBannerImage(b3.Filename,StaticValues.OtherBannersSize))" alt="@parents.Title" />
+                                }
+                            </div>
+                        }
+
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            }
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </nav>
+</div>

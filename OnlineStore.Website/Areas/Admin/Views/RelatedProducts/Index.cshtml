@@ -1,0 +1,26 @@
+﻿@model AjaxSettings
+
+@Html.Partial("_Message")
+
+<div class="list-items">
+    @Html.Partial("_Loading")
+    @Html.Partial("_ProductSimpleSearch", Model)
+    <button id="AddToList" type="submit" class="btn btn-warning col-xs-1">افزودن</button>
+    <div class="tags_clear"></div>
+    <div class="tags_clear"></div>
+    <div id="Items">
+        <ul></ul>
+    </div>
+    <a class="icon-check-sign hide"></a>
+</div>
+<input type="hidden" name="ProductID" id="ProductID" value="@Request.QueryString["ProductID"]" />
+@section Styles{
+    <link href="/css/admin/list-items.min.css" rel="stylesheet" />
+    <link href="/css/admin/simple-search.min.css" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="/assets/admin/jquery-ui/jquery-ui-1.10.1.custom.min.js"></script>
+    <script src="/js/admin/product-simple-search.js"></script>
+    <script src="/js/admin/related-products.js"></script>
+}

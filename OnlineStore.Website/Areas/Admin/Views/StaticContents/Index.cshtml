@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "تنظیمات سایت";
+}
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "StaticContents",
+    ShowAdd = false,
+    Deletable = false,
+    Columns = new List<Column>(){
+
+                                new Column() {
+                                    Title = "عنوان صفحه",
+                                    DataField = "Title"
+                                },
+
+                                new Column() {
+                                    Title = "آخرین ویرایش",
+                                    DataField = "fromNow(LastUpdate)"
+                                }
+    }
+})
+
+@section Scripts {
+    <script type="text/javascript">
+        jConfigGrid.init({ ajaxUrl: '/Admin/StaticContents/' });
+    </script>
+} 

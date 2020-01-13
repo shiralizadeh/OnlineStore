@@ -1,0 +1,35 @@
+﻿@model EditProduct
+
+<div class="row">
+    <div class="col-md-6">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>عنوان</th>
+                    <th>نوع تخفیف</th>
+                    <th>قیمت</th>
+                    <th>درصد</th>
+                    <th>تاریخ شروع</th>
+                    <th>تاریخ پایان</th>
+                    <th>لینک</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Discounts)
+                {
+                    <tr>
+                        <td>@item.Title</td>
+                        <td>@(item.DiscountType == DiscountType.Percent ? "درصد" : "قیمت")</td>
+                        <td>@(item.Price == 0 ? "-" : ((int)item.Price).ToPrice())</td>
+                        <td>@(item.Percent == 0 ? "-" : item.Percent.ToString())</td>
+                        <td>@Utilities.ToPersianDate(item.StartDate)</td>
+                        <td>@Utilities.ToPersianDate(item.EndDate)</td>
+                        <td>
+                            <a href="/Admin/ProductDiscounts/Edit/@item.ID" target="_blank">لینک</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

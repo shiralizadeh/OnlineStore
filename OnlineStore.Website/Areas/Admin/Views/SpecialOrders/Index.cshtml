@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "مدیریت سفارشات خاص";
+}
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "SpecialOrders",
+    Columns = new List<Column>(){
+        new Column() {
+            Title = "نام کاربری",
+            DataField = "UserID"
+        },
+        new Column() {
+            Title = "توضیحات",
+            DataField = "Description"
+        },
+        new Column() {
+            Title = "وضعیت",
+            DataField = "fromSpecialOrderStatus(SpecialOrderStatus)"
+        },
+        new Column() {
+            Title = "آخرین ویرایش",
+            DataField = "fromNow(LastUpdate)"
+        }
+    }
+})
+
+@section Scripts {
+    <script type="text/javascript">
+        jConfigGrid.init({ ajaxUrl: '/Admin/SpecialOrders/' });
+    </script>
+} 

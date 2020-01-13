@@ -1,0 +1,96 @@
+﻿@model GiftCard
+
+@{
+    ViewBag.Title = "ویرایش کد تخفیف";
+}
+
+@using (Html.BeginForm("Edit", "GiftCards", FormMethod.Post, new { @class = "validate" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="col-sm-6">
+        @Html.Partial("_Status")
+        <div class="form-group">
+            @Html.LabelFor(model => model.GiftCardType)
+            @Html.EnumDropDownListFor(model => model.GiftCardType, new { @class = "form-control required gift-card-type" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Serial)
+            @Html.TextBoxFor(model => model.Serial, new { @class = "form-control required" })
+        </div>
+        <div class="form-group percent">
+            @Html.LabelFor(model => model.Percent)
+            <div class="row">
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(model => model.Percent, new { @class = "form-control number" })
+                </div>
+                %
+            </div>
+        </div>
+        <div class="form-group price">
+            @Html.LabelFor(model => model.Price)
+            <div class="row">
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(model => model.Price, new { @class = "form-control number" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group count">
+            <div class="row">
+                <div class="col-sm-3">
+                    @Html.LabelFor(model => model.Count)
+                    @Html.TextBoxFor(model => model.Count, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group min-price">
+            <div class="row">
+                <div class="col-sm-3">
+                    @Html.LabelFor(model => model.MinimumPrice)
+                    @Html.TextBoxFor(model => model.MinimumPrice, new { @class = "form-control number" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PersianStartDate)
+                    @Html.TextBoxFor(model => model.PersianStartDate, new { @class = "form-control persiandate required", autocomplete = "off" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PersianEndDate)
+                    @Html.TextBoxFor(model => model.PersianEndDate, new { @class = "form-control persiandate required", autocomplete = "off" })
+                </div>
+            </div>
+        </div>
+        <div class="checkbox">
+            @Html.CheckBoxFor(model => model.AllProducts)
+            @Html.LabelFor(model => model.AllProducts)
+        </div>
+        <div class="checkbox">
+            @Html.CheckBoxFor(model => model.IsUnlimit)
+            @Html.LabelFor(model => model.IsUnlimit)
+        </div>
+        <div class="form-group group-tree">
+            @Html.LabelFor(model => model.GroupID)
+            <div>
+                @Html.Partial("_TreeView", new TreeViewSettings()
+           {
+               ControllerName = "/Admin/Groups",
+               JsonMothod = "GetGroups",
+               FieldName = "GroupID",
+               TreeViewSelectMode = TreeViewSelectMode.Single,
+               SelectedID = Model.GroupID
+           })
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">ثبت</button>
+        <a href="/Admin/GiftCards" class="btn btn-warning">بازگشت</a>
+    </div>
+}
+
+@section Scripts{
+    <script src="/js/admin/gift-cards.js"></script>
+}

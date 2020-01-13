@@ -1,0 +1,12 @@
+﻿@{
+    string googleMap = StaticContents.GetByName("GoogleMap").Content;
+}
+
+<div class="contact-info">
+    <p><i class="fa fa-envelope"></i>@StaticValues.Email</p>
+    <p><i class="fa fa-phone"></i>@StaticValues.Phone</p>
+    <p><i class="fa fa-map-marker"></i>@StaticValues.Address</p>
+    <p><i class="fa fa-home"></i>کد پستی: @StaticValues.PostalCode</p>
+    <a href="@googleMap" class="btn-warning map-link" target="_blank">نمایش در نقشه گوگل</a>
+</div>
+

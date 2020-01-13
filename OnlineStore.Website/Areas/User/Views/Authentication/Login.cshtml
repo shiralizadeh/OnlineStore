@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "ورود به سایت";
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    BreadCrumbs = new List<BreadCrumbLink>() {
+        new BreadCrumbLink() { Title = "حساب من", Link = "/My-Account" },
+        new BreadCrumbLink() { Title = "ورود به سایت", Link = "/Login" }
+    }
+})
+
+<div class="responsive-box">
+    <div class="login-box">
+        <div class="content-column">
+            <section id="loginForm" class="login-form">
+                @using (Html.BeginForm("Login", "Authentication", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "validate form-horizontal" }))
+            {
+                    <h2 class="desc">
+                        برای ورود به سایت لطفا نام کاربری و کلمه عبور خود را وارد نمایید یا
+                        @Html.ActionLink("ثبت نام", "Index", "Register")
+                        کنید.
+                    </h2>
+                    @Html.Partial("_Status")
+                    <div class="row">
+                        <label for="UserName">نام کاربری</label>
+                        <input id="UserName" name="UserName" type="text" placeholder="نام کاربری" class="required">
+                    </div>
+                    <div class="row">
+                        <label for="UserName">کلمه عبور</label>
+                        <input id="Password" name="Password" type="password" placeholder="کلمه عبور" class="required">
+                    </div>
+                    <div class="row">
+                        <input type="checkbox" id="RememberMe" name="RememberMe" class="remember-me" />
+                        <label for="RememberMe">مرا بخاطر بسپار</label>
+                        @Html.ActionLink("فراموشی کلمه عبور", "ForgotPassword", null, new { @class = "forgot-password" })
+                    </div>
+                    <div class="row">
+                        <button id="BtnLogin" class="btn-submit" type="submit" de>ورود</button>
+                    </div>
+                }
+            </section>
+        </div>
+        <div class="left-column">
+            <div class="small-box points">
+                <div class="box-header box-header-02">
+                    <h2>نکات</h2>
+                </div>
+                <div class="box-content">
+                    <ul>
+                        <li><i class="fa fa-caret-left"></i>برای ثبت نام @Html.ActionLink("اینجا", "Index", "Register") را کلیک نمایید.</li>
+                        <li><i class="fa fa-caret-left"></i>اگر کلمه عبور خود را فراموش کرده اید @Html.ActionLink("اینجا", "ForgotPassword") را کلیک نمایید.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+
+@section Styles {
+    <link href="~/css/login.min.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="~/js/login.min.js"></script>
+}

@@ -1,0 +1,63 @@
+﻿/*border*/
+.pngs {
+  background-image: url(/images/Template/pngs.png?v=1.4); }
+
+.login-box .desc {
+  color: #455a64;
+  font-size: 14px;
+  margin-bottom: 20px; }
+
+.login-box .login-form {
+  background-color: #fff;
+  padding: 10px;
+  margin-left: 10px; }
+  .login-box .login-form .remember-me ~ label {
+    font-size: 11px;
+    line-height: 20px; }
+  .login-box .login-form .forgot-password {
+    color: #ff3d00;
+    font-size: 11px;
+    display: inline-block;
+    width: 250px;
+    text-align: left;
+    vertical-align: middle; }
+
+.login-box .points {
+  margin-top: 0;
+  background-color: #fff; }
+  .login-box .points li {
+    color: #78909c;
+    font-size: 14px;
+    line-height: 30px;
+    margin-bottom: 10px; }
+    .login-box .points li .fa-caret-left {
+      margin-left: 5px;
+      color: #ff3d00; }
+    .login-box .points li a {
+      color: #ff3d00; }
+
+/*(max-width: 480px)*/
+@media only screen and (max-width: 479px) {
+  .login-box .login-form {
+    margin-left: 0; } }
+
+/*(min-width: 480px) and (max-width: 595px)*/
+@media only screen and (min-width: 480px) and (max-width: 599px) {
+  .login-box .login-form {
+    margin-left: 0; } }
+
+/*(min-width: 595px) and (max-width: 690px)*/
+@media only screen and (min-width: 595px) and (max-width: 689px) {
+  .login-box .login-form {
+    margin-left: 0; } }
+
+/*(min-width: 690px) and (max-width: 960px)*/
+@media only screen and (min-width: 690px) and (max-width: 959px) {
+  .login-box .login-form {
+    margin-left: 0; } }
+
+/*(min-width: 960px) and (max-width: 1024px)*/
+/*(min-width: 1024px) and (max-width: 1280px)*/
+/*(min-width: 1280px) and (max-width: 1440px)*/
+/*(min-width: 1440px)*/
+

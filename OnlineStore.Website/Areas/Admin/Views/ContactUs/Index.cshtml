@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "مدیریت تماس با ما";
+}
+
+<fieldset class="filter-box">
+    <legend>
+        <a class="filter-header">
+            <i class="open-icon icon icon-plus-sign"></i>
+            <span>جستجو</span>
+        </a>
+    </legend>
+    <div class="control-box">
+        <div class="row form-group">
+            <input type="text" id="FullName" class="form-control col-sm-2" placeholder="نام و نام خانوادگی..." />
+            <input type="text" id="Email" class="form-control col-sm-2 number" placeholder="ایمیل..." />
+            <select id="MessageStatus" class="form-control col-sm-2">
+                <option value="-1">وضعیت</option>
+                <option value="0">چک نشده</option>
+                <option value="1">چک شده</option>
+            </select>
+            <a id="btnSearch" class="btn btn-info"><i class="icon-search"></i></a>
+        </div>
+    </div>
+</fieldset>
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "ContactUs",
+    ShowAdd = false,
+    Columns = new List<Column>(){
+
+                                new Column() {
+                                    Title = "نام و نام خانوادگی",
+                                    DataField = "FullName"
+                                },
+
+                                new Column() {
+                                    Title = "ایمیل",
+                                    DataField = "Email"
+                                },
+
+                                new Column() {
+                                    Title = "موضوع",
+                                    DataField = "Subject"
+                                },
+
+                                new Column() {
+                                    Title = "وضعیت",
+                                    DataField = "fromContactUsMessageStatus(ContactUsMessageStatus)"
+                                },
+
+                                new Column() {
+                                    Title = "آخرین ویرایش",
+                                    DataField = "fromNow(LastUpdate)"
+                                }
+    }
+})
+
+@section Scripts {
+    <script type="text/javascript">
+        var $fullName = $('#FullName'),
+            $email = $('#Email'),
+            $messageStatus = $('#MessageStatus');
+
+        jConfigGrid.init({
+            ajaxUrl: '/Admin/ContactUs/',
+            filter: function () {
+                return {
+                    FullName: $fullName.val(),
+                    Email: $email.val(),
+                    MessageStatus: $messageStatus.val()
+                }
+            }
+        });
+    </script>
+}

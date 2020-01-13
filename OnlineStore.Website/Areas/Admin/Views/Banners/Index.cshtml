@@ -1,0 +1,52 @@
+﻿`@{
+    ViewBag.Title = "مدیریت بنرها";
+}
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "Banners",
+    Columns = new List<Column>(){
+                                   new Column() {
+                                       Title = "عنوان",
+                                       DataField = "Title"
+                                   },
+                                   new Column() {
+                                       Title = "تاریخ شروع",
+                                       DataField = "toPersianDate(StartDate)"
+                                   },
+                                   new Column() {
+                                       Title = "تاریخ پایان",
+                                       DataField = "toPersianDate(EndDate)"
+                                   },
+                                   new Column() {
+                                       Title = "تصویر",
+                                       DataField = "toLink(Filename)"
+                                   },
+                                    new Column() {
+                                       Title = "لینک",
+                                       DataField = "toLink(Link)"
+                                   },
+                                   new Column() {
+                                       Title = "وضعیت",
+                                       DataField = "toBooleanStatus(IsActive)"
+                                   },
+                                   new Column() {
+                                       Title = "ترتیب نمایش",
+                                       DataField = "OrderID"
+                                   },
+                                   new Column() {
+                                       Title = "تعداد کلیک",
+                                       DataField = "ClickCount"
+                                   },
+                                   new Column() {
+                                       Title = "آخرین ویرایش",
+                                       DataField = "fromNow(LastUpdate)"
+                                   }
+                               }
+})
+
+@section Scripts {
+    <script type="text/javascript">
+        jConfigGrid.init({ ajaxUrl: '/Admin/Banners/' });
+    </script>
+} 

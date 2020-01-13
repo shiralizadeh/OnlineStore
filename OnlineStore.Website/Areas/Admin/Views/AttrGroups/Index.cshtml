@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "مدیریت گروه های ویژگی";
+}
+
+<fieldset class="filter-box">
+    <legend>
+        <a class="filter-header">
+            <i class="open-icon icon icon-plus-sign"></i>
+            <span>جستجو</span>
+        </a>
+    </legend>
+    <div class="control-box">
+        <div class="row form-group">
+            <div>
+                @Html.Partial("_TreeView", new TreeViewSettings()
+           {
+               ControllerName = "/Admin/Groups",
+               JsonMothod = "GetGroups",
+               FieldName = "JSONGroups",
+               TreeViewSelectMode = TreeViewSelectMode.Multiple,
+               SelectedItems = new List<int>()
+           })
+            </div>
+            <label id="GroupsError" class="error" style="display: none;"></label>
+        </div>
+        <div class="row form-group">
+            <input type="text" id="Title" class="form-control col-sm-2" placeholder="عنوان..." />
+            <a id="btnSearch" class="btn btn-info"><i class="icon-search"></i></a>
+        </div>
+    </div>
+</fieldset>
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "AttrGroups",
+    Columns = new List<Column>(){
+                                   new Column() {
+                                       Title = "عنوان",
+                                       DataField = "Title"
+                                   },
+                                   new Column() {
+                                       Title = "گروه ها",
+                                       DataField = "GroupsTitle"
+                                   },
+                                   new Column() {
+                                       Title = "ترتیب نمایش",
+                                       DataField = "OrderID"
+                                   },
+                                   new Column() {
+                                       Title = "آخرین ویرایش",
+                                       DataField = "fromNow(LastUpdate)"
+                                   }
+                               }
+})
+
+@section Scripts {
+    <script type="text/javascript">
+        var $groups = $('#hfJSONGroups'),
+            $title = $('#Title');
+
+        jConfigGrid.init({
+            ajaxUrl: '/Admin/AttrGroups/',
+            filter: function () {
+                return {
+                    Groups: eval($groups.val()),
+                    Title: $title.val()
+                }
+            }
+        });
+    </script>
+}

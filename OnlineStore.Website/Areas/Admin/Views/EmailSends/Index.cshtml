@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "مدیریت ارسال ایمیل ها";
+}
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "EmailSends",
+    Columns = new List<Column>(){
+                                   new Column() {
+                                       Title = "فرستنده",
+                                       DataField = "FromTitle"
+                                   },
+                                   new Column() {
+                                       Title = "گیرنده",
+                                       DataField = "To"
+                                   },
+                                   new Column() {
+                                       Title = "موضوع",
+                                       DataField = "Subject"
+                                   },
+                                   new Column() {
+                                       Title = "وضعیت",
+                                       DataField = "fromEmailSendStatus(EmailSendStatus)"
+                                   },
+                                   new Column() {
+                                       Title = "اولویت",
+                                       DataField = "fromPriority(Priority)"
+                                   },
+                                   new Column() {
+                                       Title = "آخرین ویرایش",
+                                       DataField = "fromNow(LastUpdate)"
+                                   }
+                               }
+})
+
+@section Scripts {
+    <script type="text/javascript">
+        jConfigGrid.init({ ajaxUrl: '/Admin/EmailSends/' });
+    </script>
+}

@@ -1,0 +1,110 @@
+﻿@import "_mixins";
+
+.factor-box {
+    background-color: #fff;
+
+    a.fa-print {
+        color: darken($color,10%);
+        font-size: 32px;
+        float: left;
+        margin-left: 10px;
+
+        &:hover {
+            color: $color;
+        }
+    }
+
+    .alert-box {
+        padding: 10px;
+    }
+}
+
+.factor {
+    font-size: 14px;
+    line-height: 25px;
+    color: $black_0;
+    padding: 10px;
+    background-color: #fff;
+
+    ul {
+        li {
+            list-style-type: none;
+        }
+    }
+
+
+    .factor-top {
+        margin: {
+            top: 10px;
+            bottom: 10px;
+        }
+
+        img {
+            float: right;
+        }
+
+        ul {
+            float: left;
+        }
+    }
+
+    table.buyer-info {
+        margin: 20px 0;
+        width: 100%;
+        border: solid 1px #e5e5e5;
+
+        tr {
+            td {
+                padding: 5px;
+            }
+        }
+    }
+
+    table.table-basket {
+        caption {
+            text-align: center;
+            border: 1px solid #e5e5e5;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        th {
+            font-size: 14px;
+            background-color: #eee;
+        }
+
+        td {
+            font-size: 12px;
+        }
+
+        tfoot {
+            td.paymenttype,
+            td.sendtype {
+                color: $black_3;
+                text-align: right;
+            }
+        }
+    }
+
+    .factor-bottom {
+        ul {
+            float: right;
+            padding: 0;
+            width: 73%;
+
+            li {
+                margin: 5px 0;
+
+                span.phone-number {
+                    direction: ltr;
+                    display: inline-block;
+                }
+            }
+        }
+
+        .signature {
+            float: left;
+            width: 17%;
+        }
+    }
+}

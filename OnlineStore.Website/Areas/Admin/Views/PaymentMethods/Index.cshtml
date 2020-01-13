@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "مدیریت روش های پرداخت";
+}
+
+@Html.Partial("_GridView", new GridViewSettings()
+                           {
+                               ControllerName = "PaymentMethods",
+                               Columns = new List<Column>(){
+                                   new Column() {
+                                       Title = "عنوان",
+                                       DataField = "Title"
+                                   },
+                                   new Column() {
+                                       Title = "عکس",
+                                       DataField = "toLink(Filename)"
+                                   },
+                                   new Column() {
+                                       Title = "وضعیت",
+                                       DataField = "toBooleanStatus(IsActive)"
+                                   },
+                                   new Column() {
+                                       Title = "آخرین ویرایش",
+                                       DataField = "fromNow(LastUpdate)"
+                                   }
+                               }
+                           })
+
+@section Scripts {
+    <script type="text/javascript">
+        jConfigGrid.init({ ajaxUrl: '/Admin/PaymentMethods/' });
+    </script>
+} 

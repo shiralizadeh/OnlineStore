@@ -1,0 +1,68 @@
+﻿@model List<UserShortInfo>
+
+@{
+    ViewBag.Title = "مدیریت وظایف";
+}
+
+<fieldset class="filter-box">
+    <legend>
+        <a class="filter-header">
+            <i class="open-icon icon icon-plus-sign"></i>
+            <span>جستجو</span>
+        </a>
+    </legend>
+    <div class="control-box">
+        <div class="row form-group">
+            <input type="text" id="Title" class="form-control col-sm-2" placeholder="عنوان/متن..." />
+            <select id="Users" class="form-control col-sm-2">
+                <option value="-1">کاربر...</option>
+                @foreach (var item in Model)
+                {
+                    <option value="@item.Id">@item.Username</option>
+                }
+            </select>
+            <a id="btnSearch" class="btn btn-info"><i class="icon-search"></i></a>
+        </div>
+    </div>
+</fieldset>
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "UserTasks",
+    Columns = new List<Column>(){
+                                   new Column() {
+                                       Title = "عنوان",
+                                       DataField = "Title"
+                                   },
+                                   new Column() {
+                                       Title = "وظیفه",
+                                       DataField = "Text"
+                                   },
+                                   new Column() {
+                                       Title = "تاریخ یادآوری",
+                                       DataField = "toPersianDate(UserTaskDate)"
+                                   },
+                                   new Column() {
+                                       Title = "آخرین ویرایش",
+                                       DataField = "fromNow(LastUpdate)"
+                                   }
+                               }
+})
+
+@section Scripts {
+    <script type="text/javascript">
+
+        var $title = $('#Title'),
+            $userID = $('#Users');
+
+        jConfigGrid.init({
+            ajaxUrl: '/Admin/UserTasks/',
+            filter: function () {
+                return {
+                    Title: $title.val(),
+                    UserID: $userID.val()
+                }
+            }
+        });
+    </script>
+}

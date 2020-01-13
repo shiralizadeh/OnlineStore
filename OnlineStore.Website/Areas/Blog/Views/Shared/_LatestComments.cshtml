@@ -1,0 +1,56 @@
+﻿@model List<RecentComment>
+@{
+    // تعداد نظر در هر ستون
+    int columnSize = 2;
+    int columnCount = (int)Math.Ceiling((float)Model.Count / (float)columnSize);
+
+    string userFullName,
+           userImage;
+}
+
+<ul class="simple-carousel latest-comments-box">
+
+    @for (int i = 1; i <= columnCount && Model.Count > 0; i++)
+    {
+        <li>
+            <ul>
+                @for (int j = columnSize * (i - 1); j <= (columnSize * i) - 1 && (j + 1) <= Model.Count; j++)
+                {
+                    var group = Groups.GetByID(Model[j].GroupID);
+
+                    var url = UrlProvider.GetPostUrl(Model[j].ArticleID, Model[j].ArticleTitle, group.TitleEn);
+
+                    if (!String.IsNullOrWhiteSpace(Model[j].UserID))
+                    {
+                        var user = OSUsers.GetByID(Model[j].UserID);
+
+                        userFullName = user.Firstname + " " + user.Lastname;
+                        userImage = UrlProvider.GetUserImage(user.ImageFile, StaticValues.CustomerImageSize);
+                    }
+                    else
+                    {
+                        userFullName = Model[j].UserName;
+                        userImage = UrlProvider.GetUserImage(null, StaticValues.CustomerImageSize);
+                    }
+                    <li>
+                        <div class="message-box">
+                            <div class="message">
+                                @Model[j].Text
+                            </div>
+                        </div>
+                        <div class="author-info">
+                            <a href="@url" class="image">
+                                <img src="@userImage" alt="@userFullName" title="@userFullName" />
+                            </a>
+                            <div class="name-date">
+                                <a href="@url" title="title">@Model[j].UserName</a>
+                                <span>@Utilities.ToPersianDate(Model[j].LastUpdate)</span>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+                }
+            </ul>
+        </li>
+    }
+</ul>

@@ -1,0 +1,115 @@
+﻿@model EditProduct
+
+<div class="col-md-6">
+    <div class="form-group">
+        @Html.LabelFor(model => model.PriceCode)
+        @Html.TextBoxFor(model => model.PriceCode, new { @class = "form-control" })
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body text-center" style="font-size:20px;">
+            قیمت خرید:
+            <span class="label label-info">@((Model.Prices.Where(item => item.PriceType == PriceType.Buy).LastOrDefault() ?? new EditProductPrice()).Price.ToPrice())</span>
+            قیمت فروش:
+            <span class="label label-info">@((Model.Prices.Where(item => item.PriceType == PriceType.Sell).LastOrDefault() ?? new EditProductPrice()).Price.ToPrice())</span>
+        </div>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ردیف</th>
+                <th>قیمت</th>
+                <th>مقایسه با قیمت قبلی</th>
+                <th>نوع</th>
+                <th>توضیحات</th>
+                <th>تاریخ ثبت</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var priceGroups = new List<List<EditProductPrice>>()
+                    {
+                        Model.Prices.Where(item => item.PriceType == PriceType.Buy).ToList(),
+                        Model.Prices.Where(item => item.PriceType == PriceType.Sell).ToList()
+                    };
+            }
+
+            @foreach (var priceGroup in priceGroups)
+            {
+                for (int i = 0; i < priceGroup.Count; i++)
+                {
+                    var item = priceGroup[i];
+                    var prev = (i > 0 ? priceGroup[i - 1] : (EditProductPrice)null);
+
+                    <tr>
+                        <td>
+                            @(i + 1)
+                        </td>
+                        <td class="text-right">
+                            @if (i == Model.Prices.Count - 1)
+                            {
+                                <span class="badge" style="background-color: #d9534f">@item.Price.ToPrice()</span>
+                            }
+                            else
+                            {
+                                <span class="badge">@item.Price.ToPrice()</span>
+                            }
+                        </td>
+                        <td>
+                            @if (prev == null)
+                            {
+                                <span class="label label-default">اولین قیمت</span>
+                            }
+                            else if (item.Price > prev.Price)
+                            {
+                                <span class="label label-success">افزایش @((item.Price - prev.Price).ToPrice())</span>
+                            }
+                            else if (item.Price < prev.Price)
+                            {
+                                <span class="label label-warning">کاهش @((prev.Price - item.Price).ToPrice())</span>
+                            }
+                            else
+                            {
+                                <span class="label label-success">بدون تغییر</span>
+                            }
+                        </td>
+                        <td>
+                            @Utilities.GetEnumDisplay(item.PriceType)
+                        </td>
+                        <td>
+                            @item.Description
+                        </td>
+                        <td>
+                            @Utilities.ToPersianDate(item.LastUpdate)
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="6" style="background-color: #C8C8C8;"></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <section class="panel">
+        <header class="panel-heading">
+            افزایش/کاهش قیمت
+        </header>
+        <div class="panel-body">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Price.Price)
+                <div class="input-group">
+                    @Html.TextBoxFor(model => model.Price.Price, new { @class = "form-control number" })
+                    <div class="input-group-addon">@(ExtensionMethods.IsRial ? "ریال" : "تومان")</div>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Price.PriceType)
+                @Html.EnumDropDownListFor(model => model.Price.PriceType, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Supply.Description)
+                @Html.TextAreaFor(model => model.Supply.Description, new { @class = "form-control" })
+            </div>
+        </div>
+    </section>
+</div>

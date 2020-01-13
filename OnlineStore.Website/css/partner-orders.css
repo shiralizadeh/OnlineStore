@@ -1,0 +1,45 @@
+﻿/*border*/
+.pngs {
+  background-image: url(/images/Template/pngs.png?v=1.4); }
+
+.partner-orders-box {
+  background-color: #fff;
+  text-align: center;
+  padding: 10px; }
+  .partner-orders-box a {
+    display: block;
+    text-align: center;
+    border: 0;
+    margin: 0 auto;
+    width: 120px; }
+    .partner-orders-box a img {
+      max-width: 100%;
+      cursor: zoom-in; }
+  .partner-orders-box .submit-order {
+    text-align: right;
+    margin-bottom: 25px;
+    margin-top: 30px; }
+    .partner-orders-box .submit-order p {
+      margin-bottom: 20px; }
+    .partner-orders-box .submit-order input,
+    .partner-orders-box .submit-order textarea,
+    .partner-orders-box .submit-order button {
+      vertical-align: bottom; }
+    .partner-orders-box .submit-order button {
+      margin-right: 10px; }
+  .partner-orders-box .alert-warning {
+    text-align: right;
+    width: 40%;
+    padding-right: 30px;
+    padding-left: 30px; }
+    .partner-orders-box .alert-warning h4 {
+      text-align: center; }
+  .partner-orders-box .alert-error {
+    padding-right: 30px;
+    padding-left: 30px; }
+
+/*(max-width: 480px)*/
+/*(min-width: 480px) and (max-width: 595px)*/
+/*(min-width: 595px) and (max-width: 690px)*/
+/*(min-width: 690px) and (max-width: 960px)*/
+

@@ -1,0 +1,64 @@
+﻿/*border*/
+.pngs {
+  background-image: url(/images/Template/pngs.png?v=1.4); }
+
+.factor-box {
+  background-color: #fff; }
+  .factor-box a.fa-print {
+    color: #cc3100;
+    font-size: 32px;
+    float: left;
+    margin-left: 10px; }
+    .factor-box a.fa-print:hover {
+      color: #ff3d00; }
+  .factor-box .alert-box {
+    padding: 10px; }
+
+.factor {
+  font-size: 14px;
+  line-height: 25px;
+  color: #263238;
+  padding: 10px;
+  background-color: #fff; }
+  .factor ul li {
+    list-style-type: none; }
+  .factor .factor-top {
+    margin-top: 10px;
+    margin-bottom: 10px; }
+    .factor .factor-top img {
+      float: right; }
+    .factor .factor-top ul {
+      float: left; }
+  .factor table.buyer-info {
+    margin: 20px 0;
+    width: 100%;
+    border: solid 1px #e5e5e5; }
+    .factor table.buyer-info tr td {
+      padding: 5px; }
+  .factor table.table-basket caption {
+    text-align: center;
+    border: 1px solid #e5e5e5;
+    padding: 10px;
+    font-size: 14px; }
+  .factor table.table-basket th {
+    font-size: 14px;
+    background-color: #eee; }
+  .factor table.table-basket td {
+    font-size: 12px; }
+  .factor table.table-basket tfoot td.paymenttype,
+  .factor table.table-basket tfoot td.sendtype {
+    color: #546e7a;
+    text-align: right; }
+  .factor .factor-bottom ul {
+    float: right;
+    padding: 0;
+    width: 73%; }
+    .factor .factor-bottom ul li {
+      margin: 5px 0; }
+      .factor .factor-bottom ul li span.phone-number {
+        direction: ltr;
+        display: inline-block; }
+  .factor .factor-bottom .signature {
+    float: left;
+    width: 17%; }
+

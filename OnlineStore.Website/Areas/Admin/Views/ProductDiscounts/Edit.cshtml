@@ -1,0 +1,221 @@
+﻿@model ProductDiscount
+
+@{
+    ViewBag.Title = "ویرایش تخفیف محصول";
+}
+
+@using (Html.BeginForm("Edit", "ProductDiscounts", FormMethod.Post, new { @class = "validate" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="col-sm-6">
+        @Html.Partial("_Status")
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title)
+            @Html.TextBoxFor(model => model.Title, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            <label>تخفیف برای:</label>
+            <div class="radio">
+                <input type="radio" name="DiscountStatus" id="DiscountStatus_0" value="0" @(ViewBag.ProductDiscountProductID == true ? "checked" : "") />
+                <label for="DiscountStatus_0">
+                    محصول
+                </label>
+            </div>
+            <div class="radio">
+                <input type="radio" name="DiscountStatus" id="DiscountStatus_1" value="1" @(ViewBag.ProductDiscountGroupID == true ? "checked" : "") />
+                <label for="DiscountStatus_1">
+                    گروه
+                </label>
+            </div>
+            <div class="radio">
+                <input type="radio" name="DiscountStatus" id="DiscountStatus_2" value="2" @(ViewBag.ProductDiscountRoleID == true ? "checked" : "") />
+                <label for="DiscountStatus_2">
+                    نقش
+                </label>
+            </div>
+        </div>
+        <div class="form-group discountstatus @(ViewBag.ProductDiscountProductID == false ? "hide" : "")">
+            @Html.LabelFor(model => model.ProductID)
+            @Html.DropDownListFor(model => model.ProductID,
+                                  Products.GetList().Select(item => new SelectListItem() { Text = item.Title, Value = item.ID.ToString() }).ToList(),
+                                  new { @class = "form-control selectpicker required", data_live_search = "true" })
+        </div>
+        <div class="form-group discountstatus @(ViewBag.ProductDiscountGroupID == false ? "hide" : "")">
+            @Html.LabelFor(model => model.GroupID)
+            <div>
+                @Html.Partial("_TreeView", new TreeViewSettings()
+           {
+               ControllerName = "/Admin/Groups",
+               JsonMothod = "GetGroups",
+               FieldName = "GroupID",
+               TreeViewSelectMode = TreeViewSelectMode.Single,
+               SelectedID = Model.GroupID,
+               CurrentID = Model.ID,
+           })
+            </div>
+        </div>
+        <div class="form-group discountstatus @(ViewBag.ProductDiscountRoleID == false ? "hide" : "")">
+            @Html.LabelFor(model => model.RoleID)
+            @Html.DropDownListFor(model => model.RoleID,
+                                  OnlineStore.Identity.Roles.Get().Select(item => new SelectListItem() { Text = item.Name, Value = item.Id }).ToList(),
+                                  new { @class = "form-control required" })
+        </div>
+
+        <div class="form-group">
+            <label>نوع تخفیف:</label>
+            <div class="radio">
+                <input type="radio" name="DiscountType" id="DiscountType_0" value="0" @(Model.DiscountType == DiscountType.Percent ? "checked" : "") checked />
+                <label for="DiscountType_0">
+                    درصد تخفیف
+                </label>
+            </div>
+            <div class="radio">
+                <input type="radio" name="DiscountType" id="DiscountType_1" value="1" @(Model.DiscountType == DiscountType.PriceAfter ? "checked" : "") />
+                <label for="DiscountType_1">
+                    قیمت بعد از تخفیف
+                </label>
+            </div>
+            <div class="radio">
+                <input type="radio" name="DiscountType" id="DiscountType_2" value="2" @(Model.DiscountType == DiscountType.PriceBefore ? "checked" : "") />
+                <label for="DiscountType_2">
+                    قیمت قبل از تخفیف
+                </label>
+            </div>
+            <div class="radio">
+                <input type="radio" name="DiscountType" id="DiscountType_3" value="3" @(Model.DiscountType == DiscountType.PriceBeforeAfter ? "checked" : "") />
+                <label for="DiscountType_3">
+                    قیمت قبل و بعد از تخفیف
+                </label>
+            </div>
+        </div>
+        <div class="form-group discounttype @(Model.DiscountType == DiscountType.Percent ? "" : "hide")">
+            @Html.LabelFor(model => model.Percent)
+            <div class="input-group m-bot15">
+                @Html.TextBoxFor(model => model.Percent, new { @class = "form-control required number" })
+                <span class="input-group-addon">%</span>
+            </div>
+        </div>
+        <div class="form-group discounttype @(Model.DiscountType != DiscountType.Percent ? "" : "hide")">
+            @Html.LabelFor(model => model.Price)
+            <div class="input-group">
+                @Html.TextBoxFor(model => model.Price, new { @class = "form-control number" })
+                <div class="input-group-addon">@(ExtensionMethods.IsRial ? "ریال" : "تومان")</div>
+            </div>
+        </div>
+        <div class="form-group discounttype @(Model.DiscountType == DiscountType.PriceBeforeAfter ? "" : "hide")">
+            @Html.LabelFor(model => model.Price_01)
+            <div class="input-group">
+                @Html.TextBoxFor(model => model.Price_01, new { @class = "form-control number" })
+                <div class="input-group-addon">@(ExtensionMethods.IsRial ? "ریال" : "تومان")</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>نوع کالا:</label>
+            <div class="radio">
+                <input type="radio" name="IsProductVarient" id="IsProductVarient_0" value="0" @(!Model.ProductVarientID.HasValue ? "checked" : "") checked />
+                <label for="IsProductVarient_0">
+                    همه
+                </label>
+            </div>
+            <div class="radio">
+                <input type="radio" name="IsProductVarient" id="IsProductVarient_1" value="1" @(Model.ProductVarientID.HasValue ? "checked" : "") />
+                <label for="IsProductVarient_1">
+                    انتخاب نوع کالا
+                </label>
+            </div>
+        </div>
+        <div class="form-group isproductvarient @(!Model.ProductVarientID.HasValue ? "hide" : "")">
+            @Html.LabelFor(model => model.ProductVarientID)
+            @Html.DropDownListFor(model => model.ProductVarientID,
+                                  new List<SelectListItem>(),
+                                  new { @class = "form-control", data_live_search = "true" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PersianStartDate)
+            @Html.TextBoxFor(model => model.PersianStartDate, new { @class = "form-control required persiandate" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.PersianEndDate)
+            @Html.TextBoxFor(model => model.PersianEndDate, new { @class = "form-control required persiandate" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductDiscountStatus)
+            @Html.EnumDropDownListFor(model => model.ProductDiscountStatus, new { @class = "form-control selectpicker required" })
+        </div>
+
+        <button type="submit" class="btn btn-success">ثبت</button>
+        <a href="/Admin/ProductDiscounts" class="btn btn-warning">بازکشت</a>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        var $discountstatus = $('.discountstatus');
+        $('[name="DiscountStatus"]').on('ifChecked', function () {
+            var $this = $(this);
+            $discountstatus.addClass('hide');
+
+            if ($this.val() == '0') {
+                $discountstatus.eq(0).removeClass('hide');
+            }
+            else if ($this.val() == '1') {
+                $discountstatus.eq(1).removeClass('hide');
+            }
+            else if ($this.val() == '2') {
+                $discountstatus.eq(2).removeClass('hide');
+            }
+        });
+
+        var $discounttype = $('.discounttype');
+        $('[name="DiscountType"]').on('ifChecked', function () {
+            var $this = $(this);
+            $discounttype.addClass('hide');
+
+            if ($this.val() == '0') {
+                $discounttype.eq(0).removeClass('hide');
+            }
+            else if ($this.val() == '1' || $this.val() == '2') {
+                $discounttype.eq(1).removeClass('hide');
+            }
+            else if ($this.val() == '3') {
+                $discounttype.eq(1).removeClass('hide');
+                $discounttype.eq(2).removeClass('hide');
+            }
+        });
+
+        var $isproductvarient = $('.isproductvarient');
+        var $productVarientID = $('#ProductVarientID');
+
+        $('[name="IsProductVarient"]').on('ifChecked', function () {
+            var $this = $(this);
+            $isproductvarient.addClass('hide');
+
+            var pID = $('#ProductID').val();
+
+            if ($this.val() == '1') {
+                $.ajax({
+                    url: '/Admin/Products/GetProductVarients',
+                    type: 'POST',
+                    data: { ProductID: pID },
+                    success: function (result) {
+                        if (result.Success) {
+                            $productVarientID.empty();
+
+                            for (var i in result.Data) {
+                                var item = result.Data[i];
+                                $productVarientID.append('<option value="' + item.ID + '">' + item.PriceCode + '</option>');
+                            }
+
+                            result.Data
+                        }
+                    }
+                });
+
+                $isproductvarient.removeClass('hide');
+            }
+        });
+    </script>
+}

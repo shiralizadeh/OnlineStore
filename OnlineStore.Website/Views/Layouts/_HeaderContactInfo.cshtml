@@ -1,0 +1,10 @@
+﻿
+@{
+    string phone = StaticContents.GetByName("Phone").Content;
+    string email = StaticContents.GetByName("Email").Content;
+}
+
+<ul class="topbar-nav clearfix">
+    <li><span class="phone">@phone</span></li>
+    <li><span class="email">@email</span></li>
+</ul>

@@ -1,0 +1,79 @@
+﻿@model TreeViewSettings
+
+<script>
+    var pageLoaded =  (function () {
+        var hfTreeView = $('#@("hf" + Model.FieldName)');
+
+        $('#treeView').on('acitree', function (event, api, item, eventName, options) {
+            @if (Model.TreeViewSelectMode == TreeViewSelectMode.Single)
+            {
+                @:hfTreeView.val(GetSelectTreeItems(api)[0]);
+            }
+            else
+            {
+                @:hfTreeView.val(JSON.stringify(GetSelectTreeItems(api)));
+            }
+
+
+            if (eventName == 'init') {
+                @if (Model.TreeViewSelectMode == TreeViewSelectMode.Single)
+                {
+                    @:SelectTreeItem(@Model.SelectedID)
+                                                }
+                else
+                {
+                    foreach (var item in Model.SelectedItems)
+                    {
+                         @:SelectTreeItem(@item);
+                                                    }
+                }
+            }
+            else if (eventName == 'selected'){
+                if (window.treeSelected) {
+                    window.treeSelected(item);
+                }
+            }
+            else if (eventName == 'checked' || eventName == 'unchecked'){
+                if (window.treeChecked) {
+                    window.treeChecked(item, api);
+                }
+            }
+        });
+
+        $('#treeView').aciTree({
+            ajax: {
+                url: '@Model.ControllerName/@Model.JsonMothod?multiple=@(Model.TreeViewSelectMode == TreeViewSelectMode.Single ? "false" : "true")'
+            },
+            checkbox: true,
+            radio: true
+        });
+
+        function SelectTreeItem(id) {
+            $('#treeView li').each(function () {
+                var $this = $(this),
+                    item = $this.data('itemData.aciTree');
+
+                if (item.id == id)
+                    $this.find('> div span.aciTreeItem').click();
+            });
+        }
+
+        function GetSelectTreeItems(api) {
+            var items = [];
+            $('#treeView li').each(function () {
+                var $this = $(this),
+                    item = $this.data('itemData.aciTree');
+
+                if ((api.isChecked($this) && @(Model.TreeViewSelectMode == TreeViewSelectMode.Multiple ? "true" : "false")) || (api.isSelected($this) && @(Model.TreeViewSelectMode == TreeViewSelectMode.Single ? "true" : "false")))
+                    items.push(api.getId($this));
+
+            });
+
+            return items;
+        }
+    });
+</script>
+
+<div id="treeView" class="aciTree" dir="rtl"></div>
+
+<input id="@("hf" + Model.FieldName)" name="@Model.FieldName" type="hidden" value="@Model.SelectedID" />

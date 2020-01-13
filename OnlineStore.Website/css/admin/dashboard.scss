@@ -1,0 +1,31 @@
+﻿@import "../scss/_mixins.scss";
+
+.my-tasks {
+    .icon-check,
+    .icon-calendar {
+        color: #5cb85c;
+        font-size: 20px;
+        display: inline-block;
+
+        &:hover {
+            color: #449D44;
+        }
+    }
+
+    a {
+        color: #797979;
+
+        &:hover {
+            color: #337ab7;
+        }
+    }
+}
+
+.set-task-date {
+    position: relative;
+    @include full-loading();
+
+    .label {
+        font-family: 'WYekan';
+    }
+}

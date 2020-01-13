@@ -1,0 +1,109 @@
+﻿@{
+    var version = 1.1;
+
+    ViewBag.Title = "همکاری با ما";
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    ShowTitle = true,
+    BreadCrumbs = new List<BreadCrumbLink>() {
+        new BreadCrumbLink() { Title = StaticValues.HomeTitle, Link = "/" },
+        new BreadCrumbLink() { Title = "همکاری با ما", Link = "/Colleagues" },
+    }
+})
+
+<div class="responsive-box colleague-box">
+    <div class="content-column">
+        <div class="colleague-content-box">
+            لطفا اطلاعات موجود در فرم ذیل را با دقت تکمیل نمایید.
+            <form id="ColleagueForm" class="validate ajax colleague-form" action="/Colleagues/SendRequest" method="post">
+                <div class="row">
+                    <div class="box-header box-header-01">
+                        <h1>
+                            <i class="fa fa-user"></i>
+                            اطلاعات شخصی
+                        </h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="FirstName">نام</label>
+                    <input id="FirstName" name="FirstName" type="text" class="required" maxlength="50" />
+                </div>
+                <div class="row">
+                    <label for="LastName">نام خانوادگی</label>
+                    <input id="LastName" name="LastName" type="text" class="required" maxlength="50" />
+                </div>
+                <div class="row">
+                    <label for="CompanyName">نام شرکت</label>
+                    <input id="CompanyName" name="CompanyName" type="text" maxlength="300">
+                </div>
+                <div class="row">
+                    <div class="box-header box-header-01">
+                        <h1>
+                            <i class="fa fa-phone"></i>
+                            اطلاعات تماس
+                        </h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="Email">پست الکترونیک</label>
+                    <input id="Email" name="Email" type="text" class="required email" maxlength="300" />
+                </div>
+                <div class="row">
+                    <label for="Phone">شماره تماس</label>
+                    <input id="Phone" name="Phone" type="text" class="required number" maxlength="50" />
+                </div>
+                <div class="row">
+                    <label for="Mobile">شماره همراه</label>
+                    <input id="Mobile" name="Mobile" type="text" class="required number" maxlength="50" />
+                </div>
+                <div class="row">
+                    <label for="CompanyAddress">آدرس شرکت</label>
+                    <textarea id="CompanyAddress" name="CompanyAddress" maxlength="500"></textarea>
+                </div>
+                <div class="row">
+                    <div class="box-header box-header-01">
+                        <h1>
+                            <i class="fa fa-file-text-o"></i>
+                            زمینه همکاری
+                        </h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="CooperationDescription">زمینه همکاری</label>
+                    <textarea id="CooperationDescription" name="CooperationDescription" class="required"></textarea>
+                </div>
+                <div class="row">
+                    <label for="Text">توضیحات</label>
+                    <textarea id="Text" name="Text"></textarea>
+                </div>
+                <div class="row">
+                    <button type="submit" class="btn-submit">ارسال درخواست</button>
+                </div>
+            </form>
+            <div class="message-box hide">
+                @Html.Partial("_Success")
+            </div>
+        </div>
+    </div>
+    <div class="left-column">
+        <div class="small-box contact-info-box">
+            <div class="box-header box-header-02">
+                <h2>دعوت به همکاری</h2>
+            </div>
+            <div class="box-content">
+                @Html.Raw(Model.Content)
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+@section Styles{
+    <link href="/css/colleagues.min.css" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="/js/colleagues.min.js"></script>
+}

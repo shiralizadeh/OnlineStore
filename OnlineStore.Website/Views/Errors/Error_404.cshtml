@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "صفحه مورد نظر پیدا نشد";
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    ShowTitle = true,
+    BreadCrumbs = new List<BreadCrumbLink>() {
+        new BreadCrumbLink() { Title = StaticValues.HomeTitle, Link = "/" },
+        new BreadCrumbLink() { Title = "صفحه مورد نظر پیدا نشد", Link = "/500" },
+    }
+})
+
+<div class="responsive-box">
+    <div class="pages-content error-box">
+        <img alt="خطای 404" src="/images/404.jpg">
+        <p>متخصصان ما در حال بررسی خطا هستند.</p>
+        برای بازگشت به آنلاین استور
+        <a href="/">اینجا</a>
+        کلیک کنید.
+    </div>
+</div>
+
+
+@section Styles{
+    <link href="/css/errors.min.css" rel="stylesheet" />
+}

@@ -1,0 +1,65 @@
+﻿@model EditProducer
+
+@{
+    ViewBag.Title = "ویرایش تولید کننده";
+}
+
+@using (Html.BeginForm("Edit", "Producers", FormMethod.Post, new { @class = "validate", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="col-sm-6">
+        @Html.Partial("_Status")
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Groups)
+            <div>
+                @Html.Partial("_TreeView", new TreeViewSettings()
+           {
+               ControllerName = "/Admin/Groups",
+               JsonMothod = "GetGroups",
+               FieldName = "JSONGroups",
+               TreeViewSelectMode = TreeViewSelectMode.Multiple,
+               SelectedItems = Model.Groups
+           })
+            </div>
+            <label id="GroupsError" class="error" style="display: none;"></label>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title)
+            @Html.TextBoxFor(model => model.Title, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.TitleEn)
+            @Html.TextBoxFor(model => model.TitleEn, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Filename)
+            @if (!String.IsNullOrWhiteSpace(Model.Filename))
+                {
+                <img src="@(StaticPaths.ProducerImages + Model.Filename)" alt="@Model.Title" class="pull-left" width="200" />
+            }
+            <input type="file" id="ImageFile" name="ImageFile" />
+            @Html.HiddenFor(model => model.Filename)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Text)
+            @Html.TextAreaFor(model => model.Text, new { @class = "form-control required ckeditor" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.OrderID)
+            @Html.TextBoxFor(model => model.OrderID, new { @class = "form-control number" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Weight)
+            @Html.TextBoxFor(model => model.Weight, new { @class = "form-control number" })
+        </div>
+        <div class="checkbox">
+            @Html.CheckBoxFor(model => model.IsVisible)
+            @Html.LabelFor(model => model.IsVisible)
+        </div>
+
+        <button type="submit" class="btn btn-success">ثبت</button>
+        <a href="/Admin/Producers" class="btn btn-warning">بازگشت</a>
+    </div>
+}

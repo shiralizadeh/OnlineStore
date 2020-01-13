@@ -1,0 +1,57 @@
+﻿@model List<EditProductImage>
+
+<script id="EditProductImageTemplate" type="text/template">
+    <div class="row">
+        <div class="col-md-4 text-center">
+            <button class="btn btn-warning btn-upload" data-toggle="button">
+                <span>آپلود</span>
+                <i class="icon-upload"></i>
+            </button>
+        </div>
+        <div class="col-md-4">
+            <select class="form-control">
+                <option value="1">گالری محصول</option>
+                <option value="0">صفحه اصلی</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-xs btn-danger btn-delete" data-toggle="button">
+                <i class="icon-trash"></i>
+            </button>
+        </div>
+    </div>
+</script>
+
+<div class="row editproductimage">
+    <div class="col-md-6">
+        <div id="ProductImagesList">
+            @foreach (var item in Model)
+            {
+                <div class="row" data-id="@item.ID">
+                    <div class="col-md-4 text-center">
+                        <a href="/Files/ProductImages/@item.Filename" target="_blank" class="btn btn-success"><span>آپلود شده </span><i class="icon-check"></i></a>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-control">
+                            <option value="1" @(item.ProductImagePlace == ProductImagePlace.ProductImages ? "selected" : "")>گالری محصول</option>
+                            <option value="0" @(item.ProductImagePlace == ProductImagePlace.Home ? "selected" : "")>صفحه اصلی</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-xs btn-danger btn-delete" data-toggle="button">
+                            <i class="icon-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-6 col-md-offset-8">
+                <button id="AddProductImage" class="btn btn-xs btn-success" type="button" data-toggle="button">
+                    <i class="icon-plus-sign"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

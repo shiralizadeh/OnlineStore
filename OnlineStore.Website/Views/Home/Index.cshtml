@@ -1,0 +1,434 @@
+﻿@model HomeSettings
+
+@{
+    var version = 2.6;
+
+    #region Banners
+
+    var banners = Model.Banners;
+
+    var bnr1 = banners.Where(item => item.BannerType == "HomeBnr1").FirstOrDefault();
+    var bnr2 = banners.Where(item => item.BannerType == "HomeBnr2").FirstOrDefault();
+    var bnr4 = banners.Where(item => item.BannerType == "HomeBnr4").FirstOrDefault();
+    var bnr5 = banners.Where(item => item.BannerType == "HomeBnr5").FirstOrDefault();
+    var bnr6 = banners.Where(item => item.BannerType == "HomeBnr6").FirstOrDefault();
+    var bnr7 = banners.Where(item => item.BannerType == "HomeBnr7").FirstOrDefault();
+    var bnr8 = banners.Where(item => item.BannerType == "HomeBnr8").FirstOrDefault();
+    var bnr9 = banners.Where(item => item.BannerType == "HomeBnr9").FirstOrDefault();
+    var bnr10 = banners.Where(item => item.BannerType == "HomeBnr10").FirstOrDefault();
+    var bnr11 = banners.Where(item => item.BannerType == "HomeBnr11").FirstOrDefault();
+    var bnr12 = banners.Where(item => item.BannerType == "HomeBnr12").FirstOrDefault();
+
+    var othersBanners = banners.Where(item => item.BannerType == "HomeOthers").ToList();
+
+    int bannerOrder = 0;
+
+    #endregion Banners
+}
+
+<div class="responsive-box">
+    @Html.Partial("/Views/Layouts/_MegaMenu.cshtml")
+    <div class="newsletter-features">
+        <div class="home-newsletter">
+            <i class="icon"></i>
+            <input id="Newsletter" type="text" value="" placeholder="برای دریافت آخرین تخفیف ها، ایمیل یا موبایل خود را وارد کنید..." />
+            <button class="btn-newsletter">عضویت</button>
+        </div>
+        <div class="features-box">
+            <section>
+                <h1>خدمات آنلاین استور</h1>
+                @Html.Partial("_Features")
+            </section>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="right-column">
+        <div class="small-box reg-logo">
+            <img id='drftxlapsguigwmd' style='cursor:pointer' onclick='window.open("http://trustseal.enamad.ir/Verify.aspx?id=1309&p=nbpdfuixdrfsjzpg", "Popup","toolbar=no, location=no, statusbar=no, menubar=no, scrollbars=1, resizable=0, width=580, height=600, top=30")' alt='نماد اعتماد الکترونیکی' src='http://trustseal.enamad.ir/logo.aspx?id=1309&p=lznbvjymgthvzpfv' />
+            <img id='wlaoesgtnbqejxlzfukz' style='cursor:pointer' onclick='window.open("http://logo.samandehi.ir/Verify.aspx?id=40216&p=aodsobpduiwkrfthgvka", "Popup","toolbar=no, scrollbars=no, location=no, statusbar=no, menubar=no, resizable=0, width=450, height=630, top=30")' alt="نماد ستاد ساماندهی" src='http://logo.samandehi.ir/logo.aspx?id=40216&p=shwllymaodrfnbpdwlbq' />
+        </div>
+        <div class="small-box latest-products">
+            <section>
+                <div class="box-header box-header-02">
+                    <h1>آخرین محصولات</h1>
+                    <div class="box-control">
+                        <a href="#" class="btn-next">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                        <a href="#" class="btn-prev">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="box-content">
+                    @Html.Partial("_LatestProducts", Model.LatestProducts)
+                </div>
+            </section>
+        </div>
+        <div class="small-box latest-posts">
+            <section>
+                <div class="box-header box-header-02">
+                    <h1>آخرین اخبار</h1>
+                    <div class="box-control">
+                        <a href="#" class="btn-next">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                        <a href="#" class="btn-prev">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="box-content">
+                    @Html.Partial("/Areas/Blog/Views/Shared/_LatestPosts.cshtml", Model.LatestNews)
+                </div>
+            </section>
+        </div>
+        <div class="small-box right-ads">
+            <section>
+                <div class="box-header box-header-02">
+                    <h1>تبلیغات</h1>
+                </div>
+                <div class="box-content">
+                    @if (bnr2 != null)
+                    {
+                        <a href="@UrlProvider.GetBannerUrl(bnr2.Key)" target="_blank">
+                            <img src="@(UrlProvider.GetBannerImage(bnr2.Filename))" alt="@bnr2.Title" title="@bnr2.Title">
+                        </a>
+                    }
+                </div>
+            </section>
+        </div>
+        <div class="small-box user-voice">
+            <section>
+                <div class="box-header box-header-02">
+                    <a href="#" class="btn-next">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a href="#" class="btn-prev">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                    <h1>نظر و ایده</h1>
+                </div>
+                <div class="box-content">
+                    <div class="quote"><i class="fa fa-quote-left"></i></div>
+                    <ul class="simple-carousel">
+                        @foreach (var item in Model.CustomerComments)
+                        {
+                            <li>
+                                <p>
+                                    @item.Text
+                                </p>
+                                <div class="user-desc-box">
+                                    <img src="@(UrlProvider.GetCustomerImage(item.Image, StaticValues.CustomerImageSize))" alt="@item.UserName" />
+                                    <div class="user-desc">
+                                        <h2>@item.UserName</h2>
+                                        <span class="user-type">@item.Title</span>
+                                        <span class="user-date">@item.PersianDateTime</span>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </section>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="content-column">
+        <div class="row">
+            <div class="offer-box">
+                @{
+                    var offerIndex = 0;
+                }
+                <div class="offer-controls">
+                    <ul>
+                        @foreach (var item in Model.OfferSlider)
+                        {
+                            <li data-index="@offerIndex">
+                                <a href="@item.Link">
+                                    <p>@item.Title</p>
+                                    <span>@item.SubTitle</span>
+                                </a>
+                            </li>
+
+                            offerIndex++;
+                        }
+                    </ul>
+                </div>
+                <div id="OfferSlider" class="owl-carousel owl-theme">
+                    @foreach (var item in Model.OfferSlider)
+                    {
+                        <div class="item">
+                            @if (!String.IsNullOrWhiteSpace(item.Link) && item.Link != "#")
+                            {
+                                <a href="@item.Link">
+                                    <img src="@(UrlProvider.GetOfferImage(item.Filename, StaticValues.SliderImageSize))" alt="@item.Title" />
+                                </a>
+                            }
+                            else
+                            {
+                                <img src="@(UrlProvider.GetOfferImage(item.Filename, StaticValues.SliderImageSize))" alt="@item.Title" />
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="banner-box">
+                @if (bnr12 != null)
+                {
+                    <a href="@UrlProvider.GetBannerUrl(bnr12.Key)" target="_blank" class="banner-@bnr12.ID">
+                        <img src="@(UrlProvider.GetBannerImage(bnr12.Filename))" alt="@bnr12.Title" title="@bnr12.Title">
+                    </a>
+                }
+            </div>
+        </div>
+        @foreach (var item in Model.HomeBoxes.Where(a => a.HomeBoxType == HomeBoxType.Group))
+        {
+            <div class="row">
+                <div class="homeitems-box">
+                    <section>
+                        <div class="box-header box-header-01">
+                            <h1>
+                                <i class="fa fa-shopping-cart"></i>
+                                @item.Title
+                            </h1>
+                        </div>
+                        <div class="box-content">
+                            <ul class="homeitems-list">
+                                @foreach (var homeItem in item.Items)
+                            {
+                                <li>
+                                    <a href="@homeItem.Link">
+                                        <img src="@(StaticPaths.HomeBoxItems + homeItem.Filename)" alt="@(homeItem.Title + " - " + homeItem.SubTitle)" />
+                                        <h2>@homeItem.Title</h2>
+                                        <h3>@homeItem.SubTitle</h3>
+                                    </a>
+                                </li>
+                            }
+                            </ul>
+                            <div class="clear"></div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        }
+        <div class="row">
+            <div class="home-banners-box">
+                <div class="banner-top">
+                    <div class="banner banner-large">
+                        <a href="/Products/Mobile-Phones/Samsung/1"></a>
+                    </div>
+                    <div class="banner banner-mini-1">
+                        <a href="/Products/Mobile-Phones/Apple/1"></a>
+                    </div>
+                    <div class="banner banner-mini-2">
+                        <a href="/Products/Mobile-Phones/Apple/1"></a>
+                    </div>
+                </div>
+
+                <div class="banner-middle">
+                    <div class="banner banner-mini-1">
+                        <a href="/Products/Mobile-Phones/Huawei/1"></a>
+                    </div>
+                    <div class="banner banner-large">
+                        <a href="/Products/Mobile-Phones/BlackBerry/1"></a>
+                    </div>
+                    <div class="banner banner-mini-2">
+                        <a href="/Products/Mobile-Phones/Apple/1"></a>
+                    </div>
+                </div>
+
+                <div class="banner-bottom">
+                    <div class="banner banner-mini-1">
+                        <a href="/Products/Mobile-Phones/Nokia/1"></a>
+                    </div>
+                    <div class="banner banner-mini-2">
+                        <a href="/Products/Mobile-Phones/LG/1"></a>
+                    </div>
+                    <div class="banner banner-large">
+                        <a href="/Products/Mobile-Phones/SONY/1"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="products-box">
+                <section>
+                    <div class="box-header box-header-01">
+                        <h1>
+                            <i class="fa fa-shopping-cart"></i>
+                            موبایل های ما
+                        </h1>
+                        <div class="box-control">
+                            <a href="#" class="btn-next">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a href="#" class="btn-prev">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="box-content">
+                        <ul class="owl-carousel products-list">
+                            @foreach (var product in Model.RandomProducts)
+                            {
+                                @Html.Partial("_ProductItem", product)
+                            }
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </div>
+        @foreach (var item in Model.HomeBoxes.Where(a => a.HomeBoxType == HomeBoxType.Horizontal))
+        {
+            <div class="row">
+                <div class="products-box">
+                    <section>
+                        <div class="box-header box-header-01">
+                            <h1>
+                                <i class="fa fa-shopping-cart"></i>
+                                @item.Title
+                            </h1>
+                            <div class="box-control">
+                                <a href="#" class="btn-next">
+                                    <i class="fa fa-angle-left"></i>
+                                </a>
+                                <a href="#" class="btn-prev">
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="box-content">
+                            <ul class="owl-carousel products-list">
+                                @foreach (var product in item.Products)
+                                {
+                                    @Html.Partial("_ProductItem", product)
+                                }
+                            </ul>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            if (othersBanners.Count > bannerOrder)
+            {
+                var bnr = othersBanners[bannerOrder];
+                <div class="row baner-wide-box">
+                    <a href="@UrlProvider.GetBannerUrl(bnr.Key)" target="_blank">
+                        <img src="@(UrlProvider.GetBannerImage(bnr.Filename))" alt="@bnr.Title" title="@bnr.Title">
+                    </a>
+                </div>
+                bannerOrder++;
+            }
+        }
+    </div>
+    <div class="bottom-column">
+        <div class="row">
+            <div class="ads-col4">
+                <ul>
+                    @if (bnr4 != null)
+                    {
+                        <li>
+                            <a href="@UrlProvider.GetBannerUrl(bnr4.Key)" target="_blank">
+                                <img src="@(UrlProvider.GetBannerImage(bnr4.Filename))" alt="@bnr4.Title" title="@bnr4.Title">
+                            </a>
+                        </li>
+                    }
+                    @if (bnr5 != null)
+                    {
+                        <li>
+                            <a href="@UrlProvider.GetBannerUrl(bnr5.Key)" target="_blank">
+                                <img src="@(UrlProvider.GetBannerImage(bnr5.Filename))" alt="@bnr5.Title" title="@bnr5.Title">
+                            </a>
+                        </li>
+                    }
+                    @if (bnr6 != null)
+                    {
+                        <li>
+                            <a href="@UrlProvider.GetBannerUrl(bnr6.Key)" target="_blank">
+                                <img src="@(UrlProvider.GetBannerImage(bnr6.Filename))" alt="@bnr6.Title" title="@bnr6.Title">
+                            </a>
+                        </li>
+                    }
+                    @if (bnr7 != null)
+                    {
+                        <li>
+                            <a href="@UrlProvider.GetBannerUrl(bnr7.Key)" target="_blank">
+                                <img src="@(UrlProvider.GetBannerImage(bnr7.Filename))" alt="@bnr7.Title" title="@bnr7.Title">
+                            </a>
+                        </li>
+                    }
+                </ul>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="ads-col3">
+                <ul>
+                    @if (bnr8 != null)
+                    {
+                        <li>
+                            <a href="@UrlProvider.GetBannerUrl(bnr8.Key)" target="_blank">
+                                <span class="title">@bnr8.Title</span>
+                                <img src="@(UrlProvider.GetBannerImage(bnr8.Filename))" alt="@bnr8.Title" title="@bnr8.Title">
+                            </a>
+                        </li>
+                    }
+                    @if (bnr9 != null)
+                    {
+                        <li>
+                            <a href="@UrlProvider.GetBannerUrl(bnr9.Key)" target="_blank">
+                                <span class="title">@bnr9.Title</span>
+                                <img src="@(UrlProvider.GetBannerImage(bnr9.Filename))" alt="@bnr9.Title" title="@bnr9.Title">
+                            </a>
+                        </li>
+                    }
+                    @if (bnr10 != null)
+                    {
+                        <li>
+                            <a href="@UrlProvider.GetBannerUrl(bnr10.Key)" target="_blank">
+                                <span class="title">@bnr10.Title</span>
+                                <img src="@(UrlProvider.GetBannerImage(bnr10.Filename))" alt="@bnr10.Title" title="@bnr10.Title">
+                            </a>
+                        </li>
+                    }
+                </ul>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="brands-box">
+                <div class="box-header">
+                    <div class="box-control">
+                        <a href="#" class="btn-next">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                        <a href="#" class="btn-prev">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="box-content">
+                    <ul id="Brands" class="brands-list owl-carousel">
+                        @foreach (var item in Model.Producers)
+                        {
+                            <li>
+                                <a href="@UrlProvider.GetProducerUrl(item.TitleEn,item.Title,item.ID)" title="@item.Title">
+                                    <img src="@(UrlProvider.GetProducerImage(item.Filename, StaticValues.ProducerImageSize))" alt="@item.Title" title="@item.Title" />
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+@section Styles{
+    <link href="/css/home.min.css?ver=@version" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="/js/home.min.js?ver=@version"></script>
+}

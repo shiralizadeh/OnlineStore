@@ -1,0 +1,46 @@
+﻿@model List<ProductItem>
+
+@{
+    // تعداد محصول در هر ستون
+    int columnSize = 5;
+    int columnCount = (int)Math.Ceiling((float)Model.Count / (float)columnSize);
+}
+
+<a class="fa fa-rss-square rss-link" aria-hidden="true" href="/RSS/LatestProducts" target="_blank"></a>
+<ul class="simple-carousel">
+
+    @for (int i = 1; i <= columnCount && Model.Count > 0; i++)
+    {
+        <li>
+            <ul>
+                @for (int j = columnSize * (i - 1); j <= (columnSize * i) - 1 && (j + 1) <= Model.Count; j++)
+                {
+
+                    var group = Groups.GetByID(Model[j].GroupID.Value);
+                    var url = UrlProvider.GetProductUrl(Model[j].ID, group.UrlPerfix, Model[j].UrlPerfix);
+                    var dTitle = Model[j].DisplayTitle;
+
+                    JsonProductVarient minPrice = null;
+                    if (Model[j].HasVarients && Model[j].Prices != null && Model[j].Prices.Count > 0)
+                    {
+                        minPrice = (JsonProductVarient)Model[j].Prices.OrderBy(p => p.Price).First();
+                    }
+
+                    <li>
+                        <a href="@url">
+                            <img src="@Model[j].ImageFile" alt="@dTitle" title="@dTitle" />
+                            <div class="product-desc">
+                                <span class="group-title">@group.Title</span>
+                                <h2 class="product-title">@dTitle</h2>
+                                <span class="product-price">
+                                    @Html.Partial("_Price", new PriceSettings() { Prices = Model[j].Prices, SimplePrice = true, IsUnavailable = Model[j].IsUnavailable })
+                                </span>
+                            </div>
+                        </a>
+                    </li>
+
+                }
+            </ul>
+        </li>
+    }
+</ul>

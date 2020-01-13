@@ -1,0 +1,88 @@
+﻿@model List<EditProductMark>
+
+<script id="EditProductMarkTemplate" type="text/template">
+    <div class="productmarkitem">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input type="text" class="form-control title" placeholder="عنوان" value="" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input type="color" class="form-control color" placeholder="رنگ" value="" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input type="text" class="form-control persiandate persianstartdate" placeholder="تاریخ شروع" value="" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input type="text" class="form-control persiandate persianenddate" placeholder="تاریخ پایان" value="" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <button class="btn btn-xs btn-danger btn-delete" data-toggle="button">
+                        <i class="icon-trash"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<div class="row editproductMark">
+    <div class="col-md-6">
+        <div id="ProductMarksList">
+            @foreach (var item in Model)
+            {
+                <div class="productmarkitem" data-id="@item.ID">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control title" placeholder="عنوان" value="@item.Title" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="color" class="form-control color" placeholder="رنگ" value="@item.Color" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control persiandate persianstartdate" placeholder="تاریخ شروع" value="@item.PersianStartDate" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control persiandate persianenddate" placeholder="تاریخ پایان" value="@item.PersianEndDate" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <button class="btn btn-xs btn-danger btn-delete" data-toggle="button">
+                                    <i class="icon-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-4 col-md-offset-8 text-left">
+                <button id="AddProductMark" class="btn btn-xs btn-success" type="button" data-toggle="button">
+                    <i class="icon-plus-sign"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

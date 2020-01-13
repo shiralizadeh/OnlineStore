@@ -1,0 +1,71 @@
+﻿@import "mixins";
+
+@mixin resultBox($width,$right,$top) {
+    .result-box {
+        width: $width;
+        height: 450px;
+        overflow-y: auto;
+        position: absolute;
+        right: $right;
+        top: $top;
+        z-index: 10;
+        background-color: #fff;
+        display: none;
+        @include box-shadow(0,1px,5px,rgba(0, 0, 0, 0.15));
+
+        ul {
+            padding: 0 15px;
+            color: #808080;
+
+            li {
+                list-style: none;
+                border-bottom: 1px dashed #ccc;
+                text-transform: uppercase;
+                padding: 10px 0;
+
+                a {
+                    display: inline-block;
+                    width: 100%;
+                    height: 100%;
+
+                    div.img-box {
+                        float: right;
+                        height: 80px;
+                        margin-left: 15px;
+                        width: 80px;
+                    }
+
+                    div.title-box {
+                        display: inline-block;
+                        float: left;
+                        width: 280px;
+                    }
+                }
+            }
+        }
+
+        .not-found {
+            display: block;
+            padding: 15px;
+        }
+    }
+}
+
+.search-box {
+    position: relative;
+
+    #Search {
+        height: 34px;
+    }
+
+    @include resultBox(435px,1px,34px);
+}
+
+.key-search {
+    @include resultBox(267px,284px,40px);
+}
+
+.productKeyworditem .search-box {
+    @include resultBox(311px,1px,40px);
+}
+

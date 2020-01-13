@@ -1,0 +1,65 @@
+﻿@model Article
+
+@{
+    var version = 1.0;
+    ViewBag.Title = "ویرایش مطالب";
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    BreadCrumbs = new List<BreadCrumbLink>() {
+        new BreadCrumbLink() { Title = "حساب من", Link = "/My-Account" },
+        new BreadCrumbLink() { Title = "پست های من", Link = "/My-Account/My-Posts" },
+        new BreadCrumbLink() { Title = Model.Title != null ? Model.Title : "پست جدید", Link = Request.Url.AbsoluteUri },
+    }
+})
+
+<div class="responsive-box">
+    <div class="user-panel">
+        @using (Html.BeginForm("Edit", (string)ViewBag.Controller, FormMethod.Post, new { @class = "validate", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.ID)
+            @Html.Partial("_Status")
+            <div class="alert-info">
+                <strong>راهنما: </strong>سایز مجاز تصویر 270*350 پیکسل می باشد.
+            </div>
+            <div class="row">
+                <span class="label-info">
+                    <span style="font-size:12px">بازدید ها: @Model.VisitCount نفر</span>
+                </span>
+            </div>
+            <div class="row">
+                @Html.LabelFor(model => model.Title)
+                @Html.TextBoxFor(model => model.Title, new { @class = "form-control required", @maxlength = "300" })
+            </div>
+            <div class="row">
+                @Html.LabelFor(model => model.Image)
+
+                @if (!String.IsNullOrWhiteSpace(Model.Image))
+                {
+                    <img src="@(StaticPaths.ArticleImages + Model.Image)" alt="فایل آپلود شده" class="pull-left" width="200" />
+                }
+                <input type="file" id="ImageFile" name="ImageFile" />
+                @Html.HiddenFor(model => model.Image)
+            </div>
+            <div class="row">
+                @Html.LabelFor(model => model.Summary)
+                @Html.TextAreaFor(model => model.Summary, new { @class = "form-control required" })
+            </div>
+            <div class="row">
+                @Html.LabelFor(model => model.Text)
+                @Html.TextAreaFor(model => model.Text, new { @class = "form-control required" })
+            </div>
+            <div class="row">
+                <button type="submit" class="btn-submit">ثبت</button>
+                <a href="/My-Account/My-Posts/" class="btn-cancel">بازگشت</a>
+            </div>
+        }
+    </div>
+    <div class="clear"></div>
+</div>
+
+@section Styles{
+    <link href="/css/my-account.min.css?ver=@version" rel="stylesheet" />
+}

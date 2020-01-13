@@ -1,0 +1,41 @@
+﻿@model System.Text.StringBuilder
+
+@Html.Raw(Model)
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "OrderItems",
+    Editable = false,
+    ShowAdd = false,
+    Deletable = false,
+    Columns = new List<Column>(){
+
+                                new Column() {
+                                    Title = "عنوان",
+                                    DataField = "ProductTitle"
+                                },
+                                new Column() {
+                                    Title = "قیمت",
+                                    DataField = "formatPrice(Price)"
+                                },
+                                new Column() {
+                                    Title = "تعداد",
+                                    DataField = "Quantity"
+                                },
+                                 new Column() {
+                                    Title = "لینک محصول",
+                                    DataField = "toProductLink(ProductID)"
+                                },
+    }
+})
+
+@section Scripts{
+    <script type="text/javascript">
+        jConfigGrid.init({
+            ajaxUrl: '/Admin/OrderItems/',
+            filter: function () {
+                return { ID: @(ViewBag.OrderItemID == null ? "null" : ViewBag.OrderItemID) };
+            }
+        });
+    </script>
+}

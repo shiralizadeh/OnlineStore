@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "مدیریت بخش های محصولات";
+}
+
+@Html.Partial("_GridView", new GridViewSettings()
+                           {
+                               ControllerName = "HomeBoxes",
+                               Columns = new List<Column>(){
+                                   new Column() {
+                                       Title = "عنوان",
+                                       DataField = "Title"
+                                   },
+                                   new Column() {
+                                       Title = "قابل نمایش",
+                                       DataField = "toBooleanYesNo(IsVisible)"
+                                   },
+                                    new Column() {
+                                       Title = "لیست محصولات",
+                                       DataField = "toHomeBoxProductsLink(Url)"
+                                   },
+                                   new Column() {
+                                       Title = "آخرین ویرایش",
+                                       DataField = "fromNow(LastUpdate)"
+                                   }
+                               }
+                           })
+
+@section Scripts {
+    <script type="text/javascript">
+        jConfigGrid.init({ ajaxUrl: '/Admin/HomeBoxes/' });
+    </script>
+} 

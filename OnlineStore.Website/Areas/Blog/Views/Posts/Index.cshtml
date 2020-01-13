@@ -1,0 +1,212 @@
+﻿@model BlogList
+
+@{
+    var version = 1.4;
+
+    ViewBag.Title = "وبلاگ";
+
+    var breadcrumbs = new List<BreadCrumbLink>() {
+        new BreadCrumbLink() { Title = StaticValues.HomeTitle, Link = "/" },
+        new BreadCrumbLink() { Title = "وبلاگ", Link = "/Blog" },
+    };
+
+    var rssUrl = "/RSS/";
+    if (Model.GroupID.HasValue)
+    {
+        var group = Groups.GetByID(Model.GroupID.Value);
+
+        rssUrl += "Blog/" + Model.GroupID.Value;
+        breadcrumbs.Add(new BreadCrumbLink() { Title = group.Title, Tooltip = group.TitleEn, Link = UrlProvider.GetBlogGroupUrl(group.TitleEn) });
+        ViewBag.Title = "وبلاگ " + group.Title + (Model.CurrentPageIndex > 0 ? " (صفحه " + (Model.CurrentPageIndex + 1) + ")" : "");
+    }
+    else
+    {
+        rssUrl += "LatestPosts";
+        ViewBag.Title = "وبلاگ" + (Model.CurrentPageIndex > 0 ? " (صفحه " + (Model.CurrentPageIndex + 1) + ")" : "");
+    }
+
+
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    BreadCrumbs = breadcrumbs,
+    ShowRSS = true,
+    RSSUrl = rssUrl
+})
+
+<div class="responsive-box">
+    <div class="right-column">
+        <div class="right-menu">
+            @Html.Partial("/Areas/Blog/Views/Shared/_ArticleGroups.cshtml")
+        </div>
+        <div class="small-box latest-posts">
+            <section>
+                <div class="box-header box-header-02">
+                    <h1>آخرین مطالب</h1>
+                    <div class="box-control">
+                        <a href="#" class="btn-next">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                        <a href="#" class="btn-prev">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="box-content">
+                    @Html.Partial("/Areas/Blog/Views/Shared/_LatestPosts.cshtml", Model.LatestPosts)
+                </div>
+            </section>
+        </div>
+        <div class="small-box latest-comments">
+            <section>
+                <div class="box-header box-header-02">
+                    <h1>آخرین نظرات</h1>
+                    <div class="box-control">
+                        <a href="#" class="btn-next">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                        <a href="#" class="btn-prev">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="box-content">
+                    @Html.Partial("/Areas/Blog/Views/Shared/_LatestComments.cshtml", Model.LatestComments)
+                </div>
+            </section>
+        </div>
+
+    </div>
+    <div class="content-column">
+        <div class="post-list">
+            <ul>
+                @foreach (var item in Model.DataList)
+                {
+                    var group = Groups.GetByID(item.GroupID);
+                    var url = UrlProvider.GetPostUrl(item.ID, item.Title, group.TitleEn);
+
+                    <li>
+                        <article>
+                            <h1>
+                                <a href="@url" title="@item.Title">
+                                    @item.Title
+                                </a>
+                            </h1>
+                            <ul class="icons">
+                                <li><i class="fa fa-user"></i><span>آنلاین استور</span></li>
+                                <li><i class="fa fa-calendar-o"></i><span>@Utilities.ToPersianDateString(item.LastUpdate)</span></li>
+                                <li><i class="fa fa-comment"></i><span>@item.CommentsCount نظر</span></li>
+                                <li><i class="fa fa-folder-open"></i><a href="@UrlProvider.GetBlogGroupUrl(group.TitleEn)" title="@group.Title">@group.Title</a></li>
+                            </ul>
+                            <div class="clear"></div>
+                            <div class="post-content">
+                                <a href="@url" class="img-link" title="@item.Title">
+                                    <img src="@(UrlProvider.GetPostImage(item.Image, StaticValues.DefaultPostImageSize))" alt="@item.Title" title="@item.Title">
+                                </a>
+                                <div class="text">
+                                    @item.Summary
+                                </div>
+                                <div class="bottom">
+                                    <a href="@url" title="@item.Title" class="btn-more">ادامه مطلب</a>
+                                    @Html.Partial("_SocialNetworks", new SocialNetworkLink { Title = item.Title, Url = url })
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </article>
+                    </li>
+                }
+            </ul>
+        </div>
+        @if (Model.DataList.Count() > 0)
+        {
+            string url = "/Blog";
+            if (Model.GroupID.HasValue)
+            {
+                var group = Groups.GetByID(Model.GroupID.Value);
+
+                url += "/" + group.TitleEn;
+            }
+
+            url += "/";
+
+            <div class="paging-box">
+                <nav class="text-center">
+                    <ul class="paging">
+                        @if (Model.CurrentPageIndex > 0)
+                        {
+                            <li class="page-prev">
+                                <a href="@(url + Model.CurrentPageIndex)" data-index="@(Model.CurrentPageIndex)">
+                                    <i class="fa fa-chevron-right"></i>
+                                    قبلی
+                                </a>
+                            </li>
+                        }
+
+                        @if (Model.CurrentPageIndex - 5 > 0)
+                        {
+                            <li class="page-last">
+                                <a href="@(url + 1)" data-index="1">1</a>
+                            </li>
+                        }
+
+                        @if (Model.CurrentPageIndex - 6 > 0)
+                        {
+                            <li class="page-last">
+                                <a href="@(url + (Model.CurrentPageIndex - 5))" data-index="@(Model.CurrentPageIndex - 5)">
+                                    ...
+                                </a>
+                            </li>
+                        }
+
+                        @foreach (var item in Model.Paging)
+                        {
+                            if (Model.CurrentPageIndex + 1 == item)
+                            {
+                                <li class="current">@item</li>
+                            }
+                            else
+                            {
+                                <li><a href="@(url + item)" data-index="@(item)">@item</a></li>
+                            }
+                        }
+
+                        @if (Model.TotalPages > Model.CurrentPageIndex + 7)
+                        {
+                            <li class="page-last">
+                                <a href="@(url + (Model.CurrentPageIndex + 7))" data-index="@(Model.CurrentPageIndex + 7)">
+                                    ...
+                                </a>
+                            </li>
+                        }
+
+                        @if (Model.TotalPages > Model.CurrentPageIndex + 6)
+                        {
+                            <li class="page-last">
+                                <a href="@(url + Model.TotalPages)" data-index="@(Model.TotalPages)">
+                                    @Model.TotalPages
+                                </a>
+                            </li>
+                        }
+
+                        @if (Model.TotalPages > Model.CurrentPageIndex + 1)
+                        {
+                            <li class="page-next">
+                                <a href="@(url + Model.CurrentPageIndex)" data-index="@(Model.CurrentPageIndex + 1)">
+                                    بعدی
+                                    <i class="fa fa-chevron-left"></i>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+
+                </nav>
+            </div>
+        }
+    </div>
+    <div class="clear"></div>
+</div>
+
+@section Styles{
+    <link href="/css/blog.min.css?ver=@version" rel="stylesheet" />
+}

@@ -1,0 +1,158 @@
+﻿@import "mixins";
+
+.products-list-box {
+    position: relative;
+    margin-right: 10px;
+
+    @include full-loading;
+
+    .product-item {
+        float: right;
+        background-color: #fff;
+
+        &:hover {
+            @include box-shadow-spread(2px, 2px, 8px, -4px, $black_6);
+        }
+    }
+}
+
+.filter-item {
+    ul {
+        line-height: 25px;
+        padding: 0;
+        margin: 0 20px 0;
+        overflow: hidden;
+
+        &.limitheight {
+            height: 154px;
+        }
+
+        li {
+            list-style: none;
+        }
+    }
+
+    .btn-more {
+        color: $color;
+        border: 0;
+        margin-right: 40px;
+        padding: 0;
+        height: auto;
+        line-height: normal;
+
+        &:hover {
+            background-color: #fff;
+        }
+    }
+
+    input[type="text"] {
+        padding: 0 2%;
+        width: 96%;
+    }
+
+    h3 {
+        margin: 15px 0;
+
+        &:before {
+            @include fontAwesome;
+            content: '\f0d9';
+            margin-left: 5px;
+            color: $color;
+            vertical-align: top;
+        }
+    }
+
+    input[type="checkbox"] {
+        margin-left: 4px;
+    }
+
+    label {
+        vertical-align: middle;
+    }
+}
+
+/*(max-width: 480px)*/
+@include breakpoint('MobilePortrait') {
+    .product-item {
+        padding: 2%;
+        width: 96%;
+    }
+
+    .content-column {
+        margin-top: 10px;
+    }
+}
+
+/*(min-width: 480px) and (max-width: 595px)*/
+@include breakpoint('MobileLandscape') {
+    .product-item {
+        padding: 2%;
+        width: 96%;
+    }
+
+    .content-column {
+        margin-top: 10px;
+    }
+}
+
+/*(min-width: 595px) and (max-width: 690px)*/
+@include breakpoint('SmallTabletPortrait') {
+    .product-item {
+        margin: 0.5%;
+        padding: 1.5%;
+        width: 46%;
+    }
+
+    .content-column {
+        margin-top: 10px;
+    }
+}
+
+/*(min-width: 690px) and (max-width: 960px)*/
+@include breakpoint('TabletPortrait') {
+    .product-item {
+        margin: 0.5%;
+        padding: 1.5%;
+        width: 29.33%;
+    }
+
+    .content-column {
+        margin-top: 10px;
+    }
+}
+
+/*(min-width: 960px) and (max-width: 1024px)*/
+@include breakpoint('SmallTabletLandscape') {
+    .product-item {
+        margin: 0.5%;
+        padding: 1.5%;
+        width: 29.33%;
+    }
+}
+
+/*(min-width: 1024px) and (max-width: 1280px)*/
+@include breakpoint('TabletLandscape') {
+    .product-item {
+        margin: 0.5%;
+        padding: 1.5%;
+        width: 21%;
+    }
+}
+
+/*(min-width: 1280px) and (max-width: 1440px)*/
+@include breakpoint('WideScreen') {
+    .product-item {
+        margin: 0.5%;
+        padding: 1.5%;
+        width: 21%;
+    }
+}
+
+/*(min-width: 1440px)*/
+@include breakpoint('LargeScreen') {
+    .product-item {
+        margin: 0.5%;
+        padding: 1.5%;
+        width: 16%;
+    }
+}

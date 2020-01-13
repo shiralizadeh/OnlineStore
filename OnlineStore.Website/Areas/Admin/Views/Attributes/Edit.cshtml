@@ -1,0 +1,370 @@
+﻿@model EditAttribute
+
+@{
+    ViewBag.Title = "ویرایش ویژگی";
+}
+
+<style>
+    .list-group-item button {
+        margin: 8px 2px;
+    }
+
+
+    .list-group-item div {
+        margin: 10px 0 0 10px;
+        border: 1px solid #808080;
+        text-align: center;
+        line-height: 20px;
+        width: 20px;
+        height: 20px;
+    }
+
+    .list-group-item input {
+        width: 50%;
+    }
+</style>
+
+@using (Html.BeginForm("Edit", "Attributes", FormMethod.Post, new { @class = "validate" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="col-sm-6">
+        @Html.Partial("_Status")
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Groups)
+            <div>
+                @Html.Partial("_TreeView", new TreeViewSettings()
+           {
+               ControllerName = "/Admin/Groups",
+               JsonMothod = "GetGroups",
+               FieldName = "JSONGroups",
+               TreeViewSelectMode = TreeViewSelectMode.Multiple,
+               SelectedItems = Model.Groups
+           })
+            </div>
+            <label id="GroupsError" class="error" style="display: none;"></label>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AttrGroupID)
+            <div class="row">
+                <div class="col-md-6">
+                    @Html.DropDownListFor(model => model.AttrGroupID, new List<SelectListItem>(), new { @class = "form-control selectpicker" })
+                    <a href="/Admin/AttrGroups">مدیریت گروه های ویژگی</a>
+                </div>
+                <div class="col-md-6">
+                    <div id="AttrGroupsLoading" class="pull-left" style="display: none;"><img src="~/images/loading.gif" /></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.DependentID)
+            <div class="row">
+                <div class="col-md-6">
+                    @Html.DropDownListFor(model => model.DependentID, new List<SelectListItem>() { new SelectListItem { Text = "انتخاب کنید", Value = "null" } }, new { @class = "form-control selectpicker" })
+                    @Html.DropDownListFor(model => model.DependentOptionID, new List<SelectListItem>() { new SelectListItem { Text = "انتخاب کنید", Value = "null" } }, new { @class = "form-control selectpicker hide" })
+                </div>
+                <div class="col-md-6">
+                    <div id="DependentAttrLoading" class="pull-left" style="display: none;"><img src="~/images/loading.gif" /></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title)
+            @Html.TextBoxFor(model => model.Title, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.AttributeType)
+            @Html.EnumDropDownListFor(model => model.AttributeType, new { @class = "form-control selectpicker required" })
+        </div>
+        <div id="Options" class="@(Model.AttributeType == OnlineStore.Models.Enums.AttributeType.MultipleItem || Model.AttributeType == OnlineStore.Models.Enums.AttributeType.SingleItem ? "" : "hide")">
+            <fieldset>
+                <legend>گزینه ها</legend>
+                <div class="input-group">
+                    <input id="OptionText" type="text" class="form-control">
+                    <span class="input-group-btn">
+                        <button id="AddOption" type="button" class="btn btn-success"><i class="icon-plus"></i></button>
+                    </span>
+                </div>
+                <br />
+                <ul id="OptionsList" class="list-group"></ul>
+            </fieldset>
+            @Html.Hidden("JsonOptions")
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Perfix)
+            @Html.TextBoxFor(model => model.Perfix, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Posfix)
+            @Html.TextBoxFor(model => model.Posfix, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.OrderID)
+            @Html.TextBoxFor(model => model.OrderID, new { @class = "form-control number" })
+        </div>
+        <div class="checkbox">
+            @Html.CheckBoxFor(model => model.IsSearchable)
+            @Html.LabelFor(model => model.IsSearchable)
+        </div>
+        <button type="submit" class="btn btn-success">ثبت</button>
+        <a href="/Admin/Attributes" class="btn btn-warning">بازگشت</a>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        var $attrGroupID = $('#AttrGroupID'),
+            $dependentID = $('#DependentID'),
+            $dependentOptionID = $('#DependentOptionID'),
+            $attrGroupIDLoading = $('#AttrGroupsLoading'),
+            $dependentAttrLoading = $('#DependentAttrLoading'),
+            $attributeType = $('#AttributeType'),
+            $options = $('#Options'),
+            $jsonOptions = $('#JsonOptions'),
+            $addOption = $('#AddOption'),
+            $optionsList = $('#OptionsList'),
+            $optionText = $('#OptionText'),
+            optionsList = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.ID == -1 ? new List<AttributeOption>() : AttributeOptions.GetByAttributeID(Model.ID)));
+
+        $attributeType.on('change', function () {
+            var type = $(this).val();
+
+            if (type == '2' || type == '3')
+                $options.removeClass('hide');
+            else
+                $options.addClass('hide');
+        });
+
+        $optionText.on('keydown', function (e) {
+            if (e.keyCode == 13) {
+                e.preventDefault();
+                $addOption.click();
+            }
+        });
+
+        $addOption.on('click', function () {
+            var optionText = $optionText.val(),
+                item = { ID: -1 * _.random(1000, 9999), Title: optionText, OrderID: 10 };
+
+            optionsList.push(item);
+            renderOptionsList();
+
+            $optionText.val('').focus();
+        });
+
+        $optionsList.on('click', '.btn-delete', function (e) {
+            e.preventDefault();
+
+            var $this = $(this),
+                liItem = $this.closest('li').data('Option');
+
+            if (confirm('آیا مایل به حذف این گزینه هستید؟')) {
+                optionsList = _.filter(optionsList, function (item) {
+                    return item.ID != liItem.ID;
+                });
+
+                renderOptionsList();
+            }
+        });
+
+        $optionsList.on('click', '.btn-up', function (e) {
+            e.preventDefault();
+
+            var $this = $(this),
+                liItem = $this.closest('li').data('Option');
+
+            var option = _.find(optionsList, function (item) {
+                return item.ID == liItem.ID;
+            });
+
+            option.OrderID--;
+
+            renderOptionsList();
+        });
+
+        $optionsList.on('click', '.btn-down', function (e) {
+            e.preventDefault();
+
+            var $this = $(this),
+                liItem = $this.closest('li').data('Option');
+
+            var option = _.find(optionsList, function (item) {
+                return item.ID == liItem.ID;
+            });
+
+            option.OrderID++;
+
+            renderOptionsList();
+        });
+
+        $optionsList.on('change', 'input', function (e) {
+            e.preventDefault();
+
+            var $this = $(this),
+                liItem = $this.closest('li').data('Option');
+
+            var option = _.find(optionsList, function (item) {
+                return item.ID == liItem.ID;
+            });
+
+            option.Title = $this.val();
+
+            renderOptionsList();
+        });
+
+        function renderOptionsList() {
+            $optionsList.empty().append('<li class="list-group-item active">لیست</li>');
+
+            optionsList = _.sortBy(optionsList, 'OrderID');
+
+            for (var i in optionsList) {
+                var item = optionsList[i];
+
+                var $li = $('<li class="list-group-item">' +
+                            '<button class="btn btn-danger btn-xs pull-left btn-delete"><i class="icon-trash"></i></button>' +
+                            '<button class="btn btn-default btn-xs pull-left btn-up"><i class="icon-arrow-up"></i></button>' +
+                            '<button class="btn btn-default btn-xs pull-left btn-down"><i class="icon-arrow-down"></i></button>' +
+                            '<div class="pull-right">' + item.OrderID + '</div>' +
+                            '<input type="text" class="form-control" value="" />' +
+                            '</li>');
+
+                $li.find('input').val(item.Title);
+
+                $li.data('Option', item);
+
+                $optionsList.append($li);
+            }
+
+            $jsonOptions.val(JSON.stringify(optionsList));
+        }
+
+        renderOptionsList();
+
+        var initAttrGroup = @(Model.ID == -1 ? "undefined" : Model.AttrGroupID.ToString());
+        var initDpendentID = @(!Model.DependentID.HasValue ? "undefined" : Model.DependentID.ToString());
+        var initDpendentOptionID = @(!Model.DependentOptionID.HasValue ? "undefined" : Model.DependentOptionID.ToString());
+
+        var getAttrGroupsAjax,
+            getDependentAttr;
+        function treeChecked(item, api) {
+            if (getAttrGroupsAjax)
+                getAttrGroupsAjax.abort();
+
+            if (getDependentAttr)
+                getDependentAttr.abort();
+
+            var aciTreeCheckeds = $('.aciTreeChecked');
+            var ids = _.map(aciTreeCheckeds, function (li) {
+                var data = $(li).data('itemData.aciTree');
+                return data.id;
+            });
+
+            $attrGroupID.empty().prop('disabled', true).selectpicker('refresh');
+            $dependentID.empty().prop('disabled', true).selectpicker('refresh');
+            $attrGroupIDLoading.fadeIn();
+            $dependentAttrLoading.fadeIn();
+
+            getAttrGroupsAjax = $.ajax({
+                url: '/Admin/Attributes/GetAttrGroups',
+                type: 'POST',
+                data: { GroupIDs: ids },
+                success: function (result) {
+                    if (result.Success) {
+                        for (var i in result.Data) {
+                            var item = result.Data[i];
+                            $attrGroupID.append('<option value="' + item.ID + '">' + item.Title + '</option>');
+                        }
+
+                        $attrGroupID.prop('disabled', false).selectpicker('refresh');
+
+                        if (initAttrGroup) {
+                            $attrGroupID.selectpicker('val', initAttrGroup);
+                        }
+
+                    }
+                },
+                error: function () {
+                },
+                complete: function () {
+                    $attrGroupIDLoading.fadeOut();
+                },
+            });
+
+            getDependentAttr= $.ajax({
+                url: '/Admin/Attributes/GetDependentAttr',
+                type: 'POST',
+                data: { GroupIDs: ids },
+                success: function (result) {
+                    if (result.Success) {
+                        $dependentID.append('<option value="null">انتخاب کنید</option>');
+
+                        for (var i in result.Data) {
+                            var item = result.Data[i];
+                            $dependentID.append('<option value="' + item.ID + '">' + item.Title + '</option>');
+                        }
+
+                        $dependentID.prop('disabled', false).selectpicker('refresh');
+
+                        if (initDpendentID) {
+                            $dependentID.selectpicker('val', initDpendentID);
+                        }
+                    }
+                },
+                error: function () {
+                },
+                complete: function () {
+                    $dependentAttrLoading.fadeOut();
+                    getOptins();
+                },
+            });
+        }
+
+        $dependentID.on('change',function () {
+            getOptins();
+        });
+
+        function getOptins($attrID) {
+            $dependentOptionID.empty();
+            var $attrID = $dependentID.val();
+
+            if ($attrID == 'null') {
+                $dependentOptionID.selectpicker('refresh').next().addClass('hide');
+                return;
+            }
+
+            $.ajax({
+                url:'/Admin/Attributes/GetAttrOptions',
+                type:'Post',
+                data:{
+                    AttrID:$attrID
+                },
+                success:function (response) {
+                    if (response.Success) {
+                        if (response.Data.HasItems) {
+                            for (var i in response.Data.Options) {
+                                var item = response.Data.Options[i];
+                                $dependentOptionID.append('<option value="' + item.ID + '">' + item.Title + '</option>');
+                            }
+                            $dependentOptionID.selectpicker('refresh').next().removeClass('hide');
+                        }
+                        else {
+                            $dependentOptionID.selectpicker('refresh').next().addClass('hide');
+                        }
+
+                        if (initDpendentOptionID) {
+                            $dependentOptionID.selectpicker('val', initDpendentOptionID);
+                        }
+                    }
+                },
+                error:function () {
+
+                },
+                complete:function () {
+
+                }
+            });
+        }
+    </script>
+}

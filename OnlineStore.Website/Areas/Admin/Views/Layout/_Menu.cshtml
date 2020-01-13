@@ -1,0 +1,269 @@
+﻿<!-- sidebar menu start-->
+@{
+    bool isAdministrator = User.IsInRole("Administrator");
+    bool isWriter = User.IsInRole("Writer");
+    bool isGraphic = User.IsInRole("Graphic");
+    bool isAccountant = User.IsInRole("Accountant");
+    bool isSeller = User.IsInRole("Seller");
+    bool isOrderViewer = User.IsInRole("OrderViewer");
+}
+<ul class="sidebar-menu">
+    <li>
+        <a class="" href="/Admin/Dashboard">
+            <i class="icon-dashboard"></i>
+            <span>داشبورد کاربر</span>
+        </a>
+    </li>
+
+    @if (isAdministrator)
+    {
+        <li class="sub-menu">
+            <a href="javascript:;" class="">
+                <i class="icon-book"></i>
+                <span>مدیریت اطلاعات پایه</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub">
+                <li><a href="/Admin/SendMethods">روش های ارسال</a></li>
+                <li><a href="/Admin/PaymentMethods">روش های پرداخت</a></li>
+                <li><a href="/Admin/Producers">تولید کنندگان</a></li>
+                <li><a href="/Admin/AttrGroups">گروه های ویژگی</a></li>
+                <li><a href="/Admin/Attributes">ویژگی ها</a></li>
+                <li><a href="/Admin/Groups">گروه های محصولات</a></li>
+            </ul>
+        </li>
+        <li class="sub-menu">
+            <a href="javascript:;" class="">
+                <i class="icon-book"></i>
+                <span>مدیریت محصولات</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub">
+                <li><a href="/Admin/Products">محصولات</a></li>
+                <li><a href="/Admin/ProductsSorted">مرتب سازی محصولات</a></li>
+                <li><a href="/Admin/Copy/Product">کپی محصول</a></li>
+                <li><a href="/Admin/ScoreComments"> امتیازات محصولات</a></li>
+                <li><a href="/Admin/ProductDiscounts">تخفیف محصولات</a></li>
+                <li><a href="/Admin/ProductQuestions">پرسش محصولات</a></li>
+                <li><a href="/Admin/Packages">بسته های محصولات</a></li>
+            </ul>
+        </li>
+        <li class="sub-menu">
+            <a href="javascript:;" class="">
+                <i class="icon-book"></i>
+                <span>مدیریت سایت</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub">
+                <li><a href="/Admin/GiftCards">کد های تخفیف</a></li>
+                <li><a href="/Admin/Keywords">کلیدواژه ها</a></li>
+                <li><a href="/Admin/SliderImages">اسلایدر ها</a></li>
+                <li><a href="/Admin/Banners">بنرها</a></li>
+                <li><a href="/Admin/ContactUs">تماس با ما</a></li>
+                <li><a href="/Admin/Employments">متقاضیان استخدام</a></li>
+                <li><a href="/Admin/Colleagues">متقاضیان همکاری</a></li>
+                <li><a href="/Admin/MenuItems">منوی سایت</a></li>
+                <li><a href="/Admin/CustomerComments">سخن مشتریان</a></li>
+                <li><a href="/Admin/HomeBoxes">بخش های محصولات</a></li>
+                <li><a href="/Admin/ScoreParameters">پارامترهای امتیازدهی</a></li>
+                <li><a href="/Admin/NewsLetterMembers">خبرنامه</a></li>
+                <li><a href="/Admin/StaticContents">تنظیمات سایت</a></li>
+            </ul>
+        </li>
+        <li class="sub-menu">
+            <a href="javascript:;" class="">
+                <i class="icon-book"></i>
+                <span>مدیریت سفارشات</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub">
+                <li><a href="/Admin/Orders">تمام سفارشات</a></li>
+                <li><a href="/Admin/SuccessfulOrders">سفارشات موفق</a></li>
+                <li><a href="/Admin/UnsuccessfulOrders">سفارشات ناموفق</a></li>
+                <li><a href="/Admin/SpecialOrders">سفارشات همکاران</a></li>
+            </ul>
+        </li>
+        <li class="sub-menu">
+            <a href="javascript:;" class="">
+                <i class="icon-book"></i>
+                <span>مدیریت وبلاگ</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub">
+                <li><a href="/Admin/ArticlesGroups">گروه های وبلاگ</a></li>
+                <li><a href="/Admin/Articles">مطالب وبلاگ</a></li>
+                <li><a href="/Admin/ArticleComments">نظرات</a></li>
+            </ul>
+        </li>
+        <li class="sub-menu">
+            <a href="javascript:;" class="">
+                <i class="icon-book"></i>
+                <span>مدیریت کاربران</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub">
+                <li><a href="/Admin/OSUsers">کاربران</a></li>
+                <li><a href="/Admin/UserTasks">وظایف</a></li>
+                <li><a href="/Admin/UserWorks">برنامه کاری کارمندان</a></li>
+            </ul>
+        </li>
+        <li class="sub-menu">
+            <a href="javascript:;" class="">
+                <i class="icon-book"></i>
+                <span>ابزار ها</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub">
+                <li><a href="/Admin/Toolbox">ابزارهای مدیریتی</a></li>
+                <li><a href="/Admin/Prices">قیمت ها</a></li>
+                <li><a href="/Admin/ProductRequests">متقاضیان محصولات</a></li>
+                <li><a href="/Admin/ProductVisits">گزارش بازدید محصولات</a></li>
+                <li><a href="/Admin/ArticleVisits">گزارش بازدید مطالب</a></li>
+            </ul>
+        </li>
+        <li class="sub-menu">
+            <a href="javascript:;" class="">
+                <i class="icon-book"></i>
+                <span>مدیریت پیام ها</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub">
+                <li><a href="/Admin/SMSLogs">پیامک های ارسالی</a></li>
+                <li><a href="/Admin/EmailLogs">ایمیل های ارسالی</a></li>
+                <li><a href="/Admin/Emails">آدرس ایمیل ها</a></li>
+                <li><a href="/Admin/EmailSends">ارسال ایمیل</a></li>
+            </ul>
+        </li>
+        <li class="sub-menu">
+            <a href="javascript:;" class="">
+                <i class="icon-book"></i>
+                <span>مدیریت بنک داری</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub">
+                <li><a href="/Admin/PriceListSections">گروه های لیست بنک داری</a></li>
+                <li><a href="/Admin/PriceListProducts">محصولات لیست بنک داری</a></li>
+                <li><a href="/Admin/PriceList/Index/0" target="_blank">بروز رسانی صفحه اول لیست</a></li>
+                <li><a href="/Admin/PriceList/Index/1" target="_blank">بروز رسانی صفحه دوم لیست</a></li>
+                <li><a href="/Admin/PriceListLogs">مشاهده تغییرات لیست</a></li>
+            </ul>
+        </li>
+
+    }
+    else if (isWriter)
+    {
+        <li class="sub-menu">
+            <a href="javascript:;" class="">
+                <i class="icon-book"></i>
+                <span>مدیریت محصولات</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub">
+                <li><a href="/Admin/Products">محصولات</a></li>
+                <li><a href="/Admin/ProductsSorted">مرتب سازی محصولات</a></li>
+                <li><a href="/Admin/Copy/Product">کپی محصول</a></li>
+                <li><a href="/Admin/Packages">بسته های محصولات</a></li>
+            </ul>
+        </li>
+        <li class="sub-menu">
+            <a href="javascript:;" class="">
+                <i class="icon-book"></i>
+                <span>مدیریت وبلاگ</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub">
+                <li><a href="/Admin/ArticlesGroups">گروه های وبلاگ</a></li>
+                <li><a href="/Admin/Articles">مطالب وبلاگ</a></li>
+            </ul>
+        </li>
+    }
+    else if (isGraphic)
+    {
+        <li class="sub-menu">
+            <a href="javascript:;" class="">
+                <i class="icon-book"></i>
+                <span>مدیریت اطلاعات پایه</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub">
+                <li><a href="/Admin/Producers">تولید کنندگان</a></li>
+            </ul>
+        </li>
+        <li class="sub-menu">
+            <a href="javascript:;" class="">
+                <i class="icon-book"></i>
+                <span>مدیریت سایت</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub">
+                <li><a href="/Admin/SliderImages">اسلایدر ها</a></li>
+                <li><a href="/Admin/Banners">بنرها</a></li>
+
+            </ul>
+        </li>
+
+    }
+    else if (isAccountant || isOrderViewer)
+    {
+        <li class="sub-menu">
+            <a href="javascript:;" class="">
+                <i class="icon-book"></i>
+                <span>مدیریت سفارشات</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub">
+                <li><a href="/Admin/Orders">تمام سفارشات</a></li>
+                <li><a href="/Admin/SuccessfulOrders">سفارشات موفق</a></li>
+                <li><a href="/Admin/UnsuccessfulOrders">سفارشات ناموفق</a></li>
+            </ul>
+        </li>
+    }
+    else if (isSeller)
+    {
+        <li class="sub-menu">
+            <a href="javascript:;" class="">
+                <i class="icon-book"></i>
+                <span>مدیریت سایت</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub">
+                <li><a href="/Admin/Banners">بنرها</a></li>
+            </ul>
+        </li>
+        <li class="sub-menu">
+            <a href="javascript:;" class="">
+                <i class="icon-book"></i>
+                <span>مدیریت سفارشات</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub">
+                <li><a href="/Admin/SpecialOrders">سفارشات همکاران</a></li>
+            </ul>
+        </li>
+        <li class="sub-menu">
+            <a href="javascript:;" class="">
+                <i class="icon-book"></i>
+                <span>مدیریت کاربران</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub">
+                <li><a href="/Admin/OSUsers">کاربران</a></li>
+            </ul>
+        </li>
+        <li class="sub-menu">
+            <a href="javascript:;" class="">
+                <i class="icon-book"></i>
+                <span>مدیریت بنک داری</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub">
+                <li><a href="/Admin/PriceListSections">گروه های لیست بنک داری</a></li>
+                <li><a href="/Admin/PriceListProducts">محصولات لیست بنک داری</a></li>
+                <li><a href="/Admin/PriceList/Index/0" target="_blank">بروز رسانی صفحه اول لیست</a></li>
+                <li><a href="/Admin/PriceList/Index/1" target="_blank">بروز رسانی صفحه دوم لیست</a></li>
+                <li><a href="/Admin/PriceListLogs">مشاهده تغییرات لیست</a></li>
+            </ul>
+        </li>
+    }
+</ul>
+<!-- sidebar menu end-->

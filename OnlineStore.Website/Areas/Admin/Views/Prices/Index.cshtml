@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "خروجی اکسل";
+}
+
+@using (Html.BeginForm("ExportToExcel", "Prices", FormMethod.Post))
+{
+    <div class="row form-group">
+        <div>
+            @Html.Partial("_TreeView", new TreeViewSettings()
+       {
+           ControllerName = "/Admin/Groups",
+           JsonMothod = "GetGroups",
+           FieldName = "JSONGroups",
+           TreeViewSelectMode = TreeViewSelectMode.Multiple,
+           SelectedItems = new List<int>()
+       })
+        </div>
+    </div>
+    <input type="submit" id="ExportData" name="ExportData" value="خروجی اکسل" class="btn btn-success" />
+}

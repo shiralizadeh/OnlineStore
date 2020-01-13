@@ -1,0 +1,27 @@
+﻿@using (Html.BeginForm("Index", "Search", FormMethod.Get))
+{
+    <input type="search" class="input-text input-search" autocomplete="off" name="text" placeholder="نام، برند یا دسته بندی محصول را وارد نمایید...">
+    <button type="submit" class="btn-search"><i class="fa fa-search"></i></button>
+    <div class="result-box">
+        <div class="products">
+            <div class="header-box">
+                <span class="title">محصولات</span>
+            </div>
+            <div class="result"></div>
+        </div>
+        <div class="blogs-groups">
+            <div class="blogs">
+                <div class="header-box">
+                    <span class="title">اخبار</span>
+                </div>
+                <div class="result"></div>
+            </div>
+            <div class="groups">
+                <div class="header-box">
+                    <span class="title">گروه ها</span>
+                </div>
+                <div class="result"></div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,34 @@
+﻿@model SocialNetworkLink
+@{
+
+    string url = "http://online-store.com",
+           title = ViewBag.Title;
+
+    if (Model != null && !String.IsNullOrWhiteSpace(Model.Url))
+    {
+        url += Model.Url;
+    }
+    else if (!String.IsNullOrWhiteSpace(ViewBag.CanonicalUrl))
+    {
+        url += ViewBag.CanonicalUrl;
+    }
+    else
+    {
+        url = Request.Url.AbsoluteUri;
+    }
+
+    if (Model != null && !String.IsNullOrWhiteSpace(Model.Title))
+    {
+        title = Model.Title;
+    }
+
+    title = title.NormalizeForUrl();
+
+}
+
+<div class="social-network-links">
+    <a target="_blank" href="http://www.facebook.com/share.php?u=@url&t=@title" rel="external nofollow"><i class="fa fa-facebook"></i></a>
+    <a target="_blank" href="https://telegram.me/share/url?text=@title&url=@url" rel="external nofollow"><i class="fa fa-paper-plane"></i></a>
+    <a target="_blank" href="https://plus.google.com/share?url=@url" rel="external nofollow"><i class="fa fa-google-plus"></i></a>
+    <a target="_blank" href="https://www.twitter.com/intent/tweet?url=@url&text=@title" rel="external nofollow"><i class="fa fa-twitter"></i></a>
+</div>

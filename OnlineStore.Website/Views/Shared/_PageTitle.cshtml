@@ -1,0 +1,70 @@
+﻿@model PageTitleSettings
+
+@{
+    var title = (String.IsNullOrWhiteSpace(Model.Title) ? ViewBag.Title : Model.Title);
+    var breadcrumbJSON = new List<string>(); ;
+}
+
+<div class="page-title-box@(Model.ShowTitle ? String.Empty : " mini")">
+    <div class="responsive-box">
+        <a href="#" class="mega-menu-handle tooltipster-top" title="گروه های محصولات">
+            <i class="fa fa-bars"></i>
+            <i class="fa fa-arrow-down"></i>
+        </a>
+        <ul class="breadcrumbs">
+            @for (int i = 0; i < Model.BreadCrumbs.Count; i++)
+            {
+                var item = Model.BreadCrumbs[i];
+                var tooltip = (String.IsNullOrWhiteSpace(item.Tooltip) ? item.Title : item.Tooltip);
+
+                if (i < Model.BreadCrumbs.Count - 1)
+                {
+                    <li>
+                        <a href="@item.Link" title="@tooltip">
+                            @item.Title
+                        </a>
+                        <i class="fa fa-angle-left"></i>
+                    </li>
+
+                    breadcrumbJSON.Add("{ \"@type\": \"ListItem\", \"position\": " + (i + 1) + ", \"item\": { \"@id\": \"" + StaticValues.WebsiteUrl + item.Link + "\",\"name\": \"" + item.Title + "\"} }");
+                }
+                else
+                {
+                    <li title="@item.Tooltip">
+                        @item.Title
+                    </li>
+                    breadcrumbJSON.Add("{ \"@type\": \"ListItem\", \"position\": " + (i + 1) + ", \"item\": { \"name\": \"" + item.Title + "\"} }");
+                }
+            }
+        </ul>
+        <script type="application/ld+json">
+            {
+            "@@context": "http://schema.org",
+            "@@type": "BreadcrumbList",
+            "itemListElement":
+            [
+
+            @Html.Raw(String.Join(", ", breadcrumbJSON))
+
+            ]
+            }
+        </script>
+
+        @if (Model.ShowTitle)
+        {
+            <div class="page-title">
+                <h1>@title</h1>
+                @if (Model.ShowRSS)
+                {
+                    <a class="fa fa-rss-square rss-link" href="@Model.RSSUrl" target="_blank"></a>
+                }
+            </div>
+        }
+    </div>
+</div>
+<div class="mega-menu-bg"></div>
+<div class="mega-menu-box">
+    <div class="responsive-box">
+        @Html.Partial("/Views/Layouts/_MegaMenu.cshtml")
+    </div>
+</div>

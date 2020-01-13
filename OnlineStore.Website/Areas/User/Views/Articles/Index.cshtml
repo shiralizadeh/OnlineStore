@@ -1,0 +1,98 @@
+﻿@model List<OnlineStore.Models.User.UserViewArticle>
+
+@{
+    var version = 1.0;
+    ViewBag.Title = "پست های من";
+
+    int i = 0;
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    BreadCrumbs = new List<BreadCrumbLink>() {
+        new BreadCrumbLink() { Title = "حساب من", Link = "/My-Account" },
+        new BreadCrumbLink() { Title = "پست های من", Link = "/My-Account/My-Posts" },
+    }
+})
+<div class="responsive-box">
+    <div class="user-panel">
+        <a class="btn-submit btn-plus" href="/My-Account/My-Posts/Edit/">
+            <i class="fa fa-plus"></i>
+        </a>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ردیف</th>
+                        <th>عنوان</th>
+                        <th>گروه</th>
+                        <th>بازدید کنندگان</th>
+                        <th>وضعیت</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+            {
+                i++;
+                        <tr data-id="@item.ID">
+                            <td>@i</td>
+                            <td>@item.Title</td>
+                            <td>@item.GroupName</td>
+                            <td>
+                                <span class="label label-info">@item.VisitCount نفر</span>
+                            </td>
+                            <td>
+                                @switch (item.ArticleStatus)
+                                {
+                                    case ArticleStatus.NotChecked:
+                                        @:<span class='label label-warning'>چک نشده</span>
+                            break;
+                                    case ArticleStatus.Rejected:
+                                        @:<span class='label label-danger'>رد شده</span>
+                            break;
+                                    case ArticleStatus.Approved:
+                                        @:<span class='label label-success'>تایید شده</span>
+                            break;
+                                    default:
+                                        @:<span class='label label-default'>نامعلوم</span>
+                            break;
+                                }
+                            </td>
+                            <td>
+                                @if (item.ArticleStatus != ArticleStatus.Approved)
+                                {
+                                    <a class="btn-edit" href="/My-Account/My-Posts/Edit/@item.ID">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+
+                                    <button class="btn-delete btn-jdelete">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+
+                                }
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+
+
+@section Scripts{
+    <script src="~/js/user/delete.js"></script>
+    <script>
+        config({
+            DeleteUrl: '/My-Account/My-Posts/Delete'
+        });
+    </script>
+}
+
+@section Styles{
+    <link href="/css/my-account.min.css?ver=@version" rel="stylesheet" />
+}

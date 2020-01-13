@@ -1,0 +1,17 @@
+﻿@model StaticContent
+
+@{
+    ViewBag.Title = "قوانین سایت";
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    BreadCrumbs = new List<BreadCrumbLink>() {
+        new BreadCrumbLink() { Title = StaticValues.HomeTitle, Link = "/" },
+        new BreadCrumbLink() { Title = "قوانین سایت", Link = "/قوانین-سایت" },
+    }
+})
+
+@Html.Raw(Model.Content)
+
+

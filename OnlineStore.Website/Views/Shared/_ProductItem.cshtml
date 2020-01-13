@@ -1,0 +1,61 @@
+﻿@model ProductItem
+
+@{
+    var group = Groups.GetByID(Model.GroupID.Value);
+
+    Model.Title_Fa = (String.IsNullOrWhiteSpace(group.Perfix) ? "" : group.Perfix + " ") + Model.Title_Fa;
+    Model.Title_En = Model.Title_En + (String.IsNullOrWhiteSpace(group.Perfix_En) ? "" : " " + group.Perfix_En);
+
+    var url = UrlProvider.GetProductUrl(Model.ID, group.UrlPerfix, Model.UrlPerfix);
+    var compareUrl = UrlProvider.GetCompareUrl(Model.ID);
+
+    #region Score
+
+    float totalScore = Utilities.CalcRaty(Model.SumScore.Value, Model.ScoreCount, Model.ProductScore);
+
+    #endregion Score
+
+    string displayTitle = Model.DisplayTitle;
+    string displayTitleOther = (Model.DisplayTitleType == DisplayTitleType.Title_En ? Model.Title_Fa : Model.Title_En);
+
+    JsonProductVarient minPrice = null;
+    if (Model.HasVarients && Model.Prices != null && Model.Prices.Count > 0)
+    {
+        minPrice = (JsonProductVarient)Model.Prices.OrderBy(item => item.Price).First();
+    }
+}
+
+<li class="product-item" data-productid="@Model.ID" data-productvarientid="@(minPrice != null ? minPrice.ID.ToString() : "")">
+    <a href="@url" title="@Model.ToolTip">
+        <img src="@Model.ImageFile" alt="@displayTitle" title="@displayTitle" />
+    </a>
+    <a href="/Products/@group.TitleEn.NormalizeForUrl()">
+        <span class="group-title">@group.Title</span>
+    </a>
+    <a href="@url" class="product-title" title="@displayTitleOther">
+        <h2>@displayTitle</h2>
+    </a>
+    <a href="@url" class="product-alternate-title" title="@displayTitle">
+        <h3>@displayTitleOther</h3>
+    </a>
+    <div class="product-price">
+        @Html.Partial("_Price", new PriceSettings() { Prices = Model.Prices, SimplePrice = true, IsUnavailable = Model.IsUnavailable, PriceStatus = Model.PriceStatus })
+    </div>
+    <div class="controls">
+        <a href="#" class="btn-add-cart" title="افزودن به سبد خرید">
+            <i class="fa fa-cart-plus"></i>
+        </a>
+        <div class="compare-wish">
+            <a href="@compareUrl">مقایسه محصول</a>
+            <span class="separator">|</span>
+            <a href="#" class="link-wishlist">آرزوی من</a>
+        </div>
+        <div class="rate-comment">
+            @Html.Partial("_Rate", totalScore)
+            @if (Model.CommentCount > 0)
+            {
+                <a href="@url" class="comment">@Model.CommentCount نظر</a>
+            }
+        </div>
+    </div>
+</li>

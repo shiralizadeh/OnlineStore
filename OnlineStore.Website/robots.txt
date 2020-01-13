@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /CompareProducts
+Sitemap: http://online-store.com/sitemap.xml

@@ -1,0 +1,12 @@
+﻿/**
+ * table-section.css v0.1.0
+ */
+
+.ts-row-fixed {
+  position: fixed;
+  /* top: 0; */
+  visibility: hidden;
+  z-index: 1020; /* 10 less than .navbar-fixed to prevent any overlap */
+  border-bottom: 1px solid #dddddd;
+  background-color: #ffffff;
+}

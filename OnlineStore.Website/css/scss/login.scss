@@ -1,0 +1,102 @@
+﻿@import "mixins";
+
+.login-box {
+    .desc {
+        color: $black_2;
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    .login-form {
+        background-color: #fff;
+        padding: 10px;
+        margin-left: 10px;
+
+        .remember-me ~ label {
+            font-size: 11px;
+            line-height: 20px;
+        }
+
+        .forgot-password {
+            color: $color;
+            font-size: 11px;
+            display: inline-block;
+            width: 250px;
+            text-align: left;
+            vertical-align: middle;
+        }
+    }
+
+    .points {
+        margin-top: 0;
+        background-color: #fff;
+
+        li {
+            color: $black_4;
+            font-size: 14px;
+            line-height: 30px;
+            margin-bottom: 10px;
+
+            .fa-caret-left {
+                margin-left: 5px;
+                color: $color;
+            }
+
+            a {
+                color: $color;
+            }
+        }
+    }
+}
+
+/*(max-width: 480px)*/
+@include breakpoint('MobilePortrait') {
+    .login-box {
+        .login-form {
+            margin-left: 0;
+        }
+    }
+}
+
+/*(min-width: 480px) and (max-width: 595px)*/
+@include breakpoint('MobileLandscape') {
+    .login-box {
+        .login-form {
+            margin-left: 0;
+        }
+    }
+}
+
+/*(min-width: 595px) and (max-width: 690px)*/
+@include breakpoint('SmallTabletPortrait') {
+    .login-box {
+        .login-form {
+            margin-left: 0;
+        }
+    }
+}
+
+/*(min-width: 690px) and (max-width: 960px)*/
+@include breakpoint('TabletPortrait') {
+    .login-box {
+        .login-form {
+            margin-left: 0;
+        }
+    }
+}
+
+/*(min-width: 960px) and (max-width: 1024px)*/
+@include breakpoint('SmallTabletLandscape') {
+}
+
+/*(min-width: 1024px) and (max-width: 1280px)*/
+@include breakpoint('TabletLandscape') {
+}
+
+/*(min-width: 1280px) and (max-width: 1440px)*/
+@include breakpoint('WideScreen') {
+}
+
+/*(min-width: 1440px)*/
+@include breakpoint('LargeScreen') {
+}

@@ -1,0 +1,142 @@
+﻿@model List<JsonProductCompare>
+
+@{
+    var version = 1.2;
+
+    List<ViewAttribute> attributes = new List<ViewAttribute>();
+
+    if (Model.Count() > 0)
+    {
+        attributes = Model[0].Attributes;
+    }
+
+    var arrIDs = ViewContext.RouteData.Values["ids"].ToString();
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    BreadCrumbs = new List<BreadCrumbLink>() {
+                     new BreadCrumbLink() { Title = StaticValues.HomeTitle, Link = "/" },
+                     new BreadCrumbLink() { Title = "مقایسه کالا"},
+    }
+})
+
+<div class="responsive-box">
+    <div class="product-compare table-responsive">
+        <div class="search-box">
+            <input type="text" data-id="-1" class="input-text" autocomplete="off" name="q" id="Search" placeholder="جستجو محصولات...">
+            <div class="result-box"></div>
+            <i class="fa fa-search"></i>
+        </div>
+        <table class="table ts-table-section">
+            <thead>
+                <tr class="ts-row-section">
+                    <td></td>
+                    @foreach (var productItem in Model)
+                    {
+                        <td data-id="@productItem.ProductID">
+                            <a title="@productItem.ToolTip" href="@productItem.Url">
+                                <div class="product-detail">
+                                    <img src="@productItem.Image" />
+                                    <span class="title">@productItem.DisplayTitle</span>
+                                    <a class="fa fa-times-circle"></a>
+                                </div>
+                            </a>
+                        </td>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>امتیاز</td>
+                    @foreach (var productItem in Model)
+                    {
+                        <td class="score" data-id="@productItem.ProductID">
+                            <a data-score="@productItem.Score" class="rate"></a>
+                            <span class="preferentials">( از @productItem.PreferentialsCount رأی )</span>
+                        </td>
+                    }
+                </tr>
+                <tr>
+                    <td>امتیاز کاربران</td>
+                    @foreach (var productItem in Model)
+                    {
+                        <td data-id="@productItem.ProductID">
+                            <ul>
+                                @foreach (var scoreItem in productItem.ScoresAverages)
+                                {
+                                    <li>
+                                        <span>@scoreItem.Title</span>:<span>@scoreItem.Average</span>
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                    }
+                </tr>
+                <tr>
+                    <td>قیمت</td>
+                    @foreach (var productItem in Model)
+                    {
+                        <td data-id="@productItem.ProductID">
+                            @Html.Partial("_Price", new PriceSettings() { Prices = productItem.Prices, SimplePrice = true, IsUnavailable = productItem.IsUnavailable })
+                        </td>
+                    }
+                </tr>
+
+                @foreach (var group in attributes.OrderBy(m => m.GroupOrderID).GroupBy(m => m.AttrGroupID))
+                {
+                    var groupTitle = attributes.First(m => m.AttrGroupID == group.Key).AttrGroupTitle;
+
+                    <tr>
+                        <th>
+                            <i class="fa fa-caret-left"></i>
+                            <span>@groupTitle</span>
+                        </th>
+                    </tr>
+                    foreach (var attr in group.ToList())
+                    {
+                        <tr data-id="@attr.ID">
+                            <td class="title">@attr.Title</td>
+                            @foreach (var productItem in Model)
+                            {
+                                var attrItem = productItem.Attributes.Where(s => s.ID == attr.ID).FirstOrDefault();
+
+                                <td class="value" data-id="@productItem.ProductID">
+                                    @if (attrItem != null && attrItem.Value != null && attrItem.Value.ToString() != String.Empty)
+                                    {
+                                        if (!String.IsNullOrWhiteSpace(attrItem.Perfix))
+                                        {
+                                            @Html.Raw(attrItem.Perfix + " ")
+                                        }
+
+                                        @Html.Raw(attrItem.Value)
+
+                                        if (!String.IsNullOrWhiteSpace(attrItem.Posfix))
+                                        {
+                                            @Html.Raw(" " + attrItem.Posfix)
+                                        }
+                                    }
+                                </td>
+                            }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="clear"></div>
+</div>
+<input type="hidden" name="ProductIDs" id="ProductIDs" value="@arrIDs" />
+
+@section Styles{
+    <link href="/css/compare-products.min.css?ver=@version" rel="stylesheet" />
+    <link href="/assets/sticky/table-section.min.css" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script>
+        var mainGroupID = @Model[0].GroupID;
+    </script>
+    <script src="/js/compare-products.min.js?ver=@version"></script>
+    <script src="/assets/sticky/table-section.min.js"></script>
+}

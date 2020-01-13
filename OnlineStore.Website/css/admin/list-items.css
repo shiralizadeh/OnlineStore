@@ -1,0 +1,64 @@
+﻿/*border*/
+.list-items {
+  position: relative; }
+  .list-items .loading {
+    position: absolute;
+    background-color: #fff;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    z-index: 9999; }
+    .list-items .loading img {
+      position: absolute;
+      right: 50%;
+      top: 50%;
+      margin-right: -16px;
+      margin-top: -16px;
+      -moz-border-radius: 50%;
+      -webkit-border-radius: 50%;
+      border-radius: 50%;
+      width: 32px; }
+  .list-items #AddToList {
+    margin-right: 1%; }
+  .list-items #Items ul {
+    padding: 0 15px;
+    color: #808080;
+    margin: 10px 0; }
+    .list-items #Items ul li {
+      list-style: none;
+      border-bottom: 1px solid #ccc;
+      text-transform: uppercase;
+      padding: 10px;
+      cursor: pointer; }
+      .list-items #Items ul li span {
+        display: inline-block; }
+      .list-items #Items ul li:nth-child(2n+1) {
+        background-color: #eee; }
+      .list-items #Items ul li a.icon-remove-sign {
+        float: left;
+        font-size: 24px;
+        color: #ff3d00;
+        line-height: 15px; }
+      .list-items #Items ul li i.icon-sort {
+        margin-left: 5px; }
+      .list-items #Items ul li .date {
+        color: #ff3d00;
+        margin: 0 10px; }
+    .list-items #Items ul + .not-found {
+      color: #ed1c24;
+      padding: 5px 10px;
+      text-align: center;
+      background-color: #f2dede;
+      border: solid 1px #f6bebe;
+      margin: 10px 0;
+      display: block; }
+  .list-items .icon-check-sign {
+    font-size: 32px;
+    color: #00c853;
+    cursor: pointer; }
+
+.persiandate {
+  width: 200px; }
+

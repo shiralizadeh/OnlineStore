@@ -1,0 +1,92 @@
+﻿@model EditProduct
+
+<div class="col-md-6">
+    <div class="panel panel-default">
+        <div class="panel-body text-center" style="font-size:20px;">
+            موجودی:
+            <span class="label label-info">@((Model.Supplies.LastOrDefault() ?? new EditProductSupply()).Count)</span>
+        </div>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ردیف</th>
+                <th>مقدار</th>
+                <th>مقایسه با مقدار قبلی</th>
+                <th>نوع</th>
+                <th>توضیحات</th>
+                <th>تاریخ ثبت</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Supplies.Count; i++)
+            {
+                var item = Model.Supplies[i];
+                var prev = (i > 0 ? Model.Supplies[i - 1] : (EditProductSupply)null);
+
+                <tr>
+                    <td>
+                        @(i + 1)
+                    </td>
+                    <td class="text-right">
+                        @if (i == Model.Supplies.Count - 1)
+                        {
+                            <span class="badge" style="background-color: #d9534f">@item.Count</span>
+                        }
+                        else
+                        {
+                            <span class="badge">@item.Count</span>
+                        }
+                    </td>
+                    <td>
+                        @if (prev == null)
+                        {
+                            <span class="label label-default">اولین مقدار</span>
+                        }
+                        else if (item.Count > prev.Count)
+                        {
+                            <span class="label label-success">افزایش @(item.Count - prev.Count)</span>
+                        }
+                        else if (item.Count < prev.Count)
+                        {
+                            <span class="label label-warning">کاهش @(prev.Count - item.Count)</span>
+                        }
+                        else
+                        {
+                            <span class="label label-success">بدون تغییر</span>
+                        }
+                    </td>
+                    <td>
+                        @Utilities.GetEnumDisplay(item.SupplyType)
+                    </td>
+                    <td>
+                        @item.Description
+                    </td>
+                    <td>
+                        @Utilities.ToPersianDate(item.LastUpdate)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <section class="panel">
+        <header class="panel-heading">
+            افزایش/کاهش موجودی
+        </header>
+        <div class="panel-body">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Supply.Count)
+                @Html.TextBoxFor(model => model.Supply.Count, new { @class = "form-control number" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Supply.SupplyType)
+                @Html.EnumDropDownListFor(model => model.Supply.SupplyType, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Supply.Description)
+                @Html.TextAreaFor(model => model.Supply.Description, new { @class = "form-control" })
+            </div>
+        </div>
+    </section>
+</div>

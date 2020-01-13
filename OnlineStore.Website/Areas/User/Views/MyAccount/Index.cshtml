@@ -1,0 +1,164 @@
+﻿@model MyAccountSettings
+
+@{
+    var version = 1.0;
+    ViewBag.Title = "حساب من";
+
+    var userInfo = Model.UserInfo;
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    BreadCrumbs = new List<BreadCrumbLink>() {
+        new BreadCrumbLink() { Title = StaticValues.HomeTitle, Link = "/" },
+        new BreadCrumbLink() { Title = "حساب من", Link = "/My-Account" },
+    }
+})
+
+<div class="responsive-box">
+    <div class="user-panel">
+        <div class="table-responsive">
+            <table class="user-info">
+                <tr>
+                    <th>
+                        نام:
+                    </th>
+                    <td>
+                        @userInfo.Firstname
+                    </td>
+                    <th>
+                        نام خانوادگی:
+                    </th>
+                    <td>
+                        @userInfo.Lastname
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        شماره تماس:
+                    </th>
+                    <td>
+                        @userInfo.Phone
+                    </td>
+                    <th>
+                        شماره همراه:
+                    </th>
+                    <td>
+                        @userInfo.Mobile
+                    </td>
+
+                </tr>
+                <tr>
+                    <th>
+                        ایمیل:
+                    </th>
+                    <td>
+                        @userInfo.Email
+                    </td>
+                    <th>
+                        کد پستی:
+                    </th>
+                    <td>
+                        @userInfo.PostalCode
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        استان:
+                    </th>
+                    <td>
+                        @userInfo.StateName
+                    </td>
+                    <th>
+                        شهر:
+                    </th>
+                    <td>
+                        @userInfo.CityName
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+
+        <div class="reports">
+            <div class="orders">
+                <table>
+                    <caption><i class="fa fa-shopping-cart"></i> سفارشات</caption>
+                    <tbody>
+                        <tr>
+                            <th>تایید شده</th>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <th>ارسال شده</th>
+                            <td>@Model.OrdersSubmitted</td>
+                        </tr>
+                        <tr>
+                            <th>تحویل داده شده</th>
+                            <td>@Model.OrdersDelivered</td>
+                        </tr>
+                        <tr>
+                            <th>رد شده</th>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <th>کل سفارشات</th>
+                            <td>@Model.Orders</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="comments">
+                <table>
+                    <caption><i class="fa fa-commenting"></i> نظرات</caption>
+                    <tbody>
+                        <tr>
+                            <th>تایید شده</th>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <th>رد شده</th>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <th>کل نظرات</th>
+                            <td>@Model.Comments</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="others">
+                <table>
+                    <caption>سایر</caption>
+                    <tbody>
+                        <tr>
+                            <th><i class="fa fa-heart"></i> علاقه مندی ها</th>
+                            <td>@Model.Wishes</td>
+                        </tr>
+                        <tr>
+                            <th><i class="fa fa-list-alt"></i> مطالب وبلاگ</th>
+                            <td>@Model.Posts</td>
+                        </tr>
+                        <tr>
+                            <th><i class="fa fa-star"></i> نقدها</th>
+                            <td>@Model.CommentRates</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <ul class="my-account">
+            <li><a href="/My-Account/My-Profile"><i class="fa fa-user"></i><span>پروفایل من</span></a></li>
+            <li><a href="/My-Account/My-Posts"><i class="fa fa-file-text-o"></i><span>مطالب وبلاگ</span></a></li>
+            <li><a href="/My-Account/My-Wishes"><i class="fa fa-heart"></i><span>آرزوهای من</span></a></li>
+            <li><a href="/My-Account/My-Orders"><i class="fa fa-shopping-cart"></i><span>سفارشات</span></a></li>
+            <li><a href="/My-Account/My-Comments"><i class="fa fa-commenting-o"></i><span>نظرات من</span></a></li>
+            <li><a href="/My-Account/My-Likes"><i class="fa fa-thumbs-o-up"></i><span>نقدهای من</span></a></li>
+            <li><a href="/Logout"><i class="fa fa-sign-out"></i><span>خروج</span></a></li>
+        </ul>
+        <div class="clear"></div>
+    </div>
+</div>
+@section Styles{
+    <link href="/css/my-account.min.css?ver=@version" rel="stylesheet" />
+}

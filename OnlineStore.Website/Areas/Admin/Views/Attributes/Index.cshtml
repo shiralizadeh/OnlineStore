@@ -1,0 +1,106 @@
+﻿@model List<AttrGroup>
+
+@{
+    ViewBag.Title = "مدیریت ویژگی ها";
+}
+
+<fieldset class="filter-box">
+    <legend>
+        <a class="filter-header">
+            <i class="open-icon icon icon-plus-sign"></i>
+            <span>جستجو</span>
+        </a>
+    </legend>
+    <div class="control-box">
+        <div class="row form-group">
+            <div>
+                @Html.Partial("_TreeView", new TreeViewSettings()
+           {
+               ControllerName = "/Admin/Groups",
+               JsonMothod = "GetGroups",
+               FieldName = "JSONGroups",
+               TreeViewSelectMode = TreeViewSelectMode.Multiple,
+               SelectedItems = new List<int>()
+           })
+            </div>
+            <label id="GroupsError" class="error" style="display: none;"></label>
+        </div>
+        <div class="row form-group">
+            <input type="text" id="Title" class="form-control col-sm-2" placeholder="عنوان..." />
+            <select id="AttrGroups" class="form-control col-sm-2">
+                <option value="-1">گروه ویژگی</option>
+                @foreach (var item in Model)
+                {
+                    <option value="@item.ID">@(item.ID + "-" + item.Title)</option>
+                }
+            </select>
+            <select id="AttributeType" class="form-control col-sm-2">
+                <option value="-1">نوع ویژگی</option>
+                <option value="0">متن</option>
+                <option value="1">عدد</option>
+                <option value="2">تک انتخابی</option>
+                <option value="3">چند انتخابی</option>
+                <option value="4">بله / خیر</option>
+                <option value="5">متن چند خطه</option>
+            </select>
+            <a id="btnSearch" class="btn btn-info"><i class="icon-search"></i></a>
+        </div>
+    </div>
+</fieldset>
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "Attributes",
+    Columns = new List<Column>(){
+                                   new Column() {
+                                       Title = "عنوان",
+                                       DataField = "Title"
+                                   },
+                                   new Column() {
+                                       Title = "گروه ها",
+                                       DataField = "GroupsTitle"
+                                   },
+                                   new Column() {
+                                       Title = "گروه ویژگی",
+                                       DataField = "AttrGroupTitle"
+                                   },
+                                   new Column() {
+                                       Title = "نوع",
+                                       DataField = "fromAttributeType(AttributeType)"
+                                   },
+                                   new Column() {
+                                       Title = "قابل جستجو",
+                                       DataField = "toBooleanYesNo(IsSearchable)"
+                                   },
+                                    new Column() {
+                                       Title = "ترتیب نمایش",
+                                       DataField = "OrderID"
+                                   },
+                                    new Column() {
+                                       Title = "آخرین ویرایش",
+                                       DataField = "fromNow(LastUpdate)"
+                                   }
+                               }
+})
+
+@section Scripts {
+    <script type="text/javascript">
+        var $groups = $('#hfJSONGroups'),
+            $title = $('#Title'),
+            $attrGroups = $('#AttrGroups'),
+            $attrType = $('#AttributeType');
+
+        jConfigGrid.init({
+            ajaxUrl: '/Admin/Attributes/',
+            filter: function () {
+                return {
+                    Groups: eval($groups.val()),
+                    Title: $title.val(),
+                    AttrGroupID: $attrGroups.val(),
+                    AttributeType: $attrType.val()
+                }
+            }
+        });
+    </script>
+    <script src="~/js/admin/filter-attributegroups.js"></script>
+}

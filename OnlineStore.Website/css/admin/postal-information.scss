@@ -1,0 +1,94 @@
+﻿@import "../scss/mixins";
+
+html {
+    background-color: #fff;
+
+    .panel {
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+}
+
+.postal-information {
+    padding: 0;
+
+    li {
+        border: 1px solid $black_7;
+        float: right;
+        height: 420px;
+        width: 50%;
+
+        &.width-100 {
+            width: 100%;
+        }
+
+        .postal-box {
+            padding: 0 15px;
+        }
+
+        fieldset {
+            legend {
+                font-size: 14px;
+                margin-bottom: 5px;
+                padding: 10px;
+                background-color: $black_6;
+                color: $black_9;
+            }
+
+            table.postal-table {
+                margin: 0 0 20px 0;
+                width: 100%;
+
+                tr {
+                    td {
+                        padding: 5px;
+                        font-size: 13px;
+
+                        .logo {
+                            float: left;
+                            width: 150px;
+                            height: 55px;
+                        }
+
+                        .website-url {
+                            font-size: 20px;
+                            font-family: Tahoma;
+                            margin-top: 12px;
+                            margin-right: 135px;
+                            display: inline-block;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.btn-print {
+    color: darken($color,10%);
+    font-size: 32px;
+    margin-left: 10px;
+
+    &:hover {
+        color: $color;
+    }
+}
+
+@media print {
+    .postal-information {
+        li {
+            fieldset {
+                legend {
+                    background-color: $black_6 !important;
+                    color: $black_9 !important;
+                    -webkit-print-color-adjust: exact;
+                }
+            }
+        }
+    }
+
+    .btn-print {
+        display: none;
+    }
+}

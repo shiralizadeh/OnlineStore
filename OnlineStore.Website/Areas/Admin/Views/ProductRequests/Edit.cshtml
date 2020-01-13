@@ -1,0 +1,39 @@
+﻿@model ProductRequest
+
+@{
+    ViewBag.Title = "بررسی متقاضیان محصولات";
+}
+
+@using (Html.BeginForm("Edit", "ProductRequests", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="col-sm-6">
+        @Html.Partial("_Status")
+        @if (Model.UserID != null)
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.UserID):
+                <a href="/Admin/OSUsers/Edit/@Model.UserID" target="_blank">لینک به صفحه کاربر</a>
+            </div>
+        }
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email):
+            <label>@Model.Email</label>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Mobile):
+            <label>@Model.Mobile</label>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description):
+            <hr />
+            <label>@Model.Description</label>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductRequestStatus)
+            @Html.EnumDropDownListFor(model => model.ProductRequestStatus, new { @class = "form-control required" })
+        </div>
+        <button type="submit" class="btn btn-success">تایید</button>
+        <a href="/Admin/ProductRequests" class="btn btn-warning">بازگشت</a>
+    </div>
+}

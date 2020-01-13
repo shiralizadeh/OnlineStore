@@ -1,0 +1,28 @@
+﻿@model Keyword
+
+@{
+    ViewBag.Title = "ویرایش کلیدواژه";
+}
+
+@using (Html.BeginForm("Edit", "Keywords", FormMethod.Post, new { @class = "validate" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="col-sm-6">
+        @Html.Partial("_Status")
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title)
+            @Html.TextBoxFor(model => model.Title, new { @class = "form-control required" })
+        </div>
+        <div class="checkbox">
+            @Html.CheckBoxFor(model => model.IsActive, new { @class = "keyactive" })
+            @Html.LabelFor(model => model.IsActive)
+        </div>
+        <div class="checkbox">
+            <input type="checkbox" name="DelKey" id="DelKey"/>
+            <label>آیا مایلید در صورت غیرفعال شدن، این کلیدواژه از محصولات حذف شود؟</label>
+        </div>
+        <button type="submit" class="btn btn-success">ثبت</button>
+        <a href="/Admin/Keywords" class="btn btn-warning">بازگشت</a>
+    </div>
+}

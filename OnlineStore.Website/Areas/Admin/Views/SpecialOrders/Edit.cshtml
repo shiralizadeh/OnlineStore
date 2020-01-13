@@ -1,0 +1,34 @@
+﻿@model SpecialOrder
+
+@{
+    ViewBag.Title = "ویرایش سفارش خاص";
+
+    var user = OSUsers.GetByID(Model.UserID);
+}
+
+@using (Html.BeginForm("Edit", "SpecialOrders", FormMethod.Post, new { @class = "validate" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="col-sm-6">
+        @Html.Partial("_Status")
+        <div class="form-group">
+            <label>نام</label>
+            <span>@user.Firstname</span>
+        </div>
+        <div class="form-group">
+            <label>نام خانوادگی</label>
+            <span>@user.Lastname</span>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description)
+            @Html.TextAreaFor(model => model.Description, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.SpecialOrderStatus)
+            @Html.EnumDropDownListFor(model => model.SpecialOrderStatus, new { @class = "form-control selectpicker required" })
+        </div>
+        <button type="submit" class="btn btn-success">ثبت</button>
+        <a href="/Admin/Emails" class="btn btn-warning">بازگشت</a>
+    </div>
+}

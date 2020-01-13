@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "مدیریت آدرس ایمیل ها";
+}
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "Emails",
+    Columns = new List<Column>(){
+                                   new Column() {
+                                       Title = "ایمیل",
+                                       DataField = "EmailAddress"
+                                   },
+                                   new Column() {
+                                       Title = "عنوان",
+                                       DataField = "Title"
+                                   },
+                                   new Column() {
+                                       Title = "کلمه عبور",
+                                       DataField = "Password"
+                                   },
+                                   new Column() {
+                                       Title = "آخرین ویرایش",
+                                       DataField = "fromNow(LastUpdate)"
+                                   }
+                               }
+})
+
+@section Scripts {
+    <script type="text/javascript">
+        jConfigGrid.init({ ajaxUrl: '/Admin/Emails/' });
+    </script>
+} 

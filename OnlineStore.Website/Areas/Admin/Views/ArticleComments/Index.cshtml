@@ -1,0 +1,85 @@
+﻿@{
+    ViewBag.Title = "مدیریت نظرات";
+}
+
+<fieldset class="filter-box">
+    <legend>
+        <a class="filter-header">
+            <i class="open-icon icon icon-plus-sign"></i>
+            <span>جستجو</span>
+        </a>
+    </legend>
+    <div class="control-box">
+        <div class="row form-group">
+            <input type="text" id="Email" class="form-control col-sm-2" placeholder="ایمیل..." />
+            <select id="ArticleCommentStatus" class="form-control col-sm-2">
+                <option value="-1">وضعیت</option>
+                <option value="0">چک نشده</option>
+                <option value="1">رد شده</option>
+                <option value="2">تایید شده</option>
+            </select>
+            <a id="btnSearch" class="btn btn-info"><i class="icon-search"></i></a>
+        </div>
+    </div>
+</fieldset>
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "ArticleComments",
+    ShowAdd = false,
+    Selectable = true,
+    CustomAjax = true,
+    Columns = new List<Column>(){
+
+                                new Column() {
+                                    Title = "نام",
+                                    DataField = "UserFullName"
+                                },
+
+                                new Column() {
+                                    Title = "ایمیل",
+                                    DataField = "Email"
+                                },
+
+                                new Column() {
+                                    Title = "موضوع",
+                                    DataField = "Subject"
+                                },
+
+                                new Column() {
+                                    Title = "وضعیت",
+                                    DataField = "fromArticleCommentStatus(CommentStatus)"
+                                },
+
+                                new Column() {
+                                    Title = "آخرین ویرایش",
+                                    DataField = "fromNow(LastUpdate)"
+                                }
+    }
+})
+
+@section Scripts {
+    <script type="text/javascript">
+        var $email = $('#Email'),
+            $articleCommentStatus = $('#ArticleCommentStatus');
+
+        jConfigGrid.init({
+            ajaxUrl: '/Admin/ArticleComments/',
+            customAjaxUrl: '/Admin/ArticleComments/Confirm',
+            filter: function () {
+                return {
+                    ArticleID: @(ViewBag.ArticleID == null ? "null" : ViewBag.ArticleID),
+                    Email:$email.val(),
+                    ArticleCommentStatus:$articleCommentStatus.val()
+                };
+            },
+            customAjaxSuccess: function () {
+                jConfigGrid.refresh();
+                alert('عملیات با موفقیت انجام شد.');
+            },
+            customAjaxError: function () {
+                alert('رخداد خطا');
+            }
+        });
+    </script>
+} 

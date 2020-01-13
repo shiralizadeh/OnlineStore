@@ -1,0 +1,296 @@
+[
+  {
+    "outputFileName": "js/home.min.js",
+    "inputFiles": [
+      "js/home.js"
+    ]
+  },
+  {
+    "outputFileName": "js/main.min.js",
+    "inputFiles": [
+      "js/main.js"
+    ]
+  },
+  {
+    "outputFileName": "js/custom.min.js",
+    "inputFiles": [
+      "js/custom.js"
+    ]
+  },
+  {
+    "outputFileName": "js/countdown.min.js",
+    "inputFiles": [
+      "js/countdown.js"
+    ]
+  },
+  {
+    "outputFileName": "new/wp-content/themes/wp_oswad_market/css/base.css",
+    "inputFiles": [
+      "new/wp-content/themes/wp_oswad_market/css/base.css"
+    ]
+  },
+  {
+    "outputFileName": "new/wp-content/themes/wp_oswad_market/css/base.css",
+    "inputFiles": [
+      "new/wp-content/themes/wp_oswad_market/css/base.css"
+    ]
+  },
+  {
+    "outputFileName": "new/wp-content/plugins/wd_shortcode/css/shortcode.css",
+    "inputFiles": [
+      "new/wp-content/plugins/wd_shortcode/css/shortcode.css"
+    ]
+  },
+  {
+    "outputFileName": "new/wp-content/plugins/wd_shortcode/css/bootstrap-theme.css",
+    "inputFiles": [
+      "new/wp-content/plugins/wd_shortcode/css/bootstrap-theme.css"
+    ]
+  },
+  {
+    "outputFileName": "new/wp-content/plugins/wd_shortcode/css/bootstrap.css",
+    "inputFiles": [
+      "new/wp-content/plugins/wd_shortcode/css/bootstrap.css"
+    ]
+  },
+  {
+    "outputFileName": "new/wp-content/plugins/wd_shortcode/css/owl.carousel.css",
+    "inputFiles": [
+      "new/wp-content/plugins/wd_shortcode/css/owl.carousel.css"
+    ]
+  },
+  {
+    "outputFileName": "new/wp-content/plugins/woocommerce/assets/css/woocommerce-layout.css",
+    "inputFiles": [
+      "new/wp-content/plugins/woocommerce/assets/css/woocommerce-layout.css"
+    ]
+  },
+  {
+    "outputFileName": "new/wp-content/plugins/woocommerce/assets/css/woocommerce-smallscreen.css",
+    "inputFiles": [
+      "new/wp-content/plugins/woocommerce/assets/css/woocommerce-smallscreen.css"
+    ]
+  },
+  {
+    "outputFileName": "new/wp-content/plugins/woocommerce/assets/css/woocommerce.css",
+    "inputFiles": [
+      "new/wp-content/plugins/woocommerce/assets/css/woocommerce.css"
+    ]
+  },
+  {
+    "outputFileName": "new/wp-content/plugins/woocommerce/assets/css/prettyPhoto.css",
+    "inputFiles": [
+      "new/wp-content/plugins/woocommerce/assets/css/prettyPhoto.css"
+    ]
+  },
+  {
+    "outputFileName": "new/wp-content/themes/wp_oswad_market/style.css",
+    "inputFiles": [
+      "new/wp-content/themes/wp_oswad_market/style.css"
+    ]
+  },
+  {
+    "outputFileName": "new/wp-content/themes/wp_oswad_market/css/responsive.css",
+    "inputFiles": [
+      "new/wp-content/themes/wp_oswad_market/css/responsive.css"
+    ]
+  },
+  {
+    "outputFileName": "new/wp-content/themes/wp_oswad_market/css/wd_menu_front.css",
+    "inputFiles": [
+      "new/wp-content/themes/wp_oswad_market/css/wd_menu_front.css"
+    ]
+  },
+  {
+    "outputFileName": "new/wp-content/plugins/features-by-woothemes/assets/css/layout.css",
+    "inputFiles": [
+      "new/wp-content/plugins/features-by-woothemes/assets/css/layout.css"
+    ]
+  },
+  {
+    "outputFileName": "new/wp-content/plugins/wd_portfolio/css/wd.portfolio.css",
+    "inputFiles": [
+      "new/wp-content/plugins/wd_portfolio/css/wd.portfolio.css"
+    ]
+  },
+  {
+    "outputFileName": "new/wp-content/themes/wp_oswad_market/css/wd-rtl.css",
+    "inputFiles": [
+      "new/wp-content/themes/wp_oswad_market/css/wd-rtl.css"
+    ]
+  },
+  {
+    "outputFileName": "new/wp-content/uploads/oswadmarket.css",
+    "inputFiles": [
+      "new/wp-content/uploads/oswadmarket.css"
+    ]
+  },
+  {
+    "outputFileName": "assets/owl-carousel/owl.carousel.js",
+    "inputFiles": [
+      "assets/owl-carousel/owl.carousel.js"
+    ]
+  },
+  {
+    "outputFileName": "assets/raty/jquery.raty.js",
+    "inputFiles": [
+      "assets/raty/jquery.raty.js"
+    ]
+  },
+  {
+    "outputFileName": "assets/TimePicker/wickedpicker.css",
+    "inputFiles": [
+      "assets/TimePicker/wickedpicker.css"
+    ]
+  },
+  {
+    "outputFileName": "js/simple-search.min.js",
+    "inputFiles": [
+      "js/simple-search.js"
+    ]
+  },
+  {
+    "outputFileName": "js/newsletter-membership.min.js",
+    "inputFiles": [
+      "js/newsletter-membership.js"
+    ]
+  },
+  {
+    "outputFileName": "js/products.min.js",
+    "inputFiles": [
+      "js/products.js"
+    ]
+  },
+  {
+    "outputFileName": "js/product-details.min.js",
+    "inputFiles": [
+      "js/product-details.js"
+    ]
+  },
+  {
+    "outputFileName": "js/product-scores.min.js",
+    "inputFiles": [
+      "js/product-scores.js"
+    ]
+  },
+  {
+    "outputFileName": "js/products-list.min.js",
+    "inputFiles": [
+      "js/products-list.js"
+    ]
+  },
+  {
+    "outputFileName": "js/send-contact-message.min.js",
+    "inputFiles": [
+      "js/send-contact-message.js"
+    ]
+  },
+  {
+    "outputFileName": "js/send-question.min.js",
+    "inputFiles": [
+      "js/send-question.js"
+    ]
+  },
+  {
+    "outputFileName": "js/insert-order.min.js",
+    "inputFiles": [
+      "js/insert-order.js"
+    ]
+  },
+  {
+    "outputFileName": "js/filter-products.min.js",
+    "inputFiles": [
+      "js/filter-products.js"
+    ]
+  },
+  {
+    "outputFileName": "js/compare-products.min.js",
+    "inputFiles": [
+      "js/compare-products.js"
+    ]
+  },
+  {
+    "outputFileName": "js/cart.min.js",
+    "inputFiles": [
+      "js/cart.js"
+    ]
+  },
+  {
+    "outputFileName": "js/add-product-comment.js",
+    "inputFiles": [
+      "js/add-product-comment.js"
+    ]
+  },
+  {
+    "outputFileName": "js/cities.min.js",
+    "inputFiles": [
+      "js/cities.js"
+    ]
+  },
+  {
+    "outputFileName": "assets/animate/animate.css",
+    "inputFiles": [
+      "assets/animate/animate.css"
+    ]
+  },
+  {
+    "outputFileName": "assets/owl-carousel-v2/owl.carousel.css",
+    "inputFiles": [
+      "assets/owl-carousel-v2/owl.carousel.css"
+    ]
+  },
+  {
+    "outputFileName": "assets/sticky/table-section.js",
+    "inputFiles": [
+      "assets/sticky/table-section.js"
+    ]
+  },
+  {
+    "outputFileName": "assets/sticky/table-section.css",
+    "inputFiles": [
+      "assets/sticky/table-section.css"
+    ]
+  },
+  {
+    "outputFileName": "js/employments.min.js",
+    "inputFiles": [
+      "js/employments.js"
+    ]
+  },
+  {
+    "outputFileName": "js/colleagues.min.js",
+    "inputFiles": [
+      "js/colleagues.js"
+    ]
+  },
+  {
+    "outputFileName": "js/admin/price-list.min.js",
+    "inputFiles": [
+      "js/admin/price-list.js"
+    ]
+  },
+  {
+    "outputFileName": "js/track-order.min.js",
+    "inputFiles": [
+      "js/track-order.js"
+    ]
+  },
+  {
+    "outputFileName": "js/login.min.js",
+    "inputFiles": [
+      "js/login.js"
+    ]
+  },
+  {
+    "outputFileName": "js/package-details.min.js",
+    "inputFiles": [
+      "js/package-details.js"
+    ]
+  },
+  {
+    "outputFileName": "js/packages-list.min.js",
+    "inputFiles": [
+      "js/packages-list.js"
+    ]
+  }
+]

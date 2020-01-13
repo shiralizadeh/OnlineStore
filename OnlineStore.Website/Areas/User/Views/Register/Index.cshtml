@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "عضویت در سایت";
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    BreadCrumbs = new List<BreadCrumbLink>() {
+        new BreadCrumbLink() { Title = "حساب من", Link = "/My-Account" },
+        new BreadCrumbLink() { Title = "عضویت در سایت", Link = "/Register" }
+    }
+})
+
+<div class="responsive-box register-box">
+    <div class="content-column">
+        <section class="register-form">
+            @using (Html.BeginForm("Index", "Register", FormMethod.Post, new { @class = "validate form-horizontal" }))
+            {
+                @Html.AntiForgeryToken();
+                <h2 class="desc">جهت عضویت در سایت لطفا اطلاعات ذیل را تکمیل نمایید.</h2>
+                @Html.Partial("_Status")
+                <div class="row">
+                    <label for="Firstname">نام</label>
+                    <input id="Firstname" name="Firstname" type="text" placeholder="نام" class="required" maxlength="50">
+                </div>
+                <div class="row">
+                    <label for="Lastname">نام خانوادگی</label>
+                    <input id="Lastname" name="Lastname" type="text" placeholder="نام خانوادگی" class="required" maxlength="50">
+                </div>
+
+                <div class="row">
+                    <label for="UserName">نام کاربری</label>
+                    <input id="UserName" name="UserName" type="text" placeholder="نام کاربری" class="required" maxlength="256">
+                </div>
+                <div class="row">
+                    <label for="Password">کلمه عبور</label>
+                    <input id="Password" name="Password" type="password" placeholder="کلمه عبور" class="required" maxlength="20">
+                </div>
+                <div class="row">
+                    <label for="ConfirmPassword">تکرار کلمه عبور</label>
+                    <input id="ConfirmPassword" type="password" data-rule-equalTo="#Password" placeholder="تکرار کلمه عبور" class="required" maxlength="20">
+                </div>
+                <div class="row">
+                    <label for="Email">پست الکترونیک</label>
+                    <input id="Email" name="Email" type="text" placeholder="پست الکترونیک" class="required email" maxlength="256">
+                </div>
+                <div class="row">
+                    <button class="btn-submit validate" type="submit">ثبت نام</button>
+                </div>
+            }
+        </section>
+    </div>
+    <div class="left-column">
+        <div class="small-box rules">
+            <div class="box-header box-header-02">
+                <h2>قوانین</h2>
+            </div>
+            <div class="box-content">
+                <ul>
+                    <li><i class="fa-caret-left"></i>تمامی کاربران می بایست در هنگام ثبت نام در سایت، از کلمات مناسب جهت استفاده در نام کاربری خود استفاده نمایند.</li>
+                    <li><i class="fa-caret-left"></i>حتی المقدور نام كاربری را با حروف انگیسی به جای فارسی ایجاد نمایید.</li>
+                    <li><i class="fa-caret-left"></i>حداقل تعداد کاراکتر مجاز برای کلمه عبور 6 عدد است.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+@section Styles{
+    <link href="~/css/register.min.css" rel="stylesheet" />
+}

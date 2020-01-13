@@ -1,0 +1,253 @@
+﻿@import "_mixins";
+@import "_reset";
+
+@font-face {
+    font-family: "WYekan";
+    font-style: normal;
+    font-weight: normal;
+    src: url('/fonts/web_Yekan.eot');
+    src: url('/fonts/web_Yekan.woff2') format('woff2'),
+         url('/fonts/web_Yekan.woff') format('woff'),
+         url('/fonts/web_Yekan.ttf') format('truetype'),
+         url('/fonts/web_Yekan.svg#web_Yekan') format('svg'),
+         url('/fonts/web_Yekan.eot?#iefix') format('embedded-opentype');
+}
+
+body {
+    @include font;
+    background-color: #fff;
+    direction: rtl;
+    text-align: right;
+}
+
+button,
+input,
+select,
+option,
+textarea {
+    @include font;
+}
+
+div {
+    margin: 0 auto;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+img {
+    font-size: 12px;
+}
+
+.clear {
+    clear: both;
+}
+
+.hide {
+    display: none !important;
+}
+
+.shadow {
+    -moz-box-shadow: 3px 3px 10px -6px $black_4;
+    -webkit-box-shadow: 3px 3px 10px -6px $black_4;
+    box-shadow: 3px 3px 10px -6px $black_4;
+}
+
+.text-center {
+    text-align: center;
+}
+
+label {
+    font-size: 13px;
+    vertical-align: top;
+}
+
+textarea {
+    @include controls(auto, 250px);
+    height: 100px;
+    padding-top: 5px;
+    line-height: 25px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="search"] {
+    @include controls(35px, 250px);
+}
+
+select {
+    @include controls(35px, 272px);
+}
+
+option {
+    padding: 4px;
+}
+
+.btn {
+    display: inline-block;
+    font-size: 12px;
+    color: $black_9;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 20px;
+    cursor: pointer;
+}
+
+.btn-warning {
+    @extend .btn;
+    background-color: $btn-orange;
+    border: solid 1px darken($btn-orange, 5%);
+
+    &:hover {
+        background: lighten($btn-orange, 10%);
+    }
+}
+
+.btn-submit {
+    @extend .btn;
+    background-color: $btn-green;
+    border: solid 1px darken($btn-green, 5%);
+
+    &:hover {
+        background: lighten($btn-green, 10%);
+    }
+}
+
+.btn-cancel {
+    @extend .btn;
+    background-color: $btn-red;
+    border: solid 1px darken($btn-red, 5%);
+    margin-right: 10px;
+
+    &:hover {
+        background: lighten($btn-red, 10%);
+    }
+}
+
+.btn-more {
+    @extend .btn;
+    color: $black_5;
+    border: solid 1px $black_6;
+
+    &:hover {
+        background: $color;
+        color: #fff;
+    }
+}
+
+.label {
+    font-size: 13px;
+    padding: 5px;
+    color: #fff;
+    padding: 12px 5px;
+    display: inline-block;
+}
+
+.label-info {
+    @extend .label;
+    background-color: #a6daff;
+}
+
+.label-error {
+    @extend .label;
+    background-color: rgba(255, 108, 96, 0.6);
+}
+
+.label-success {
+    @extend .label;
+    background-color: #72e9b5;
+}
+
+.label-warning {
+    @extend .label;
+    background-color: #f2dc64;
+}
+
+.label-default {
+    @extend .label;
+    background-color: $black_6;
+}
+
+form.form, div.form {
+    .row {
+        margin: 10px 0;
+    }
+}
+
+/*#region Validations */
+
+select.error,
+textarea.error,
+input.error {
+    border-color: #db4c4a !important;
+    background: #f2dede !important;
+
+    &:focus {
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 108, 96, 0.6);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 108, 96, 0.6);
+    }
+}
+
+label.error {
+    color: #AAA0A0;
+    margin-right: 5px;
+    width: 180px;
+}
+
+/*#endregion Validations */
+
+
+.toast-title {
+    font-size: 15px;
+}
+
+.toast-message {
+    font-size: 13px;
+}
+
+.table {
+    margin-bottom: 20px;
+    width: 100%;
+
+    thead {
+        border-bottom: 2px solid $color;
+    }
+
+    td, th {
+        padding: 10px;
+    }
+
+    tr {
+        border-bottom: 1px solid $black_6;
+    }
+
+    tbody {
+    }
+}
+
+form {
+    .row {
+        margin-bottom: 10px;
+    }
+
+    label {
+        display: inline-block;
+        width: 120px;
+        height: 35px;
+        line-height: 35px;
+    }
+
+    .button {
+        cursor: pointer;
+    }
+}
+
+.table-responsive {
+    overflow-x: auto;
+}

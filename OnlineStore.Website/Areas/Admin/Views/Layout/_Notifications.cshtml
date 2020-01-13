@@ -1,0 +1,46 @@
+﻿@{
+    var userID = User.Identity.GetUserId();
+
+    var notifies = UserNotifications.GetLatest(userID);
+    var count = UserNotifications.CountLatest(userID);
+}
+
+<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+    <i class="icon-bell-alt"></i>
+    <span class="badge bg-warning">@count</span>
+</a>
+<ul class="dropdown-menu extended notification">
+    <div class="notify-arrow notify-arrow-yellow"></div>
+    <li>
+        <p class="yellow">@count اعلان از @(Utilities.ToPersianDate(DateTime.Now.AddDays(-7))) تا امروز دارید.</p>
+    </li>
+    @foreach (var item in notifies)
+    {
+        <li>
+            <a href="@item.Url">
+                @switch (item.NotificationType)
+                {
+                    case OnlineStore.Models.Enums.NotificationType.Info:
+                        <span class="label label-info"><i class="icon-bullhorn"></i></span>
+                        break;
+                    case OnlineStore.Models.Enums.NotificationType.Success:
+                        <span class="label label-success"><i class="icon-plus"></i></span>
+                        break;
+                    case OnlineStore.Models.Enums.NotificationType.Warning:
+                        <span class="label label-warning"><i class="icon-bell"></i></span>
+                        break;
+                    case OnlineStore.Models.Enums.NotificationType.Danger:
+                        <span class="label label-danger"><i class="icon-bolt"></i></span>
+                        break;
+                    default:
+                        break;
+                }
+                @item.Title
+                <span class="small italic" dir="ltr">@((DateTime.Now.Date == item.LastUpdate.Date ? "" : Utilities.ToPersianDate(item.LastUpdate) + " ") + item.LastUpdate.ToString("HH:mm"))</span>
+            </a>
+        </li>
+    }
+    <li>
+        <a href="/Admin/Notifications">نمایش تمامی اعلام ها</a>
+    </li>
+</ul>

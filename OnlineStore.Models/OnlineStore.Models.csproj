@@ -1,0 +1,281 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{18B952A1-02C3-449A-9EAB-C9B3E42CD167}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OnlineStore.Models</RootNamespace>
+    <AssemblyName>OnlineStore.Models</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Admin\AjaxSettings.cs" />
+    <Compile Include="Admin\DashboardSettings.cs" />
+    <Compile Include="Admin\EditAttrGroup.cs" />
+    <Compile Include="Admin\EditAttribute.cs" />
+    <Compile Include="Admin\EditAttributeOption.cs" />
+    <Compile Include="Admin\EditCart.cs" />
+    <Compile Include="Admin\EditGroup.cs" />
+    <Compile Include="Admin\EditGroupBanner.cs" />
+    <Compile Include="Admin\EditMenuItem.cs" />
+    <Compile Include="Admin\EditMenuItemBanner.cs" />
+    <Compile Include="Admin\EditOrderNote.cs" />
+    <Compile Include="Admin\EditOSUser.cs" />
+    <Compile Include="Admin\EditPackage.cs" />
+    <Compile Include="Admin\EditPackageProduct.cs" />
+    <Compile Include="Admin\EditProducer.cs" />
+    <Compile Include="Admin\EditProductDiscount.cs" />
+    <Compile Include="Admin\EditProductPricesLinks.cs" />
+    <Compile Include="Admin\JsonPackageProduct.cs" />
+    <Compile Include="Admin\JsonPriceListLogGroup.cs" />
+    <Compile Include="Admin\JsonProductGift.cs" />
+    <Compile Include="Admin\JsonProductRequest.cs" />
+    <Compile Include="Admin\JsonSimpleProduct.cs" />
+    <Compile Include="Admin\JsonProductVarient.cs" />
+    <Compile Include="Admin\JsonUserTask.cs" />
+    <Compile Include="Admin\OrderStatus.cs" />
+    <Compile Include="Admin\PostalInformation.cs" />
+    <Compile Include="Admin\ViewPriceList.cs" />
+    <Compile Include="Admin\SimpleProduct.cs" />
+    <Compile Include="Admin\EditProductKeyword.cs" />
+    <Compile Include="Admin\EditProductNote.cs" />
+    <Compile Include="Admin\EditProductPoint.cs" />
+    <Compile Include="Admin\ExcelPrice.cs" />
+    <Compile Include="Admin\EditProductVarient.cs" />
+    <Compile Include="Admin\EditProductMark.cs" />
+    <Compile Include="Admin\EditProductPrice.cs" />
+    <Compile Include="Admin\EditScoreComment.cs" />
+    <Compile Include="Admin\EditScoreParameter.cs" />
+    <Compile Include="Admin\EditStaticContent.cs" />
+    <Compile Include="Admin\FilterOrder.cs" />
+    <Compile Include="Admin\JsonKeywordProduct.cs" />
+    <Compile Include="Admin\JsonRelatedArticle.cs" />
+    <Compile Include="Admin\ProductSettings.cs" />
+    <Compile Include="Admin\UserShortInfo.cs" />
+    <Compile Include="Admin\ViewArticleComments.cs" />
+    <Compile Include="Admin\ViewAttrGroup.cs" />
+    <Compile Include="Admin\ViewCart.cs" />
+    <Compile Include="Admin\JsonHomeBoxItem.cs" />
+    <Compile Include="Admin\ViewPriceListProduct.cs" />
+    <Compile Include="Admin\ViewProducer.cs" />
+    <Compile Include="Admin\ViewProductComments.cs" />
+    <Compile Include="Admin\ViewProductQuestion.cs" />
+    <Compile Include="Admin\JsonRelatedProduct.cs" />
+    <Compile Include="Admin\ViewProductSuggestion.cs" />
+    <Compile Include="Admin\ViewScoreComment.cs" />
+    <Compile Include="Admin\ViewScoreParameters.cs" />
+    <Compile Include="Admin\ViewUserTask.cs" />
+    <Compile Include="Enums\ColleagueStatus.cs" />
+    <Compile Include="Enums\GroupBannerType.cs" />
+    <Compile Include="Enums\Language.cs" />
+    <Compile Include="Enums\MenuItemBannerType.cs" />
+    <Compile Include="Enums\PackageStatus.cs" />
+    <Compile Include="Enums\PriceListFieldName.cs" />
+    <Compile Include="Enums\PriceListProductType.cs" />
+    <Compile Include="Enums\PriceListSectionType.cs" />
+    <Compile Include="Enums\SpecialOrderType.cs" />
+    <Compile Include="Enums\AdminEmailType.cs" />
+    <Compile Include="Enums\ConfirmationStatus.cs" />
+    <Compile Include="Enums\EmailSendStatus.cs" />
+    <Compile Include="Enums\GiftCardType.cs" />
+    <Compile Include="Enums\LogStatus.cs" />
+    <Compile Include="Enums\PaymentMethodType.cs" />
+    <Compile Include="Enums\PriceStatus.cs" />
+    <Compile Include="Enums\Priority.cs" />
+    <Compile Include="Enums\ProductRequestStatus.cs" />
+    <Compile Include="Enums\RSSRowType.cs" />
+    <Compile Include="Enums\SendMethodType.cs" />
+    <Compile Include="Enums\DiscountType.cs" />
+    <Compile Include="Enums\BankType.cs" />
+    <Compile Include="Enums\CartStatus.cs" />
+    <Compile Include="Enums\ContactUsMessageStatus.cs" />
+    <Compile Include="Enums\HomeBoxType.cs" />
+    <Compile Include="Enums\MenuItemType.cs" />
+    <Compile Include="Enums\PriceType.cs" />
+    <Compile Include="Enums\ProductPointType.cs" />
+    <Compile Include="Enums\ScoreCommentStatus.cs" />
+    <Compile Include="Enums\SendStatus.cs" />
+    <Compile Include="Enums\DisplayTitleType.cs" />
+    <Compile Include="Enums\SMSStatus.cs" />
+    <Compile Include="Enums\UserTaskStatus.cs" />
+    <Compile Include="Enums\WebsiteName.cs" />
+    <Compile Include="Enums\EmploymentStatus.cs" />
+    <Compile Include="Enums\MartialStatus.cs" />
+    <Compile Include="Enums\StudyDegree.cs" />
+    <Compile Include="Public\PackageDetail.cs" />
+    <Compile Include="Public\PackageDetailSettings.cs" />
+    <Compile Include="Public\PackageItem.cs" />
+    <Compile Include="Public\PackageListSettings.cs" />
+    <Compile Include="Public\TelegramBot.cs" />
+    <Compile Include="Public\AdvancedSearch.cs" />
+    <Compile Include="Public\BankData.cs" />
+    <Compile Include="Public\BlogDetail.cs" />
+    <Compile Include="Public\GroupOption.cs" />
+    <Compile Include="Public\ProducerSettings.cs" />
+    <Compile Include="Public\RelatedProductSettings.cs" />
+    <Compile Include="Public\SpecialOfferSettings.cs" />
+    <Compile Include="Public\TagsSettings.cs" />
+    <Compile Include="Public\JsonTrackOrder.cs" />
+    <Compile Include="Public\ViewAttributeOption.cs" />
+    <Compile Include="Public\ViewCartItemGift.cs" />
+    <Compile Include="Public\ContactUsInfo.cs" />
+    <Compile Include="Public\ProductDicsountItem.cs" />
+    <Compile Include="Public\JsonBlogSearch.cs" />
+    <Compile Include="Public\BreadCrumbLink.cs" />
+    <Compile Include="Public\CartSettings.cs" />
+    <Compile Include="Public\Factor.cs" />
+    <Compile Include="Public\FactorSettings.cs" />
+    <Compile Include="Public\JsonKeyword.cs" />
+    <Compile Include="Public\JsonProductCommentRate.cs" />
+    <Compile Include="Public\JsonProductCompare.cs" />
+    <Compile Include="Public\JsonProductGroup.cs" />
+    <Compile Include="Public\JsonProductVarient.cs" />
+    <Compile Include="Public\JsonSimpleSearch.cs" />
+    <Compile Include="Public\RSSProductsBlog.cs" />
+    <Compile Include="Public\SocialNetworkLink.cs" />
+    <Compile Include="Public\ViewEmail.cs" />
+    <Compile Include="Public\ViewEmailSend.cs" />
+    <Compile Include="Public\ViewHomeBoxItem.cs" />
+    <Compile Include="Public\ViewMenuItem.cs" />
+    <Compile Include="Public\PriceItem.cs" />
+    <Compile Include="Public\PriceSettings.cs" />
+    <Compile Include="Public\ProducerItem.cs" />
+    <Compile Include="Public\ProductAttributeGroup.cs" />
+    <Compile Include="Public\ProductAttribute.cs" />
+    <Compile Include="Public\SitePage.cs" />
+    <Compile Include="Public\ViewHomeBox.cs" />
+    <Compile Include="Public\PageTitleSettings.cs" />
+    <Compile Include="Public\ProductDetailSettings.cs" />
+    <Compile Include="Public\ProductItem.cs" />
+    <Compile Include="Public\HomeSettings.cs" />
+    <Compile Include="Public\ProductListSettings.cs" />
+    <Compile Include="Public\ProductQuickShowSettings.cs" />
+    <Compile Include="Public\JsonProductSearch.cs" />
+    <Compile Include="Public\ScoreValue.cs" />
+    <Compile Include="Public\ViewMenuItemBanner.cs" />
+    <Compile Include="Public\ViewPackageProduct.cs" />
+    <Compile Include="Public\ViewProductGroup.cs" />
+    <Compile Include="Public\ViewScoreComment.cs" />
+    <Compile Include="Public\ViewArticleComment.cs" />
+    <Compile Include="Public\ViewBanner.cs" />
+    <Compile Include="Public\BlogPost.cs" />
+    <Compile Include="Public\BlogList.cs" />
+    <Compile Include="Public\ViewArticleGroup.cs" />
+    <Compile Include="Public\ViewBuyerInfo.cs" />
+    <Compile Include="Public\ViewCartItem.cs" />
+    <Compile Include="Public\ProductDetail.cs" />
+    <Compile Include="Public\ViewCustomerComment.cs" />
+    <Compile Include="Public\ViewPaymentMethod.cs" />
+    <Compile Include="Public\ViewProducer.cs" />
+    <Compile Include="Public\ViewScoreParameter.cs" />
+    <Compile Include="Public\ViewSendMethod.cs" />
+    <Compile Include="Public\ViewSliderImage.cs" />
+    <Compile Include="Public\ViewProductComment.cs" />
+    <Compile Include="Public\ViewProductQuestion.cs" />
+    <Compile Include="Public\RecentComment.cs" />
+    <Compile Include="Public\RecentPost.cs" />
+    <Compile Include="Public\ScoresAverage.cs" />
+    <Compile Include="User\EditOSUser.cs" />
+    <Compile Include="User\MyAccountSettings.cs" />
+    <Compile Include="User\ViewArticle.cs" />
+    <Compile Include="Admin\EditProduct.cs" />
+    <Compile Include="Admin\EditProductFile.cs" />
+    <Compile Include="Admin\EditProductImage.cs" />
+    <Compile Include="Admin\EditProductSupply.cs" />
+    <Compile Include="Admin\JsonProductDiscount.cs" />
+    <Compile Include="Admin\ViewArticle.cs" />
+    <Compile Include="Admin\ViewAttribute.cs" />
+    <Compile Include="Enums\ArticleCommentStatus.cs" />
+    <Compile Include="Enums\ArticleStatus.cs" />
+    <Compile Include="Enums\ArticleType.cs" />
+    <Compile Include="Enums\AttributeType.cs" />
+    <Compile Include="Enums\QuestionStatus.cs" />
+    <Compile Include="Enums\NotificationType.cs" />
+    <Compile Include="Enums\ProductDiscountStatus.cs" />
+    <Compile Include="Enums\CommentStatus.cs" />
+    <Compile Include="Enums\GroupType.cs" />
+    <Compile Include="Enums\ProductImagePlace.cs" />
+    <Compile Include="Enums\ProductStatus.cs" />
+    <Compile Include="Enums\ProfitType.cs" />
+    <Compile Include="Enums\SellType.cs" />
+    <Compile Include="Enums\SendType.cs" />
+    <Compile Include="Enums\SliderType.cs" />
+    <Compile Include="Enums\StaticContentType.cs" />
+    <Compile Include="Enums\SupplyType.cs" />
+    <Compile Include="Enums\UserScoreType.cs" />
+    <Compile Include="GridSettings.cs" />
+    <Compile Include="JsonSuccessResult.cs" />
+    <Compile Include="ListItem.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TreeViewSettings.cs" />
+    <Compile Include="User\ViewOrder.cs" />
+    <Compile Include="User\ViewOrderItem.cs" />
+    <Compile Include="User\JsonUserScore.cs" />
+    <Compile Include="User\ViewProductCommentRate.cs" />
+    <Compile Include="User\ViewScoreComment.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OnlineStore.Providers\OnlineStore.Providers.csproj">
+      <Project>{24e9d4b8-84b2-42b6-9371-dc39f9aa66ab}</Project>
+      <Name>OnlineStore.Providers</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

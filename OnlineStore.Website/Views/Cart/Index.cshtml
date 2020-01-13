@@ -1,0 +1,405 @@
+﻿@model CartSettings
+
+@{
+    var version = 2.0;
+
+    ViewBag.Title = "سبد خرید";
+
+    var userID = User.Identity.GetUserId();
+
+    OSUser user = null;
+    if (User.Identity.IsAuthenticated)
+    {
+        user = OnlineStore.Identity.OSUsers.GetByID(userID);
+    }
+
+    var cart = CartController.GetCart(this.Context);
+
+    var cartItems = CartItems.GetByCartID(cart.ID, userID);
+
+    var buyerInfo = Model.BuyerInfo;
+
+    int total = 0,
+        totalProfit = 0,
+        totalDiscount = 0;
+
+    bool isEmpty = (cartItems.Count == 0);
+
+    foreach (var item in cartItems)
+    {
+        totalDiscount += item.Quantity * (item.DiscountPercent > 0 ? item.DiscountPrice : item.Price);
+        total += item.Quantity * item.Price;
+    }
+
+    totalProfit = total - totalDiscount;
+
+    var isMashhad = (User.Identity.IsAuthenticated && user.CityID == 468);
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    BreadCrumbs = new List<BreadCrumbLink>() {
+                     new BreadCrumbLink() { Title = StaticValues.HomeTitle, Link = "/" },
+                     new BreadCrumbLink() { Title = "سبد خرید", Link = "/Cart" },
+    }
+})
+
+<div class="responsive-box">
+    @if (!isEmpty)
+    {
+        <div class="steps-box">
+            <div class="btn-step step-1 active">
+                <h3>مرحله اول</h3>
+                <span>مشاهده سبد خرید</span>
+            </div>
+            <div class="btn-step step-2">
+                <h3>مرحله دوم</h3>
+                <span>دریافت اطلاعات شخصی</span>
+            </div>
+            <div class="btn-step step-3">
+                <h3>مرحله سوم</h3>
+                <span>دریافت اطلاعات پستی و پرداخت</span>
+            </div>
+            <div class="btn-step step-4">
+                <h3>مرحله چهارم</h3>
+                <span>پرداخت سبد خرید</span>
+            </div>
+            <div class="btn-step step-end">پایان</div>
+            <div class="clear"></div>
+        </div>
+
+        <form id="Payment" method="post" class="validate ajax">
+            <div class="cart-box">
+                <div class="step-content step-content-1" style="display: block;">
+                    <table class="table">
+                        <thead>
+                            <tr class="first last">
+                                <th>عکس</th>
+                                <th>نام محصول</th>
+                                <th>تعداد</th>
+                                <th>قیمت واحد</th>
+                                <th>قابل پرداخت</th>
+                                <th>حذف</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in cartItems)
+                            {
+                                <tr data-productid="@item.ProductID" data-productvarientid="@item.ProductVarientID">
+                                    <td>
+                                        <a href="@item.Url" title="@item.Title" target="_blank">
+                                            <img src="@item.Image" alt="@item.Title">
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="@item.Url" title="@item.Title" class="cart-item-title" target="_blank">
+                                            @item.Title
+                                            <br />
+                                            <span>@item.VarientTitle</span>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn-quantity-down">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                        <input type="text" value="@item.Quantity" class="quantity" readonly disabled />
+                                        <button type="button" class="btn-quantity-up">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </td>
+                                    <td class="price-item">
+                                        @if (item.DiscountPercent > 0)
+                                        {
+                                            <p class="original-price">
+                                                @Html.Raw(item.Price.ToPrice("{0} <span class='price-unit'>{1}</span>"))
+                                            </p>
+                                            <p class="discount-price">
+                                                @Html.Raw(item.DiscountPrice.ToPrice("{0} <span class='price-unit'>{1}</span>"))
+                                            </p>
+                                        }
+                                        else
+                                        {
+                                            <p class="regular-price">
+                                                @Html.Raw(item.Price.ToPrice("{0} <span class='price-unit'>{1}</span>"))
+                                            </p>
+                                        }
+                                    </td>
+                                    <td class="total-item">
+                                        @if (item.DiscountPercent > 0)
+                                        {
+                                            <p class="original-price">
+                                                @Html.Raw((item.Quantity * item.Price).ToPrice("{0} <span class='price-unit'>{1}</span>"))
+                                            </p>
+                                            <p class="discount-price">
+                                                @Html.Raw((item.Quantity * item.DiscountPrice).ToPrice("{0} <span class='price-unit'>{1}</span>"))
+                                            </p>
+                                        }
+                                        else
+                                        {
+                                            <p class="regular-price">
+                                                @Html.Raw((item.Quantity * item.Price).ToPrice("{0} <span class='price-unit'>{1}</span>"))
+                                            </p>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="#" class="btn-cart-remove"><span class="fa fa-trash-o"></span></a>
+                                    </td>
+                                </tr>
+
+                                foreach (var gift in item.Gifts)
+                                {
+                                    <tr class="gift" data-productid="@item.ProductID" data-productvarientid="@item.ProductVarientID">
+                                        <td>
+                                            <i class="fa fa-gift"></i>
+                                        </td>
+                                        <td>
+                                            <a href="@gift.Url" title="@gift.GiftTitle" class="cart-item-title" target="_blank">
+                                                @gift.GiftTitle
+                                            </a>
+                                        </td>
+                                        <td>&nbsp;</td>
+                                        <td class="regular-price">
+                                            @Html.Raw(gift.Price.ToPrice("{0} <span class='price-unit'>{1}</span>"))
+                                        </td>
+                                        <td class="total-item">
+                                            رایگان
+                                        </td>
+                                        <td class="text-center">&nbsp;</td>
+                                    </tr>
+
+                                }
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4" align="left">جمع کل:</td>
+                                <td class="total-price">
+                                    @Html.Raw(total.ToPrice("{0} <span class='price-unit'>{1}</span>"))
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr class="total-profit-row @(totalProfit == 0 ? "hide" : "")">
+                                <td colspan="4" align="left">سود شما:</td>
+                                <td class="total-profit">
+                                    @Html.Raw(totalProfit.ToPrice("{0} <span class='price-unit'>{1}</span>"))
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr class="delivary-price-row hide">
+                                <td colspan="4" align="left">هزینه ارسال:</td>
+                                <td class="delivary-price"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" align="left">قابل پرداخت:</td>
+                                <td class="total-topay" data-price="@totalDiscount">
+                                    @Html.Raw(totalDiscount.ToPrice("{0} <span class='price-unit'>{1}</span>"))
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="step-content step-content-2">
+                    <div class="row user-info ">
+                        @if (Model.IsAuthentication)
+                        {
+                            <div class="alert-info">
+                                <strong>توجه: </strong> تکمیل اطلاعات ذیل الزامی است. در صورت تغییر اطلاعات یا ناقص بودن آن به لینک "ویرایش مشخصات فردی" مراجعه نمایید.
+                            </div>
+                            <ul>
+                                <li><i class="fa fa-check-circle"></i><span>نام:</span>@buyerInfo.Firstname</li>
+                                <li><i class="fa fa-check-circle"></i><span>نام خانوادگی:</span>@buyerInfo.Lastname</li>
+                                <li><i class="@(!String.IsNullOrWhiteSpace(buyerInfo.Phone) ? "fa fa-check-circle" : "fa fa-times-circle")"></i><span>شماره تماس:</span>@buyerInfo.Phone</li>
+                                <li><i class="@(!String.IsNullOrWhiteSpace(buyerInfo.Mobile) ? "fa fa-check-circle" : "fa fa-times-circle")"></i><span>شماره همراه:</span>@buyerInfo.Mobile</li>
+                                <li><i class="@(!String.IsNullOrWhiteSpace(buyerInfo.Email) ? "fa fa-check-circle" : "fa fa-times-circle")"></i><span>پست الکترونیک:</span>@buyerInfo.Email</li>
+                                <li><i class="@(!String.IsNullOrWhiteSpace(buyerInfo.PostalCode) ? "fa fa-check-circle" : "fa fa-times-circle")"></i><span>کد پستی:</span>@buyerInfo.PostalCode</li>
+                            </ul>
+                            <a class="btn-warning" target="_blank" href="/My-Account/My-Profile">ویرایش مشخصات فردی</a>
+                        }
+                        else
+                        {
+                            @Html.Partial("_RegisterForm")
+                        }
+                    </div>
+                </div>
+                <div class="step-content step-content-3">
+                    <div class="right">
+                        @if (!Model.IsAuthentication)
+                        {
+                            @Html.Partial("/Views/Cities/_CitiesList.cshtml")
+                            <div class="row">
+                                <label for="PostalCode">کد پستی</label>
+                                <input id="PostalCode" name="PostalCode" type="text" placeholder="کد پستی" class="required" maxlength="10" />
+                            </div>
+                            <div class="row">
+                                <label for="HomeAddress">آدرس</label>
+                                <textarea id="HomeAddress" name="HomeAddress" class="required" maxlength="500"></textarea>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row">
+                                <label>استان:</label>
+                                <label>@Model.BuyerInfo.StateName</label>
+                            </div>
+                            <div class="row">
+                                <label>شهر:</label>
+                                <label>@Model.BuyerInfo.CityName</label>
+                            </div>
+                            <div class="row">
+                                <label>کد پستی:</label>
+                                <label>@Model.BuyerInfo.PostalCode</label>
+                            </div>
+                            <div class="row">
+                                <label>آدرس:</label>
+                                <label>@Model.BuyerInfo.HomeAddress</label>
+                            </div>
+                        }
+                        <div class="row">
+                            <label for="UserDescription">توضیحات بیشتر</label>
+                            <textarea id="UserDescription" name="UserDescription" maxlength="1000"></textarea>
+                        </div>
+                    </div>
+                    <div class="left">
+                        <div class="row sendtypes">
+                            <label>روش ارسال</label>
+                            <div class="box">
+                                <div class="sendtype tooltipster-right" title="فعال سازی تنها برای خریداران محترم مشهد مقدس">
+                                    <input id="SendType_0" type="radio" name="SendType" value="0" @(isMashhad ? "checked" : "disabled") />
+                                    <label for="SendType_0">
+                                        <i class="fa fa-motorcycle"></i>
+                                        پیک درون شهری فقط مشهد مقدس (<span class="green">5 هزار تومان</span>)
+                                    </label>
+                                </div>
+                                @*<br />
+                                <div class="sendtype">
+                                    <input id="SendType_2" type="radio" name="SendType" value="2" @(isMashhad ? "disabled" : "checked" ) />
+                                    <label for="SendType_2">
+                                        <i class="fa fa-truck"></i>
+                                        تیپاکس (<span class="green delivery-info">هزینه ثابت 10 هزار تومان</span>)
+                                    </label>
+                                </div>*@
+                                <br />
+                                <div class="sendtype">
+                                    <input id="SendType_1" type="radio" name="SendType" value="1" @(User.Identity.IsAuthenticated && user.CityID == 468 ? "disabled" : "" ) />
+                                    <label for="SendType_1">
+                                        <i class="fa fa-truck"></i>
+                                        پست پیشتاز (<span class="green delivery-info">هزینه ثابت 10 هزار تومان</span>)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row paymenttypes">
+                            <label>روش پرداخت</label>
+                            <div class="box">
+                                <div class="paymenttype">
+                                    <input id="PaymentType_0" type="radio" name="PaymentType" value="0" checked />
+                                    <label for="PaymentType_0">
+                                        <i class="fa fa-credit-card-alt"></i>
+                                        پرداخت آنلاین توسط کارت های شتاب
+                                    </label>
+                                </div>
+                                <br />
+                                <div class="paymenttype">
+                                    <input id="PaymentType_1" type="radio" name="PaymentType" value="1" />
+                                    <label for="PaymentType_1">
+                                        <i class="fa fa-exchange"></i>
+                                        انتقال کارت به کارت شتاب
+                                    </label>
+                                </div>
+                                <br />
+                                <div class="paymenttype tooltipster-right" title="فعال سازی تنها برای خریداران محترم مشهد مقدس">
+                                    <input id="PaymentType_2" type="radio" name="PaymentType" value="2" @(isMashhad ? "checked" : "disabled") />
+                                    <label for="PaymentType_2">
+                                        <i class="fa fa-home"></i>
+                                        پرداخت در محل توسط کارت خوان
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="step-content step-content-4">
+                </div>
+                <div class="step-content step-content-5">
+                    <div class="type_1">
+                        <p class="success">
+                            <i class="fa fa-check"></i>
+                            باتشکر، اطلاعات شما با موفقیت ثبت شد.
+                        </p>
+                        <p class="desc">
+                            لطفا مبلغ
+                            <span class="price">0</span>
+                            را به شماره کارت زیر واریز نمایید.
+                            <br />
+                            سپس تاریخ، ساعت و شماره ارجا و شماره پیگیری را در بخش
+                            <a href="/ContactUs">تماس با ما</a>
+                            اعلام بفرمایید.
+                        </p>
+                        <p class="cart-number">
+                            6104-3378-7228-2650
+                            <br />
+                            <span>بانک ملی به نام فرهاد رعیت دوست</span>
+                        </p>
+                    </div>
+                    <div class="type_2">
+                        <p class="success">
+                            <i class="fa fa-check"></i>
+                            باتشکر، اطلاعات شما با موفقیت ثبت شد.
+                        </p>
+                        <p class="desc">
+                            کارشناس فروش ما به زودی با شما تماس خواهد گرفت.
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <a href="#" class="btn-nextstep">
+                        <p>
+                            مرحله بعد
+                            <i class="fa fa-chevron-left"></i>
+                        </p>
+                        <span>دریافت اطلاعات شخصی</span>
+                    </a>
+                    <a href="#" class="btn-prevstep">
+                        <p>
+                            <i class="fa fa-chevron-right"></i>
+                            مرحله قبل
+                        </p>
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </form>
+        <form id="BankMellat" method="post" action="" target="_self">
+            <input id="RefID" type="hidden" name="RefId" value="" />
+        </form>
+        <div class="card-to-card-message">
+
+        </div>
+    }
+    <div class="alert-warning cart-alert-empty @(isEmpty ? "" : "hide")">
+        <h4>
+            <i class="fa fa-exclamation-triangle"></i>
+            هشدار!
+        </h4>
+        کاربر گرامی، سبد خرید شما خالی می باشد.
+    </div>
+</div>
+
+@section Styles {
+    <link href="~/css/cart.min.css?ver=@version" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script>
+        var initStateID = 0,
+            initCityID = 0,
+            cartItems = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(cartItems));
+    </script>
+
+    <script src="/js/cities.min.js"></script>
+    <script src="/js/insert-order.min.js?ver=@version"></script>
+}

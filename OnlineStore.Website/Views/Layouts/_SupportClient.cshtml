@@ -1,0 +1,18 @@
+﻿@{
+    var right = HttpUtility.HtmlDecode(StaticContents.GetByName("HomeRight").Content);
+    var center = HttpUtility.HtmlDecode(StaticContents.GetByName("HomeCenter").Content);
+    var left = HttpUtility.HtmlDecode(StaticContents.GetByName("HomeLeft").Content);
+}
+<div class="support-client">
+    <div class="row">
+        <div class="col-sm-4">
+            @Html.Raw(right)
+        </div>
+        <div class="col-sm-4">
+            @Html.Raw(center)
+        </div>
+        <div class="col-sm-4">
+            @Html.Raw(left)
+        </div>
+    </div>
+</div>

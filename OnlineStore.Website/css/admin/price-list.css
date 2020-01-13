@@ -1,0 +1,137 @@
+﻿/*border*/
+body {
+  background-color: #fff; }
+
+.btn-print {
+  margin: 10px; }
+  .btn-print .icon-print {
+    margin-left: 10px; }
+
+.portlet-placeholder {
+  border: 1px dotted black;
+  margin: 0 1em 1em 0;
+  height: 50px; }
+
+.price-list-box .portlet-placeholder {
+  border: 1px dotted black;
+  margin: 0 1em 1em 0;
+  height: 50px; }
+
+.price-list-box .column {
+  width: 20%;
+  min-height: 100px;
+  float: right;
+  position: relative; }
+  .price-list-box .column .loading {
+    position: absolute;
+    background-color: #fff;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    z-index: 9999; }
+    .price-list-box .column .loading img {
+      position: absolute;
+      right: 50%;
+      top: 50%;
+      margin-right: -16px;
+      margin-top: -16px;
+      -moz-border-radius: 50%;
+      -webkit-border-radius: 50%;
+      border-radius: 50%;
+      width: 32px; }
+  .price-list-box .column .portlet {
+    position: relative; }
+    .price-list-box .column .portlet .loading {
+      position: absolute;
+      background-color: #fff;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.5;
+      z-index: 9999; }
+      .price-list-box .column .portlet .loading img {
+        position: absolute;
+        right: 50%;
+        top: 50%;
+        margin-right: -16px;
+        margin-top: -16px;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+        width: 32px; }
+  .price-list-box .column ul {
+    padding-right: 0; }
+    .price-list-box .column ul li {
+      margin: 5px; }
+      .price-list-box .column ul li input[type="text"],
+      .price-list-box .column ul li input[type="number"] {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s; }
+        .price-list-box .column ul li input[type="text"]:focus,
+        .price-list-box .column ul li input[type="number"]:focus {
+          border-color: #66afe9;
+          -moz-box-shadow: 1px 1px 5px #73bcf6;
+          -webkit-box-shadow: 1px 1px 5px #73bcf6;
+          box-shadow: 1px 1px 5px #73bcf6; }
+      .price-list-box .column ul li .price-item-color {
+        color: #ff0000; }
+      .price-list-box .column ul li .title {
+        width: 45%; }
+      .price-list-box .column ul li .sub-title,
+      .price-list-box .column ul li .price {
+        width: 20%; }
+
+.print-list-box {
+  margin: 0 auto; }
+  .print-list-box .print-list {
+    margin: 0 auto; }
+    .print-list-box .print-list .print-header {
+      border: solid 1px #000;
+      border-bottom: 0;
+      padding: 10px; }
+      .print-list-box .print-list .print-header span {
+        font-size: 15px;
+        display: inline-block; }
+      .print-list-box .print-list .print-header .date {
+        float: left;
+        color: #66afe9;
+        direction: ltr; }
+      .print-list-box .print-list .print-header .phones {
+        margin: 0 auto;
+        direction: ltr; }
+      .print-list-box .print-list .print-header .hamiran {
+        color: #ff3d00; }
+    .print-list-box .print-list .print-body .column {
+      vertical-align: top; }
+      .print-list-box .print-list .print-body .column span {
+        display: inline-block;
+        font-size: 11px; }
+      .print-list-box .print-list .print-body .column table {
+        width: 100%;
+        direction: ltr; }
+        .print-list-box .print-list .print-body .column table .price-item-color {
+          color: #ff0000; }
+        .print-list-box .print-list .print-body .column table td {
+          border: solid 1px #000;
+          padding: 5px;
+          font-size: 11px; }
+          .print-list-box .print-list .print-body .column table td img {
+            margin: 0 auto;
+            display: block; }
+          .print-list-box .print-list .print-body .column table td .title {
+            margin-right: 10px; }
+    .print-list-box .print-list .print-footer .logo {
+      float: right; }
+    .print-list-box .print-list .print-footer .text-footer {
+      font-size: 15px;
+      margin: 0 auto;
+      width: 280px; }
+      .print-list-box .print-list .print-footer .text-footer span {
+        display: inline-block;
+        font-weight: bold;
+        font-size: 16px; }
+

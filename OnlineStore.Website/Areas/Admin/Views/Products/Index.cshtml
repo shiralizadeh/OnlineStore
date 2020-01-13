@@ -1,0 +1,206 @@
+﻿@model ProductSettings
+@{
+    ViewBag.Title = "مدیریت محصولات";
+}
+
+@Html.Partial("_Message")
+
+<fieldset class="filter-box">
+    <legend>
+        <a class="filter-header">
+            <i class="open-icon icon icon-plus-sign"></i>
+            <span>جستجو</span>
+        </a>
+    </legend>
+    <div class="control-box">
+        <div class="row form-group">
+            <div>
+                @Html.Partial("_TreeView", new TreeViewSettings()
+           {
+               ControllerName = "/Admin/Groups",
+               JsonMothod = "GetGroups",
+               FieldName = "JSONGroups",
+               TreeViewSelectMode = TreeViewSelectMode.Multiple,
+               SelectedItems = new List<int>()
+           })
+            </div>
+            <label id="GroupsError" class="error" style="display: none;"></label>
+        </div>
+        <div class="row checkbox">
+            <input id="NoPrice" type="checkbox" />
+            <label>فاقد قیمت</label>
+        </div>
+        <div class="row form-group">
+            <input type="text" id="Title" class="form-control col-sm-2" placeholder="عنوان..." />
+            <div class="search-box key-search">
+                <input type="text" id="Keyword" class="form-control col-sm-2 keyword" placeholder="کلیدواژه..." value="" data-id="-1" />
+                <div class="result-box">
+                </div>
+            </div>
+            <div class="producers-list">
+            <select id="Producer" class="form-control col-sm-2">
+                <option value="-1">تولید کننده</option>
+                @foreach (var item in Model.Producers)
+                {
+                <option value="@item.ID">@item.Title</option>
+                }
+            </select>
+            </div>
+        </div>
+        <div class="row form-group">
+            <input type="text" id="Price" class="form-control col-sm-2 price" placeholder="قیمت..." />
+            <input type="text" id="FromDate" class="form-control persiandate col-sm-2" placeholder="تاریخ شروع انتشار..." />
+            <input type="text" id="ToDate" class="form-control persiandate col-sm-2" placeholder="تاریخ پایان انتشار..." />
+        </div>
+        <div class="row form-group">
+            <select id="IsUnavailable" class="form-control col-sm-2">
+                <option value="-1">وضعیت موجودی</option>
+                <option value="False">موجود</option>
+                <option value="True">ناموجود</option>
+            </select>
+            <select id="IsInVisible" class="form-control col-sm-2">
+                <option value="-1">وضعیت نمایش</option>
+                <option value="True">نمایش</option>
+                <option value="False">عدم نمایش</option>
+            </select>
+            <select id="ProductStatus" class="form-control col-sm-2">
+                <option value="-1">وضعیت تایید</option>
+                <option value="0">چک نشده</option>
+                <option value="1">رد شده</option>
+                <option value="2">تایید شده</option>
+            </select>
+            <a id="btnSearch" class="btn btn-info"><i class="icon-search"></i></a>
+        </div>
+
+    </div>
+</fieldset>
+
+<div class="row form-group reference">
+    <select id="Username" class="form-control col-sm-2">
+        <option value="-1">نویسنده...</option>
+        @foreach (var item in Model.Users)
+            {
+            <option value="@item.Id">@item.Username</option>
+        }
+    </select>
+    <button id="btnReference" class="btn btn-success" type="submit">ارجاع</button>
+</div>
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "Products",
+    Selectable = true,
+    Columns = new List<Column>() {
+                new Column() {
+                    Title = "عنوان",
+                    DataField = "Title"
+                },
+                new Column() {
+                    Title = "تولید کننده",
+                    DataField = "ProducerTitle"
+                },
+                new Column() {
+                    Title = "قیمت",
+                    DataField = "formatPrice(Price)"
+                },
+                new Column() {
+                    Title = "تاریخ انتشار",
+                    DataField = "toPersianDate(PublishDate)"
+                },
+                new Column() {
+                    Title = "وضعیت",
+                    DataField = "fromProductStatus(ProductStatus)"
+                },
+                new Column() {
+                    Title = "عدم موجودی",
+                    DataField = "toBooleanYesNo(IsUnavailable)"
+                },
+                new Column() {
+                    Title = "عدم نمایش",
+                    DataField = "toBooleanYesNo(IsInVisible)"
+                },
+                new Column() {
+                    Title = "تعداد بازدید",
+                    DataField = "VisitCount"
+                },
+                new Column() {
+                    Title = "لینک",
+                    DataField = "toProductLink(ID)"
+                },
+                new Column() {
+                    Title = "محصولات مرتبط",
+                    DataField = "toRelProductLink(ID)"
+                },
+                new Column() {
+                    Title = "لوازم جانبی",
+                    DataField = "toProductAccessoriesLink(ID)"
+                },
+                new Column() {
+                    Title = "هدایا",
+                    DataField = "toProductGifts(ID)"
+                },
+
+                new Column() {
+                    Title = "نظرات",
+                    DataField = "toProductCommentLink(ID)"
+                },
+                new Column() {
+                    Title = "پرسش ها",
+                    DataField = "toProductQuestionLink(ID)"
+                },
+                new Column() {
+                    Title = "امتیازات",
+                    DataField = "toScoreCommentLink(ID)"
+                },
+                new Column() {
+                    Title = "ارسال به دوست",
+                    DataField = "toProductSuggestionLink(ID)"
+                },
+                new Column() {
+                    Title = "آخرین ویرایش",
+                    DataField = "fromNow(LastUpdate)"
+                }
+            }
+})
+
+@section Scripts {
+    <script src="~/js/admin/product-keyword-search.js"></script>
+    <script src="~/js/admin/product-list.js"></script>
+
+    <script type="text/javascript">
+        var $groups = $('#hfJSONGroups'),
+            $title = $('#Title'),
+            $keyword = $('#Keyword'),
+            $producer = $('#Producer'),
+            $price = $('#Price'),
+            $fromDate = $('#FromDate'),
+            $toDarte = $('#ToDate'),
+            $isUnavailable = $('#IsUnavailable'),
+            $isInVisible = $('#IsInVisible'),
+            $productStatus = $('#ProductStatus'),
+            $noPrice = $('#NoPrice');
+
+        jConfigGrid.init({
+            ajaxUrl: '/Admin/Products/',
+            filter: function () {
+                return {
+                    Groups: eval($groups.val()),
+                    Title: $title.val(),
+                    Keyword: $keyword.data('id'),
+                    Producer: $producer.val(),
+                    Price: $price.val(),
+                    FromDate: $fromDate.val(),
+                    ToDate: $toDarte.val(),
+                    IsUnavailable: $isUnavailable.val(),
+                    IsInVisible: $isInVisible.val(),
+                    NoPrice: $noPrice.is(":checked"),
+                    ProductStatus: $productStatus.val()
+                }
+            }
+        });
+    </script>
+}
+
+@section Styles{
+    <link href="/css/admin/simple-search.min.css" rel="stylesheet" />
+}

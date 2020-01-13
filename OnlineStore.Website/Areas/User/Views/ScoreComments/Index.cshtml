@@ -1,0 +1,91 @@
+﻿@model List<OnlineStore.Models.User.ViewScoreComment>
+
+@{
+    var version = 1.0;
+    ViewBag.Title = "نظرات من";
+
+    int i = 0;
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    BreadCrumbs = new List<BreadCrumbLink>() {
+        new BreadCrumbLink() { Title = "حساب من", Link = "/My-Account" },
+        new BreadCrumbLink() { Title = "نظرات من", Link = "/My-Account/My-Comments" },
+    }
+})
+
+<div class="responsive-box">
+    <div class="user-panel">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ردیف</th>
+                        <th>محصول</th>
+                        <th>نظر</th>
+                        <th>پسندیده</th>
+                        <th>نپسندیده</th>
+                        <th>وضعیت</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+            {
+                i++;
+                        <tr data-id="@item.ID">
+                            <td>@i</td>
+                            <td>@item.DisplayTitle</td>
+                            <td>@item.Text</td>
+                            <td>@item.LikeCount</td>
+                            <td>@item.DisLikeCount</td>
+                            <td>
+                                @switch (item.ScoreCommentStatus)
+                                {
+                                    case ScoreCommentStatus.NotChecked:
+                                        <span class="label label-warning">چک نشده</span>
+                                        break;
+                                    case ScoreCommentStatus.Rejected:
+                                        <span class="label label-error">رد شد</span>
+                                        break;
+                                    case ScoreCommentStatus.Approved:
+                                        <span class="label label-success">تایید شد</span>
+                                        break;
+                                    default:
+                                        <span>نامعلوم</span>
+                                        break;
+                                }
+                            </td>
+                            <td>
+                                @if (item.ScoreCommentStatus != ScoreCommentStatus.Approved)
+                                {
+                                    <a class="btn-edit edit-comment" href="/My-Account/My-Comments/Edit/@item.ID" title="ویرایش">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+
+                                    <button class="btn-delete btn-jdelete">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+
+                                }
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+@section Styles{
+    <link href="/assets/Magnific/magnific-popup.css" rel="stylesheet" />
+    <link href="/css/magnific-popup.css" rel="stylesheet" />
+    <link href="/css/my-account.min.css?ver=@version" rel="stylesheet" />
+}
+@section Scripts{
+    <script src="/assets/Magnific/jquery.magnific-popup.min.js"></script>
+    <script src="/js/user/delete.js"></script>
+    <script src="/js/user/score-comments.js"></script>
+}

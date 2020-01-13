@@ -1,0 +1,117 @@
+﻿@model EditOSUser
+
+@{
+    ViewBag.Title = "ویرایش کاربر";
+}
+
+@using (Html.BeginForm("Edit", "OSUsers", FormMethod.Post, new { @class = "validate", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="col-sm-6">
+        @Html.Partial("_Status")
+        <div class="form-group">
+            @Html.LabelFor(model => model.Firstname)
+            @Html.TextBoxFor(model => model.Firstname, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Lastname)
+            @Html.TextBoxFor(model => model.Lastname, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserName)
+            @Html.TextBoxFor(model => model.UserName, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.NationalCode)
+            @Html.TextBoxFor(model => model.NationalCode, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.PersianBirthDate)
+            @Html.TextBoxFor(model => model.PersianBirthDate, new { @class = "form-control persiandate" })
+        </div>
+        <div class="form-group">
+            <label>جنسیت:</label>
+            <div class="radio">
+                <input type="radio" name="Gender" id="Gender_0" value="True" @(Model.Gender == true ? "checked" : "") />
+                <label for="Gender_0">
+                    مرد
+                </label>
+            </div>
+            <div class="radio">
+                <input type="radio" name="Gender" id="Gender_1" value="False" @(Model.Gender == false ? "checked" : "") />
+                <label for="Gender_1">
+                    زن
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Phone)
+            @Html.TextBoxFor(model => model.Phone, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Mobile)
+            @Html.TextBoxFor(model => model.Mobile, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label>محل سکونت</label>
+            @Html.Partial("/Views/Cities/_CitiesList.cshtml")
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.HomeAddress)
+            @Html.TextBoxFor(model => model.HomeAddress, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.PostalCode)
+            @Html.TextBoxFor(model => model.PostalCode, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.CardNumber)
+            @Html.TextBoxFor(model => model.CardNumber, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password)
+            @Html.PasswordFor(model => model.Password, new { @class = "form-control", minlength = "6" })
+            @if (!String.IsNullOrWhiteSpace(Model.Id))
+            {
+                <span>درصورت خالی گذاشتن کلمه عبور تغییر نخواهد کرد.</span>
+            }
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email)
+            @Html.TextBoxFor(model => model.Email, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImageFile)
+
+            @if (!String.IsNullOrWhiteSpace(Model.ImageFile))
+            {
+                <img src="@(StaticPaths.OSUsers + Model.ImageFile)" alt="فایل آپلود شده" class="pull-left" width="200" />
+            }
+            <input type="file" id="ImageFile" name="ImageFile" />
+            @Html.HiddenFor(model => model.ImageFile)
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.RoleIDs)
+            @Html.Partial("_Roles", Model.RoleIDs)
+
+        </div>
+        <div class="checkbox">
+            @Html.CheckBoxFor(model => model.IsActive)
+            @Html.LabelFor(model => model.IsActive)
+        </div>
+        <button type="submit" class="btn btn-success">ثبت</button>
+        <a href="/Admin/OSUsers" class="btn btn-warning">بازگشت</a>
+    </div>
+}
+
+@section Scripts{
+    <script>
+        var initStateID = @(Model.StateID.HasValue ? Model.StateID.Value.ToString() : "null"),
+            initCityID = @(Model.CityID.HasValue ? Model.CityID.Value.ToString() : "null");
+    </script>
+
+    <script src="/js/cities.js"></script>
+
+}

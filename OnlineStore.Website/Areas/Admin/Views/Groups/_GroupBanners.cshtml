@@ -1,0 +1,61 @@
+﻿@model List<EditGroupBanner>
+
+<script id="EditGroupBannerTemplate" type="text/template">
+    <div class="row">
+        <div class="col-md-2 text-center">
+            <button class="btn btn-warning btn-upload" data-toggle="button">
+                <span>آپلود</span>
+                <i class="icon-upload"></i>
+            </button>
+        </div>
+        <div class="col-md-2">
+            <select class="form-control">
+                <option value="0">بنر اصلی</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <input type="text" class="form-control link" placeholder="لینک" />
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-xs btn-danger btn-delete" data-toggle="button">
+                <i class="icon-trash"></i>
+            </button>
+        </div>
+    </div>
+</script>
+
+<div class="row editproductimage">
+    <div class="col-md-12">
+        <div id="GroupBannersList">
+            @foreach (var item in Model)
+            {
+                <div class="row" data-id="@item.ID">
+                    <div class="col-md-2 text-center">
+                        <a href="/Files/GroupBanners/@item.Filename" target="_blank" class="btn btn-success"><span>آپلود شده </span><i class="icon-check"></i></a>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-control">
+                            <option value="0" @(item.GroupBannerType == GroupBannerType.Type1 ? "selected" : "")>بنر اصلی</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control link" value="@item.Link" placeholder="لینک" />
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-xs btn-danger btn-delete" data-toggle="button">
+                            <i class="icon-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-6 col-md-offset-6">
+                <button id="AddGroupBanner" class="btn btn-xs btn-success" type="button" data-toggle="button">
+                    <i class="icon-plus-sign"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

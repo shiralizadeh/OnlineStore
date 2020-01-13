@@ -1,0 +1,96 @@
+﻿@model List<ViewOrder>
+
+@{
+    var version = 1.0;
+    ViewBag.Title = "سفارشات";
+
+    int i = 0;
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    BreadCrumbs = new List<BreadCrumbLink>() {
+        new BreadCrumbLink() { Title = "حساب من", Link = "/My-Account" },
+        new BreadCrumbLink() { Title = "سفارشات", Link = "/My-Account/My-Orders" },
+    }
+})
+
+<div class="responsive-box">
+    <div class="user-panel">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ردیف</th>
+                        <th>کد سفارش</th>
+                        <th>کد پیگیری</th>
+                        <th>روش ارسال</th>
+                        <th>روش پرداخت</th>
+                        <th>مبلغ قابل پرداخت</th>
+                        @*<th>مالیات</th>*@
+                        <th>لیست کالاها</th>
+                        <th>پرینت فاکتور</th>
+                        <th>وضعیت ارسال</th>
+                        <th>تاریخ سفارش</th>
+                        <th>آخرین ویرایش</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+            {
+                i++;
+                        <tr>
+                            <td>@i</td>
+                            <td>@item.CartID</td>
+                            <td>@item.SaleReferenceID</td>
+                            <td>@item.SendMethodType.GetEnumDisplay()</td>
+                            <td>@item.PaymentMethodType.GetEnumDisplay()</td>
+                            <td>@item.ToPay.ToPrice()</td>
+                            <td>
+                                <a href="/My-Account/My-Orders/Details/@item.CartID" title="کد سفارش: @item.CartID" class="fa fa-shopping-cart show-details" style="font-size:24px"></a>
+                            </td>
+                            <td>
+                                <a href="@(UrlProvider.GetFactorUrl(item.CartID))" title="پرینت" class="fa fa-print" target="_blank" style="font-size:24px"></a>
+                            </td>
+                            <td>
+                                @switch (item.SendStatus)
+                                {
+                                    case SendStatus.NotChecked:
+                                        <span class="label label-error">چک نشده</span>
+                                        break;
+                                    case SendStatus.Sent:
+                                        <span class="label label-warning">ارسال شد</span>
+                                        break;
+                                    case SendStatus.Delivered:
+                                        <span class="label label-success">تحویل داده شد</span>
+                                        break;
+                                    case SendStatus.Returned:
+                                        <span class="label label-default">برگشت داده شد</span>
+                                        break;
+                                    case SendStatus.Checked:
+                                        <span class="label label-info">بررسی شد</span>
+                                        break;
+                                    default:
+                                        <span>نامعلوم</span>
+                                        break;
+                                }
+                            </td>
+                            <td>@(item.DateTime.HasValue ? Utilities.ToPersianDate(item.DateTime.Value) : String.Empty)</td>
+                            <td>@Utilities.ToPersianDate(item.LastUpdate)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section Styles{
+    <link href="/assets/Magnific/magnific-popup.css" rel="stylesheet" />
+    <link href="/css/magnific-popup.css" rel="stylesheet" />
+    <link href="/css/my-account.min.css?ver=@version" rel="stylesheet" />
+
+}
+@section Scripts{
+    <script src="/assets/Magnific/jquery.magnific-popup.min.js"></script>
+    <script src="/js/user/orders.js"></script>
+}

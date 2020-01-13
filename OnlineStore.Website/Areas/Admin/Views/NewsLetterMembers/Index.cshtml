@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "مدیریت خبرنامه";
+}
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "NewsLetterMembers",
+    ShowAdd = false,
+    Editable = false,
+    Columns = new List<Column>(){
+
+                                new Column() {
+                                    Title = "ایمیل/ شماره همراه",
+                                    DataField = "Email"
+                                },
+                                new Column() {
+                                    Title = "تاریخ ثبت",
+                                    DataField = "fromNow(LastUpdate)"
+                                }
+    }
+})
+
+@section Scripts {
+    <script type="text/javascript">
+        jConfigGrid.init({ ajaxUrl: '/Admin/NewsLetterMembers/' });
+    </script>
+} 

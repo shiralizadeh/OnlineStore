@@ -1,0 +1,40 @@
+﻿<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>@ViewBag.Title</title>
+    <meta name="description" content="@ViewBag.Description" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="HTMLCooker" />
+
+    <meta name="robots" content="noindex" />
+
+    <!-- ================= Favicon ================== -->
+
+    <link href="~/css/template.min.css" rel="stylesheet" />
+    <link href="/assets/font-awesome/font-awesome.min.css" rel="stylesheet" />
+
+    @* ToolTip *@
+    <link href="/assets/tooltipster-master/css/tooltipster.css" rel="stylesheet" />
+    <link href="~/assets/tooltipster-master/css/themes/tooltipster-shadow.css" rel="stylesheet" />
+    <link href="~/assets/tooltipster-master/css/themes/tooltipster-punk.css" rel="stylesheet" />
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    @RenderSection("Styles", false)
+</head>
+<body>
+    <div class="container">
+        @RenderBody()
+    </div>
+    <script src="/js/jquery-1.11.3.min.js"></script>
+    <script src="~/assets/jquery.validate/jquery.validate.min.js"></script>
+    <!-- Main Js -->
+    <script src="/js/main.min.js"></script>
+    
+    @RenderSection("Scripts", false)
+</body>
+</html>

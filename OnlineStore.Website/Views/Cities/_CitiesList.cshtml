@@ -1,0 +1,22 @@
+﻿@{
+    List<City> states = Cities.GetRoot();
+}
+
+<div class="state-city">
+    <div class="row">
+        <label for="States">استان</label>
+        <select id="States" class="state required" name="StateID">
+            <option value=""></option>
+            @foreach (var item in states)
+            {
+                <option value="@item.ID">@item.Title</option>
+            }
+        </select>
+    </div>
+    <div class="row">
+        <label for="Cities">شهر</label>
+        <select id="Cities" class="city required" name="CityID">
+        </select>
+    </div>
+    
+</div>

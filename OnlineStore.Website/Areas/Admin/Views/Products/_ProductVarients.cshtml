@@ -1,0 +1,175 @@
+﻿@model EditProduct
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="addvarientbox">
+            <div id="ProductVarientsLoading" style="display: none;"><img src="~/images/loading.gif" /></div>
+            <div class="form-group">
+                <label for="AttrVar_Title">عنوان</label>
+                <input type="text" id="AttrVar_Title" class="form-control attrvar-title" value="" />
+            </div>
+            <div class="form-group">
+                <label for="AttrVar_PriceCode">کد قیمت</label>
+                <input type="text" id="AttrVar_PriceCode" class="form-control attrvar-pricecode" value="" />
+            </div>
+            <div id="ProductVarientAttrsBox">
+                <p>
+                    لطفا متغیرهای مورد نیاز را در بخش ویژگی ها انتخاب نمایید.
+                </p>
+            </div>
+            <a id="btnAddVarient" class="btn btn-success pull-left" href="#"><i class="icon-plus"></i></a>
+            <div class="clearfix"></div>
+        </div>
+        <hr />
+        <div id="ProductVarientsResult">
+            <script id="ProductVarientTemplate" type="text/template">
+                <fieldset>
+                    <legend></legend>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>قیمت</th>
+                                <th>موجودی</th>
+                                <th>مقایسه با قیمت قبلی</th>
+                                <th>نوع قیمت</th>
+                                <th>آخرین ویرایش</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control varient-price" value="" />
+                                        <div class="input-group-addon">@Html.Raw(ExtensionMethods.IsRial ? "ریال" : "تومان")</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control varient-count" value="" />
+                                </td>
+                                <td colspan="3">
+                                    <select class="form-control varient-pricetype">
+                                        <option value="1">فروش</option>
+                                        <option value="0">خرید</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </fieldset>
+            </script>
+            @foreach (var varient in Model.Varients)
+            {
+                var prices = ProductVarientPrices.GetByProductVarientID(varient.ID);
+
+                <fieldset data-id="@varient.ID">
+                    <legend>
+                        <input class="chk-isenabled" type="checkbox" @(varient.IsEnabled ? "checked" : "") />
+                        <span class="varient-header @(varient.IsEnabled  ? "text-success" : "text-warning")">
+                            @String.Join("، ", varient.Attributes.Select(item => item.AttributeOptionTitle).ToList())
+                        </span>
+                        <a class="btn btn-danger btn-xs pull-left btn-deletevarient" href="#"><i class="icon-remove"></i></a>
+
+                        @if (prices.Count > 5)
+                        {
+                            <a class="btn btn-warning btn-xs pull-left btn-showvarient" href="#"><i class="icon-refresh"></i></a>
+                        }
+                    </legend>
+                    <table class="table table-striped hide">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;">ردیف</th>
+                                <th>قیمت</th>
+                                <th>تعداد</th>
+                                <th>مقایسه با قیمت قبلی</th>
+                                <th>نوع قیمت</th>
+                                <th>آخرین ویرایش</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in prices)
+                            {
+                                var index = prices.IndexOf(item);
+
+                                var show = true;
+                                if (prices.Count > 5)
+                                {
+                                    show = (index > prices.Count - 6);
+                                }
+
+                                <tr class="@(show ? "" : "hide")">
+                                    <td>
+                                        @(index + 1)
+                                    </td>
+                                    <td>
+                                        <div class="input-group">
+                                            @(item.Price.ToPrice())
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @item.Count عدد
+                                    </td>
+                                    <td>
+                                        @{
+                                            var priceDiff = "";
+                                            if (index == 0)
+                                            {
+                                                priceDiff = "<span class='label label-default'>اولین قیمت</span>";
+                                            }
+                                            else
+                                            {
+                                                var prev = prices[index - 1];
+
+                                                if (item.Price > prev.Price)
+                                                {
+                                                    priceDiff = "<span class='label label-success'>افزایش " + (item.Price - prev.Price).ToPrice() + "</span>";
+                                                }
+                                                else if (item.Price < prev.Price)
+                                                {
+                                                    priceDiff = "<span class='label label-warning'>کاهش " + (prev.Price - item.Price).ToPrice() + "</span>";
+                                                }
+                                                else
+                                                {
+                                                    priceDiff = "<span class='label label-success'>بدون تغییر</span>";
+                                                }
+                                            }
+                                        }
+
+                                        @Html.Raw(priceDiff)
+                                    </td>
+                                    <td>
+                                        @Utilities.GetEnumDisplay(item.PriceType)
+                                    </td>
+                                    <td>
+                                        @Utilities.ToPersianDate(item.LastUpdate)
+                                    </td>
+                                </tr>
+                                            }
+                            <tr>
+                                <td colspan="2">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control varient-price" value="" />
+                                        <div class="input-group-addon">@Html.Raw(ExtensionMethods.IsRial ? "ریال" : "تومان")</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control varient-count" value="" />
+                                        <div class="input-group-addon">عدد</div>
+                                    </div>
+                                </td>
+                                <td colspan="3">
+                                    <select class="form-control varient-pricetype">
+                                        <option value="1">فروش</option>
+                                        <option value="0">خرید</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </fieldset>
+                                            }
+            <div id="NewVarients">
+            </div>
+        </div>
+    </div>
+</div>

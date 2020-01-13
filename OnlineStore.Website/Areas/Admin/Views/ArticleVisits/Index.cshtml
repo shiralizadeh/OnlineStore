@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "مدیریت بازدید وبلاگ";
+}
+
+<fieldset class="filter-box">
+    <legend>
+        <a class="filter-header">
+            <i class="open-icon icon icon-plus-sign"></i>
+            <span>جستجو</span>
+        </a>
+    </legend>
+    <div class="control-box">
+        <div class="row form-group">
+            <div>
+                @Html.Partial("_TreeView", new TreeViewSettings()
+           {
+               ControllerName = "/Admin/Articles",
+               JsonMothod = "GetGroups",
+               FieldName = "JSONGroups",
+               TreeViewSelectMode = TreeViewSelectMode.Single,
+               SelectedItems = null
+           })
+            </div>
+            <label id="GroupsError" class="error" style="display: none;"></label>
+        </div>
+        <div class="row form-group">
+            @Html.Partial("_ArticleSimpleSearch", new AjaxSettings { Url = "/ArticleVisits/Search" })
+            <a id="btnSearch" class="btn btn-info"><i class="icon-search"></i></a>
+        </div>
+        <div class="row form-group">
+            <input type="text" id="FromDate" class="form-control persiandate col-sm-2" placeholder="تاریخ شروع..." />
+            <input type="text" id="ToDate" class="form-control persiandate col-sm-2" placeholder="تاریخ پایان..." />
+        </div>
+    </div>
+</fieldset>
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "ArticleVisits",
+    ShowAdd = false,
+    Editable = false,
+    Deletable = false,
+    Columns = new List<Column>(){
+
+                                new Column() {
+                                    Title = "عنوان مطلب",
+                                    DataField = "ArticleTitle"
+                                },
+                                new Column() {
+                                    Title = "بازدید کل",
+                                    DataField = "VisitsCount"
+                                },
+                                new Column() {
+                                    Title = "بازدید براساس IP",
+                                    DataField = "VisitsByIP"
+                                },
+
+    }
+})
+
+@section Scripts {
+<script src="/js/admin/article-simple-search.js"></script>
+    <script type="text/javascript">
+        var $search = $('#Search'),
+            $fromDate = $('#FromDate'),
+            $toDarte = $('#ToDate'),
+            $groupID = $('#hfJSONGroups');
+
+        jConfigGrid.init({
+            ajaxUrl: '/Admin/ArticleVisits/',
+            filter: function () {
+                return {
+                    ArticleID: $search.data('id'),
+                    FromDate: $fromDate.val(),
+                    ToDate: $toDarte.val(),
+                    GroupID: eval($groupID.val()),
+                }
+            }
+        });
+
+        $('#btnSearch').on('click', function (e) {
+            $search.removeAttr('disabled');
+        });
+    </script>
+}
+
+@section Styles{
+    <link href="/css/admin/simple-search.min.css" rel="stylesheet" />
+}

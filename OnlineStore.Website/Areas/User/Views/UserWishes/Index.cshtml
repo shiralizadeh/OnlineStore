@@ -1,0 +1,43 @@
+﻿@model List<ProductItem>
+
+@{
+    ViewBag.Title = "آرزوهای من";
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    BreadCrumbs = new List<BreadCrumbLink>() {
+        new BreadCrumbLink() { Title = "حساب من", Link = "/My-Account" },
+        new BreadCrumbLink() { Title = "آرزوهای من", Link = "/My-Account/My-Wishes" },
+    }
+})
+
+<div class="responsive-box">
+    <div class="products-list-box">
+        @if (Model.Count > 0)
+            {
+            <div class="products-list">
+                <ul>
+                    @foreach (var item in Model)
+                    {
+                        @Html.Partial("_ProductItem", item)
+                    }
+                </ul>
+                <div class="clear"></div>
+            </div>
+        }
+
+        <div class="label label-warning label-empty @(Model.Count() > 0 ? "hide" : "")">
+            موردی یافت نشد!
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+@section Styles {
+    <link href="/css/products-list.min.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="/js/products-list.min.js"></script>
+}

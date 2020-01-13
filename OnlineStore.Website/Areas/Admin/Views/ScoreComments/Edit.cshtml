@@ -1,0 +1,73 @@
+﻿@model EditScoreComment
+
+@{
+    ViewBag.Title = "بررسی امتیازات";
+
+    string url = Request.Url.AbsoluteUri + "?ProductID=" + Model.ProductID,
+         backUrl = "/Admin/ScoreComments/index?ProductID=" + Model.ProductID,
+         img = OSUsers.GetByID(Model.UserID).ImageFile;
+}
+
+<form action="@url" class="validate" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="col-sm-6">
+        @Html.Partial("_Status")
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductTitle):
+            <a href="/Products/group/title-@Model.ProductID" target="_blank">@Model.ProductTitle</a>
+        </div>
+        <div class="form-group">
+            @Html.Label("تصویر کاربر"):
+            <img src="@(img!=null ? (StaticPaths.OSUsers + img) : "/images/avatar/no-pic.jpg")" width="200" />
+        </div>
+        <div class="form-group">
+            @Html.Label("نام کاربر"):
+            <label>@OSUsers.GetByID(Model.UserID).Firstname  @OSUsers.GetByID(Model.UserID).Lastname</label>
+        </div>
+        <div class="form-group admin-score">
+            @Html.LabelFor(model => model.ScoreValues)
+            <ul class="score-parameter">
+                @foreach (var rate in Model.ScoreValues)
+                {
+                    <li>
+                        <span>@rate.Title</span>
+                        <select id="Parameter@(rate.ScoreParameterID)" data-rate="@(rate.Rate)">
+                            <option value="1"></option>
+                            <option value="2"></option>
+                            <option value="3"></option>
+                            <option value="4"></option>
+                            <option value="5"></option>
+                        </select>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Text)
+            @Html.TextAreaFor(model => model.Text, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ScoreCommentStatus)
+            @Html.EnumDropDownListFor(model => model.ScoreCommentStatus, new { @class = "form-control required" })
+        </div>
+        <button type="submit" class="btn btn-success">ثبت</button>
+        <a href="@backUrl" class="btn btn-warning">بازگشت</a>
+    </div>
+</form>
+
+@section Styles{
+    <link href="/assets/barRating/themes/bars-movie.css" rel="stylesheet" />
+    <link href="/assets/barRating/themes/fontawesome-stars.css" rel="stylesheet" />
+    <style>
+        .br-theme-bars-movie .br-widget a {
+            float: right;
+        }
+    </style>
+}
+
+@section Scripts{
+    <script src="/assets/barRating/jquery.barrating.js"></script>
+    <script src="/assets/barRating/examples.js"></script>
+    <script src="/js/admin/average-score.js"></script>
+}

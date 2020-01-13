@@ -1,0 +1,141 @@
+﻿@model EditCart
+
+@{
+    ViewBag.Title = "بررسی سفارشات";
+}
+
+@using (Html.BeginForm("Edit", (string)ViewBag.Controller, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.Partial("_Status")
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active"><a href="#orderdetail" role="tab" data-toggle="tab">اطلاعات سفارش</a></li>
+        <li><a href="#confirmpane" role="tab" data-toggle="tab">اطلاعات تکمیلی</a></li>
+        <li><a href="#orderdescription" role="tab" data-toggle="tab">کامنت ها</a></li>
+        <li><a href="#orderitems" role="tab" data-toggle="tab">کالاها</a></li>
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="orderdetail">
+            <div class="col-sm-6">
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        @Html.LabelFor(model => model.ID):
+                        <label>@Model.ID</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        @Html.LabelFor(model => model.DateTime):
+                        <label>@(Model.DateTime.HasValue ? Utilities.ToPersianDate(Model.DateTime.Value) : "نامعلوم")</label>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        @Html.LabelFor(model => model.SaleReferenceID):
+                        <label>@Model.SaleReferenceID</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        @Html.LabelFor(model => model.Total):
+                        <label>@((Model.Total.HasValue ? Model.Total.Value : 0).ToPrice())</label>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        @Html.LabelFor(model => model.ToPay):
+                        <label>@((Model.ToPay.HasValue ? Model.ToPay.Value : 0).ToPrice())</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        @Html.LabelFor(model => model.Tax):
+                        <label>@Model.Tax %</label>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        @Html.LabelFor(model => model.DelivaryPrice):
+                        <label>@Model.DelivaryPrice.ToPrice()</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        @Html.LabelFor(model => model.SendMethodType):
+                        <label>@Model.SendMethodType.GetEnumDisplay()</label>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        @Html.LabelFor(model => model.PaymentMethodType):
+                        <label>@Model.PaymentMethodType.GetEnumDisplay()</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="confirmpane">
+            <div class="col-sm-6">
+                <div class="row">
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label for="Notices">اطلاع رسانی به مشتری</label>
+                            <input type="checkbox" id="Notices" name="Notices" />
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        @Html.LabelFor(model => model.CartStatus)
+                        @Html.EnumDropDownListFor(model => model.CartStatus, new { @class = "form-control required" })
+                    </div>
+                    <div class="form-group col-sm-6">
+                        @Html.LabelFor(model => model.ConfirmationStatus)
+                        @Html.EnumDropDownListFor(model => model.ConfirmationStatus, new { @class = "form-control required" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        @Html.LabelFor(model => model.PersianConfirmationDate)
+                        @Html.TextBoxFor(model => model.PersianConfirmationDate, new { @class = "form-control persiandate" })
+                    </div>
+                    <div class="form-group col-sm-6">
+                        @Html.LabelFor(model => model.SendStatus)
+                        @Html.EnumDropDownListFor(model => model.SendStatus, new { @class = "form-control required" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        @Html.LabelFor(model => model.PersianSendDate)
+                        @Html.TextBoxFor(model => model.PersianSendDate, new { @class = "form-control persiandate" })
+                    </div>
+                    <div class="form-group col-sm-6">
+                        @Html.LabelFor(model => model.PersianDeliveryDate)
+                        @Html.TextBoxFor(model => model.PersianDeliveryDate, new { @class = "form-control persiandate" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        @Html.LabelFor(model => model.BillNumber)
+                        @Html.TextBoxFor(model => model.BillNumber, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group col-sm-6">
+                        @Html.LabelFor(model => model.Description)
+                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-12">
+                        @Html.LabelFor(model => model.UserDescription):
+                        <label>@Model.UserDescription</label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="orderdescription">
+            @Html.Partial("/Areas/Admin/Views/Orders/_OrderNotes.cshtml", Model.Notes)
+            @Html.Hidden("JSONNotes")
+        </div>
+        <div role="tabpanel" class="tab-pane" id="orderitems">
+            @Html.Partial("/Areas/Admin/Views/Orders/_OrderItems.cshtml", Model.OrderItems)
+        </div>
+        <div class="form-group col-sm-12">
+            <button type="submit" class="btn btn-success">ویرایش</button>
+            <a href="/Admin/@ViewBag.Controller" class="btn btn-warning">بازگشت</a>
+        </div>
+    </div>
+}
+
+@section Scripts{
+    <script src="/js/admin/order-edit.js"></script>
+}

@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "مدیریت روش های ارسال";
+}
+
+@Html.Partial("_GridView", new GridViewSettings()
+                           {
+                               ControllerName = "SendMethods",
+                               Columns = new List<Column>(){
+                                   new Column() {
+                                       Title = "عنوان",
+                                       DataField = "Title"
+                                   },
+                                   new Column() {
+                                       Title = "هزینه",
+                                       DataField = "formatPrice(Price)"
+                                   },
+                                   new Column() {
+                                       Title = "عکس",
+                                       DataField = "toLink(Filename)"
+                                   },
+                                   new Column() {
+                                       Title = "وضعیت",
+                                       DataField = "toBooleanStatus(IsActive)"
+                                   },
+                                   new Column() {
+                                       Title = "آخرین ویرایش",
+                                       DataField = "fromNow(LastUpdate)"
+                                   }
+                               }
+                           })
+
+@section Scripts {
+    <script type="text/javascript">
+        jConfigGrid.init({ ajaxUrl: '/Admin/SendMethods/' });
+    </script>
+} 

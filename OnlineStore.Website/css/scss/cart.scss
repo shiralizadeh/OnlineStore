@@ -1,0 +1,400 @@
+﻿@import "mixins";
+
+.steps-box {
+    margin-bottom: 20px;
+    width: 970px;
+
+    .btn-step {
+        float: right;
+        position: relative;
+        background-color: $black_1;
+        border-radius: 4px;
+        margin: 10px;
+        padding: 10px;
+        width: 180px;
+        height: 50px;
+
+        &:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -10px;
+            margin-top: -8px;
+            width: 0;
+            height: 0;
+            border-top: 8px solid transparent;
+            border-right: 10px solid $black_1;
+            border-bottom: 8px solid transparent;
+        }
+
+        &.step-end {
+            text-align: center;
+            color: $black_9;
+            width: 50px;
+            line-height: 50px;
+
+            &:after {
+                display: none;
+            }
+        }
+
+        &.success {
+            background-color: $green;
+
+            &:after {
+                border-right-color: $green;
+            }
+
+            h3 {
+                border-bottom: 1px solid $black_9;
+
+                &:after {
+                    @include fontAwesome;
+                    content: "\f00c";
+                }
+            }
+
+            span {
+                color: $black_9;
+            }
+        }
+
+        &.active {
+            background-color: $color;
+
+            &:after {
+                border-right-color: $color;
+            }
+
+            h3 {
+                border-bottom: 1px solid $black_9;
+            }
+
+            span {
+                color: $black_9;
+            }
+        }
+
+        h3 {
+            border-bottom: 1px solid $black_7;
+            padding-bottom: 5px;
+            height: 21px;
+            line-height: 21px;
+            font-size: 16px;
+            color: $black_9;
+        }
+
+        span {
+            display: block;
+            color: $black_7;
+            font-size: 12px;
+            padding-top: 2px;
+            height: 22px;
+            line-height: 22px;
+        }
+    }
+}
+
+.cart-box {
+    position: relative;
+    color: $black_2;
+
+    @include full-loading;
+
+    .step-content {
+        display: none;
+        margin-bottom: 20px;
+
+        .fa-gift {
+            color: #ff006e;
+            font-size: 30px;
+            display: inline-block;
+            vertical-align: top;
+            margin-top: 5px;
+        }
+    }
+
+    .btn-prevstep,
+    .btn-nextstep {
+        float: left;
+        text-align: left;
+        background-color: $green;
+        padding: 10px;
+        width: 150px;
+
+        p {
+            color: $black_9;
+            border-bottom: 1px solid $black_9;
+            height: 30px;
+            line-height: 30px;
+            font-size: 16px;
+
+            i {
+                vertical-align: middle;
+            }
+        }
+
+        span {
+            color: $black_9;
+            display: block;
+            font-size: 12px;
+            padding-top: 6px;
+        }
+    }
+
+    .btn-nextstep {
+        &:hover {
+            i {
+                position: relative;
+                right: 2px;
+            }
+        }
+    }
+
+    .btn-prevstep {
+        display: none;
+        float: right;
+        text-align: right;
+        background-color: $black_2;
+
+        &:hover {
+            i {
+                position: relative;
+                right: -2px;
+            }
+        }
+    }
+
+    .step-content-3 {
+        .right {
+            float: right;
+            width: 50%;
+        }
+
+        .left {
+            color: $black_2;
+            float: right;
+            width: 50%;
+        }
+
+        input:checked ~ label {
+            color: $black_0;
+        }
+
+        input[disabled],
+        input[disabled] ~ label {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .sendtype {
+            display: inline;
+            margin-left: 10px;
+
+            label,
+            input {
+                vertical-align: middle;
+            }
+
+            label {
+                width: auto;
+            }
+        }
+
+        .paymenttypes,
+        .sendtypes {
+            & > label {
+                float: right;
+            }
+
+            .box {
+                float: right;
+            }
+        }
+
+        .paymenttype {
+            display: inline;
+            margin-left: 10px;
+
+            label,
+            input {
+                vertical-align: middle;
+            }
+
+            label {
+                width: auto;
+            }
+        }
+
+        i {
+            text-align: center;
+            font-size: 26px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 5px;
+            width: 40px;
+        }
+    }
+
+    .step-content-5 {
+        text-align: center;
+        line-height: 30px;
+
+        .success {
+            color: $green;
+        }
+
+        .price {
+            color: $green;
+            font-size: 26px;
+            vertical-align: middle;
+        }
+
+        .desc {
+            a {
+                text-decoration: underline;
+
+                &:hover {
+                    color: $color;
+                }
+            }
+        }
+
+        .cart-number {
+            color: $color;
+            direction: ltr;
+            font-size: 25px;
+            line-height: 20px;
+            margin-top: 10px;
+
+            span {
+                font-size: 12px;
+                color: $black_0;
+            }
+        }
+    }
+
+    .user-info {
+        li {
+            height: 30px;
+            line-height: 30px;
+
+            .fa-times-circle,
+            .fa-check-circle {
+                margin-left: 5px;
+            }
+
+            .fa-times-circle {
+                color: $red;
+            }
+
+            .fa-check-circle {
+                color: $green;
+            }
+        }
+    }
+
+    .cart-item-title {
+        span {
+            font-size: 12px;
+            color: $black_4;
+        }
+    }
+
+    tr {
+        position: relative;
+        @include full-loading;
+
+        td {
+            vertical-align: middle;
+        }
+
+        a {
+            font-size: 16px;
+
+            span {
+                font-size: 16px;
+            }
+        }
+    }
+
+    .quantity {
+        text-align: center;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        vertical-align: middle;
+    }
+
+    .btn-quantity-up,
+    .btn-quantity-down {
+        cursor: pointer;
+        border: 1px solid $black_7;
+        color: $black_6;
+        background-color: #fff;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        vertical-align: middle;
+    }
+
+    .btn-quantity-up {
+        &:hover {
+            color: $green;
+        }
+    }
+
+    .btn-quantity-down {
+        &:hover {
+            color: $red;
+        }
+    }
+
+    .regular-price,
+    .original-price,
+    .discount-price {
+        font-size: 18px;
+    }
+
+    .original-price {
+        text-decoration: line-through;
+        color: $black_4;
+    }
+
+    .price-unit {
+        font-size: 12px;
+    }
+
+    .total-item {
+        color: $color;
+    }
+
+    .total-topay,
+    .total-profit,
+    .delivary-price,
+    .total-price {
+        font-size: 20px;
+    }
+
+    .total-topay {
+        color: $green;
+        font-size: 30px;
+    }
+
+    .state-city {
+        .loading {
+            position: static;
+            display: inline;
+
+            img {
+                position: static;
+                vertical-align: middle;
+                margin: 0 5px;
+            }
+        }
+    }
+
+    .total-profit-row {
+        color: $green;
+    }
+}

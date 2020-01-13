@@ -1,0 +1,232 @@
+﻿@model BlogDetail
+
+@{
+    var version = 1.8;
+    var blogDetails = Model.BlogDetails;
+
+    string userFullName,
+           userImage;
+
+    var group = Groups.GetByID(blogDetails.GroupID);
+    var url = UrlProvider.GetPostUrl(blogDetails.ID, blogDetails.Title, group.TitleEn);
+    var imgUrl = UrlProvider.GetPostImage(blogDetails.Image);
+
+    var imgSize = Utilities.GetImageSize(imgUrl);
+    var totalScore = Utilities.CalcRaty(blogDetails.SumScore.Value, blogDetails.ScoreCount, blogDetails.ArticleScore).ToString("0.0");
+    var countRates = blogDetails.ScoreCount + 1;
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    ShowTitle = true,
+    BreadCrumbs = new List<BreadCrumbLink>() {
+        new BreadCrumbLink() { Title = StaticValues.HomeTitle, Link = "/" },
+        new BreadCrumbLink() { Title = "وبلاگ", Link = "/Blog" },
+        new BreadCrumbLink() { Title = blogDetails.GroupName, Link = UrlProvider.GetBlogGroupUrl(group.TitleEn) },
+        new BreadCrumbLink() { Title = blogDetails.Title },
+    }
+})
+
+<div class="responsive-box">
+    <div class="right-column">
+        <div class="right-menu">
+            @Html.Partial("/Areas/Blog/Views/Shared/_ArticleGroups.cshtml")
+        </div>
+        <div class="small-box latest-posts">
+            <section>
+                <div class="box-header box-header-02">
+                    <h1>آخرین مطالب</h1>
+                    <div class="box-control">
+                        <a href="#" class="btn-next">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                        <a href="#" class="btn-prev">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="box-content">
+                    @Html.Partial("/Areas/Blog/Views/Shared/_LatestPosts.cshtml", Model.LatestPosts)
+                </div>
+            </section>
+        </div>
+        <div class="small-box latest-comments">
+            <section>
+                <div class="box-header box-header-02">
+                    <h1>آخرین نظرات</h1>
+                    <div class="box-control">
+                        <a href="#" class="btn-next">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                        <a href="#" class="btn-prev">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="box-content">
+                    @Html.Partial("/Areas/Blog/Views/Shared/_LatestComments.cshtml", Model.LatestComments)
+                </div>
+            </section>
+        </div>
+        <div class="small-box related-products">
+            @Html.Partial("/Views/Products/_RelatedProducts.cshtml", Model.Products)
+        </div>
+    </div>
+    <div class="content-column">
+        <div class="post-details" data-articleid="@blogDetails.ID">
+            <div class="post-header">
+                <ul class="icons">
+                    <li><i class="fa fa-user"></i><span>آنلاین استور</span></li>
+                    <li><i class="fa fa-calendar-o"></i><span>@Utilities.ToPersianDateString(blogDetails.LastUpdate)</span></li>
+                    <li><i class="fa fa-comment"></i><span>@blogDetails.CommentsCount نظر</span></li>
+                    <li><i class="fa fa-eye"></i><span>@blogDetails.VisitCount بازدید</span></li>
+                    <li><i class="fa fa-folder-open"></i><a href="@UrlProvider.GetBlogGroupUrl(group.TitleEn)" title="@group.Title">@group.Title</a></li>
+                </ul>
+                <div class="rate-comment">
+                    <a class="rate score" data-score="@totalScore"></a>
+                    <p>
+                        (
+                        <span class="total-score">@totalScore</span>
+                        از
+                        <span class="count-score">@countRates</span>
+                        نفر)
+                    </p>
+                </div>
+            </div>
+            <div class="image">
+                <img alt="@blogDetails.Title" src="@imgUrl">
+            </div>
+            <div class="text">
+                @Html.Raw(blogDetails.Text)
+            </div>
+            @if (Model.RelatedPosts.Count > 0)
+            {
+                @Html.Partial("/Areas/Blog/Views/Shared/_RelatedArticles.cshtml", Model.RelatedPosts)
+            }
+
+            @if (Model.Comments.Count > 0)
+            {
+                <div class="comments-box">
+                    <div class="box-header box-header-01">
+                        <h2>
+                            نظرات
+                        </h2>
+                    </div>
+                    <div class="box-content">
+                        <ul>
+                            @foreach (var item in Model.Comments)
+                            {
+                                if (!String.IsNullOrWhiteSpace(item.UserID))
+                                {
+                                    var user = OSUsers.GetByID(item.UserID);
+
+                                    userFullName = user.Firstname + " " + user.Lastname;
+                                    userImage = UrlProvider.GetUserImage(user.ImageFile, StaticValues.CustomerImageSize);
+                                }
+                                else
+                                {
+                                    userFullName = item.UserName;
+                                    userImage = UrlProvider.GetUserImage(null, StaticValues.CustomerImageSize);
+                                }
+                                <li>
+                                    <div class="message-box">
+                                        <div class="message">
+                                            @item.Text
+                                        </div>
+                                    </div>
+                                    <div class="author-info">
+                                        <img alt="@userFullName" title="@userFullName" src="@userImage" class="user-image" />
+                                        <div class="name-date">
+                                            <span class="name">@userFullName</span>
+                                            <span class="date">@Utilities.ToPersianDate(item.LastUpdate)</span>
+                                        </div>
+                                    </div>
+                                    <div class="clear"></div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            }
+
+            <div class="comment-form">
+                <div class="box-header box-header-03">
+                    <h2>
+                        <i class="fa fa-comments"></i>
+                        نظر شما درباره این مطلب
+                    </h2>
+                </div>
+                <div class="box-content">
+                    <form id="AddComment" class="validate ajax" method="post">
+                        <div class="row">
+                            <input id="UserName" name="UserName" type="text" placeholder="نام و نام خانوادگی" class="form-control input-md required" maxlength="50">
+                        </div>
+                        <div class="row">
+                            <input id="Email" name="Email" type="text" placeholder="پست الکترونیک" class="form-control input-md email" maxlength="100">
+                        </div>
+                        <div class="row">
+                            <input id="Subject" name="Subject" type="text" placeholder="موضوع" class="form-control input-md" maxlength="300">
+                        </div>
+                        <div class="row">
+                            <textarea id="Text" name="Text" rows="5" placeholder="نظر شما" class="form-control required"></textarea>
+                        </div>
+                        <div class="row">
+                            <button class="btn-submit btn-comment" type="submit">ارسال</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+@section Styles{
+    <link href="~/css/blog-details.min.css?ver=@version" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/js/blog/blog-details.js?ver=@version"></script>
+
+    <script type="application/ld+json">
+        {
+        "@@context": "http://schema.org",
+        "@@type": "NewsArticle",
+        "mainEntityOfPage": {
+        "@@type": "WebPage",
+        "@@id": "@(StaticValues.WebsiteUrl + url)"
+        },
+        "aggregateRating": {
+        "@@type": "AggregateRating",
+        "worstRating": "0",
+        "bestRating": "5",
+        "ratingValue": "@totalScore",
+        "reviewCount": "@countRates"
+        },
+        "headline": "@blogDetails.Title",
+        "image": {
+        "@@type": "ImageObject",
+        "url": "@(StaticValues.WebsiteUrl + imgUrl)",
+        "height": @imgSize.Width,
+        "width": @imgSize.Height
+        },
+        "datePublished": "@(String.Format("{0:s}", blogDetails.PublishDate) + "+03:30")",
+        "dateModified": "@(String.Format("{0:s}", blogDetails.LastUpdate) + "+03:30")",
+        "author": {
+        "@@type": "Person",
+        "name": "آنلاین استور"
+        },
+        "publisher": {
+        "@@type": "Organization",
+        "name": "@StaticValues.WebsiteTitle",
+        "logo": {
+        "@@type": "ImageObject",
+        "url": "@(StaticValues.WebsiteUrl + "/images/template/logo.jpg")"
+        }
+        },
+        "description": "@blogDetails.Summary"
+        }
+    </script>
+}
+
+

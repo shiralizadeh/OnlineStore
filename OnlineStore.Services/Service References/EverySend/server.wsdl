@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://panel.everysend.ir/soap/Webservice" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://panel.everysend.ir/soap/Webservice" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://panel.everysend.ir/soap/Webservice">
+      <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="SendsmsRequest">
+    <wsdl:part name="type" type="xsd:integer" />
+    <wsdl:part name="from" type="xsd:integer" />
+    <wsdl:part name="username" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+    <wsdl:part name="country" type="xsd:integer" />
+    <wsdl:part name="note" type="xsd:string " />
+    <wsdl:part name="too" type="xsd:string" />
+    <wsdl:part name="file" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="SendsmsResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="CreditRequest">
+    <wsdl:part name="type" type="xsd:integer" />
+    <wsdl:part name="username" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="CreditResponse">
+    <wsdl:part name="return" type="xsd:integer" />
+  </wsdl:message>
+  <wsdl:message name="SmsreportRequest">
+    <wsdl:part name="smsid" type="xsd:integer" />
+    <wsdl:part name="username" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="SmsreportResponse">
+    <wsdl:part name="return" type="xsd:strnig" />
+  </wsdl:message>
+  <wsdl:message name="ReceivedsmsRequest">
+    <wsdl:part name="username" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="ReceivedsmsResponse">
+    <wsdl:part name="return" type="xsd:strnig" />
+  </wsdl:message>
+  <wsdl:message name="SendInstagramRequest">
+    <wsdl:part name="username" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+    <wsdl:part name="count" type="xsd:integer" />
+    <wsdl:part name="time" type="xsd:integer" />
+    <wsdl:part name="note" type="xsd:string " />
+    <wsdl:part name="image" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="SendInstagramResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="SendLineRequest">
+    <wsdl:part name="username" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+    <wsdl:part name="count" type="xsd:integer" />
+    <wsdl:part name="note" type="xsd:string " />
+    <wsdl:part name="image" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="SendLineResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="GetStateEyalatRequest">
+    <wsdl:part name="username" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="GetStateEyalatResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="GetCityEyalatRequest">
+    <wsdl:part name="username" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+    <wsdl:part name="stateid" type="xsd:integer" />
+    <wsdl:part name="operator" type="xsd:integer" />
+  </wsdl:message>
+  <wsdl:message name="GetCityEyalatResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="SendEyalatRequest">
+    <wsdl:part name="type" type="xsd:integer" />
+    <wsdl:part name="from" type="xsd:integer" />
+    <wsdl:part name="username" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+    <wsdl:part name="stateid" type="xsd:integer" />
+    <wsdl:part name="cityid" type="xsd:integer" />
+    <wsdl:part name="operator" type="xsd:integer" />
+    <wsdl:part name="start" type="xsd:integer" />
+    <wsdl:part name="count" type="xsd:integer" />
+    <wsdl:part name="text" type="xsd:string " />
+    <wsdl:part name="file" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="SendEyalatResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="SearchPostalRequest">
+    <wsdl:part name="username" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+    <wsdl:part name="postalcode" type="xsd:integer" />
+    <wsdl:part name="operator" type="xsd:integer" />
+  </wsdl:message>
+  <wsdl:message name="SearchPostalResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="SendPostalRequest">
+    <wsdl:part name="type" type="xsd:integer" />
+    <wsdl:part name="from" type="xsd:integer" />
+    <wsdl:part name="username" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+    <wsdl:part name="postalcode" type="xsd:integer" />
+    <wsdl:part name="operator" type="xsd:integer" />
+    <wsdl:part name="start" type="xsd:integer" />
+    <wsdl:part name="count" type="xsd:integer" />
+    <wsdl:part name="text" type="xsd:string " />
+    <wsdl:part name="file" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="SendPostalResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="ResendCancelAdditionsRequest">
+    <wsdl:part name="username" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+    <wsdl:part name="smsid" type="xsd:integer" />
+  </wsdl:message>
+  <wsdl:message name="ResendCancelAdditionsResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:portType name="WebservicePortType">
+    <wsdl:operation name="Sendsms">
+      <wsdl:input message="tns:SendsmsRequest" />
+      <wsdl:output message="tns:SendsmsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="Credit">
+      <wsdl:input message="tns:CreditRequest" />
+      <wsdl:output message="tns:CreditResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="Smsreport">
+      <wsdl:input message="tns:SmsreportRequest" />
+      <wsdl:output message="tns:SmsreportResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="Receivedsms">
+      <wsdl:input message="tns:ReceivedsmsRequest" />
+      <wsdl:output message="tns:ReceivedsmsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="SendInstagram">
+      <wsdl:input message="tns:SendInstagramRequest" />
+      <wsdl:output message="tns:SendInstagramResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="SendLine">
+      <wsdl:input message="tns:SendLineRequest" />
+      <wsdl:output message="tns:SendLineResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStateEyalat">
+      <wsdl:input message="tns:GetStateEyalatRequest" />
+      <wsdl:output message="tns:GetStateEyalatResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCityEyalat">
+      <wsdl:input message="tns:GetCityEyalatRequest" />
+      <wsdl:output message="tns:GetCityEyalatResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="SendEyalat">
+      <wsdl:input message="tns:SendEyalatRequest" />
+      <wsdl:output message="tns:SendEyalatResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchPostal">
+      <wsdl:input message="tns:SearchPostalRequest" />
+      <wsdl:output message="tns:SearchPostalResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="SendPostal">
+      <wsdl:input message="tns:SendPostalRequest" />
+      <wsdl:output message="tns:SendPostalResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="ResendCancelAdditions">
+      <wsdl:input message="tns:ResendCancelAdditionsRequest" />
+      <wsdl:output message="tns:ResendCancelAdditionsResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebserviceBinding" type="tns:WebservicePortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <wsdl:operation name="Sendsms">
+      <soap:operation soapAction="http://panel.everysend.ir/index.php/Sendsms" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://panel.everysend.ir" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://panel.everysend.ir" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Credit">
+      <soap:operation soapAction="http://panel.everysend.ir/index.php/Credit" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://panel.everysend.ir" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://panel.everysend.ir" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Smsreport">
+      <soap:operation soapAction="http://panel.everysend.ir/index.php/Smsreport" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://panel.everysend.ir" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://panel.everysend.ir" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Receivedsms">
+      <soap:operation soapAction="http://panel.everysend.ir/index.php/Receivedsms" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://panel.everysend.ir" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://panel.everysend.ir" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendInstagram">
+      <soap:operation soapAction="http://panel.everysend.ir/index.php/SendInstagram" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://panel.everysend.ir" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://panel.everysend.ir" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendLine">
+      <soap:operation soapAction="http://panel.everysend.ir/index.php/SendLine" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://panel.everysend.ir" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://panel.everysend.ir" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStateEyalat">
+      <soap:operation soapAction="http://panel.everysend.ir/index.php/GetStateEyalat" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://panel.everysend.ir" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://panel.everysend.ir" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCityEyalat">
+      <soap:operation soapAction="http://panel.everysend.ir/index.php/GetCityEyalat" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://panel.everysend.ir" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://panel.everysend.ir" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendEyalat">
+      <soap:operation soapAction="http://panel.everysend.ir/index.php/SendEyalat" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://panel.everysend.ir" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://panel.everysend.ir" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchPostal">
+      <soap:operation soapAction="http://panel.everysend.ir/index.php/SearchPostal" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://panel.everysend.ir" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://panel.everysend.ir" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendPostal">
+      <soap:operation soapAction="http://panel.everysend.ir/index.php/SendPostal" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://panel.everysend.ir" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://panel.everysend.ir" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ResendCancelAdditions">
+      <soap:operation soapAction="http://panel.everysend.ir/index.php/ResendCancelAdditions" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://panel.everysend.ir" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://panel.everysend.ir" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Webservice">
+    <wsdl:port name="WebservicePort" binding="tns:WebserviceBinding">
+      <soap:address location="http://panel.everysend.ir/index.php" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

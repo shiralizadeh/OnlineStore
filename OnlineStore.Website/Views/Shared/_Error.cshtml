@@ -1,0 +1,14 @@
+﻿@model List<string>
+
+<div class="alert alert-danger alert-error">
+    <ul>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <li>@Html.Raw(item)</li>
+            }
+        }
+    </ul>
+
+</div>

@@ -1,0 +1,185 @@
+﻿@model EditMenuItem
+
+@{
+    ViewBag.Title = "ویرایش منو";
+}
+
+@using (Html.BeginForm("Edit", "MenuItems", FormMethod.Post, new { @class = "validate" }))
+{
+    @Html.AntiForgeryToken()
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active"><a href="#banner" role="tab" data-toggle="tab">اطلاعات اولیه</a></li>
+        <li><a href="#bannerimages" role="tab" data-toggle="tab">بنرها</a></li>
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="banner">
+            <div class="col-sm-6">
+                @Html.Partial("_Status")
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ParentID)
+                    <div>
+                        @Html.Partial("_TreeView", new TreeViewSettings()
+                   {
+                       ControllerName = "/Admin/MenuItems",
+                       JsonMothod = "GetItems",
+                       FieldName = "ParentID",
+                       TreeViewSelectMode = TreeViewSelectMode.Single,
+                       SelectedID = Model.ParentID,
+                       CurrentID = Model.ID,
+                   })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Title)
+                    @Html.TextBoxFor(model => model.Title, new { @class = "form-control required" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MenuItemType)
+                    @Html.EnumDropDownListFor(model => model.MenuItemType, new { @class = "form-control menu-item-type" })
+                </div>
+                <div class="form-group link-type" style="display:none">
+                    @Html.LabelFor(model => model.Link)
+                    @Html.TextBoxFor(model => model.Link, new { @class = "form-control" })
+                </div>
+                <div class="form-group editor-type" style="display:none">
+                    @Html.LabelFor(model => model.Content)
+                    @Html.TextAreaFor(model => model.Content, new { @class = "form-control ckeditor" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IconClass)
+                    @Html.TextBoxFor(model => model.IconClass, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.OrderID)
+                    @Html.TextBoxFor(model => model.OrderID, new { @class = "form-control number" })
+                </div>
+                <div class="checkbox">
+                    @Html.CheckBoxFor(model => model.IsVisible)
+                    @Html.LabelFor(model => model.IsVisible)
+                </div>
+                <div class="checkbox">
+                    @Html.CheckBoxFor(model => model.ShowInBreadCrumb)
+                    @Html.LabelFor(model => model.ShowInBreadCrumb)
+                </div>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="bannerimages">
+            @Html.Partial("_MenuItemBanners", Model.Banners)
+            @Html.HiddenFor(item => item.JSONBanners)
+        </div>
+        <div class="clear"></div>
+        <button type="submit" class="btn btn-success">ثبت</button>
+        <a href="/Admin/MenuItems/" class="btn btn-warning">بازگشت</a>
+    </div>
+}
+
+@section Scripts{
+    <script src="/js/admin/menuitems-showeditor.js"></script>
+
+    @* تصاویر *@
+    <script>
+        var menuItemBannerTemplate = $('#EditMenuItemBannerTemplate').html(),
+            $menuItemBannersList = $('#MenuItemBannersList'),
+            $addMenuItemBanner = $('#AddMenuItemBanner'),
+            $title = $('#Title'),
+            $jsonImages = $('#JSONBanners'),
+            imagesFiles = @Html.Raw(Model.JSONBanners);
+
+        $addMenuItemBanner.on('click', function () {
+            var title = $title.val().trim();
+            if (title == '')
+            {
+                alert('لطفا عنوان صفحه را وارد نمایید.');
+                return;
+            }
+
+            var tmp = $(menuItemBannerTemplate),
+                btn = tmp.find('.btn-upload')[0];
+
+            var uploader = new ss.SimpleUpload({
+                button: btn,
+                url: '/Admin/FileUploader/Upload?title=' + encodeURI(title) + '&path=\\Files\\MenuItemBanners\\',
+                name: 'file',
+                responseType: 'json',
+                startXHR: function() {
+                    $(btn).html('در حال آپلود...');
+                },
+                onSubmit: function() {
+                },
+                onComplete: function(filename, response) {
+                    if (response.Success)
+                    {
+                        var $btn = $(btn),
+                            file = $btn.closest('.row').data('File');
+
+                        $btn.after('<a href="/Files/MenuItemBanners/' + response.Data + '" target="_blank" class="btn btn-success"><span>فایل با موفقیت آپلود شد </span><i class="icon-check"></i></a>');
+                        $btn.remove();
+
+                        file.Filename = response.Data;
+
+                        refreshJSONImages();
+                    }
+                    else {
+                        alert('رخداد خطا');
+                    }
+                },
+                onError: function() {
+                }
+            });
+
+            var file = {
+                ID: -1 * _.random(1000, 9999),
+                Filename: '',
+                MenuItemBannerType: 0,
+                Link: '#'
+            };
+            tmp.data('File', file);
+            imagesFiles.push(file);
+
+            $menuItemBannersList.append(tmp);
+        });
+
+        $menuItemBannersList.on('keyup change', 'input,select', function () {
+            var $this = $(this),
+                row = $this.closest('.row'),
+                id = row.data('id'),
+                file = row.data('File');
+
+            if (id)
+                file = _.find(imagesFiles, function(item){ return item.ID == id; });
+
+            if ($this.hasClass('link')) {
+                file.Link = $this.val();
+            }
+            else
+            {
+                file.MenuItemBannerType = parseInt($this.val());
+            }
+
+            refreshJSONImages();
+        });
+
+        $menuItemBannersList.on('click', '.btn-delete', function () {
+            if (confirm('آیا مایل به حذف فایل مورد نظر هستید؟')) {
+                var $this = $(this),
+                    row = $this.closest('.row'),
+                    id = row.data('id'),
+                    file = row.data('File');
+
+                imagesFiles = _.filter(imagesFiles, function (item) {
+                    return item.ID != (id ? id : file.ID);
+                });
+
+                row.slideUp();
+
+                refreshJSONImages();
+            }
+        });
+
+        function refreshJSONImages() {
+            $jsonImages.val(JSON.stringify(imagesFiles));
+        }
+    </script>
+
+}

@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "تغییرات لیست قیمت";
+}
+
+<fieldset class="filter-box">
+    <legend>
+        <a class="filter-header">
+            <i class="open-icon icon icon-plus-sign"></i>
+            <span>جستجو</span>
+        </a>
+    </legend>
+    <div class="control-box">
+        <div class="row form-group">
+            <input type="text" id="FromDate" class="form-control persiandate col-sm-2" placeholder="تاریخ شروع بازه..." />
+            <input type="text" id="ToDate" class="form-control persiandate col-sm-2" placeholder="تاریخ پایان بازه..." />
+            <a id="btnSearch" class="btn btn-info"><i class="icon-search"></i></a>
+        </div>
+    </div>
+</fieldset>
+
+<ul class="price-list-logs"></ul>
+<div class="alert alert-danger hide">
+    رخدادی یافت نشد!
+</div>
+
+@section Styles{
+    <link href="/css/admin/price-list-logs.min.css" rel="stylesheet" />
+}
+@section Scripts{
+    <script src="/js/admin/price-list-logs.js"></script>
+}

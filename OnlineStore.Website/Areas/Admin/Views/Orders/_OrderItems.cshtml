@@ -1,0 +1,32 @@
+﻿@model List<OnlineStore.Models.User.ViewOrderItem>
+
+@{
+    int i = 0;
+}
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ردیف</th>
+                <th>عنوان محصول</th>
+                <th>قیمت</th>
+                <th>تعداد</th>
+                <th>تاریخ</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                i++;
+                <tr>
+                    <td>@i</td>
+                    <td><a href="@UrlProvider.GetProductUrl(item.ProductID,"grouptitle","perfix")" target="_blank">@item.ProductTitle</a></td>
+                    <td>@item.Price.ToPrice()</td>
+                    <td>@item.Quantity</td>
+                    <td>@Utilities.ToPersianDate(item.DateTime)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

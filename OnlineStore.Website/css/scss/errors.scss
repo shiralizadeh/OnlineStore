@@ -1,0 +1,9 @@
+﻿@import "mixins";
+
+.error-box {
+    text-align: center;
+
+    a {
+        color: $color;
+    }
+}

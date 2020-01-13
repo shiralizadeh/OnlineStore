@@ -1,0 +1,48 @@
+﻿@import "_mixins.scss";
+
+.producer-details-box {
+    background-color: #fff;
+    color: $black_0;
+    font-size: 14px;
+    line-height: 30px;
+    padding: 10px;
+
+    .producer-image {
+        float: right;
+        padding: 10px;
+    }
+
+    .box-header {
+        margin-top: 45px;
+
+        h2 {
+            font-size: 18px;
+            color: $black_1;
+
+            &:before {
+                @include fontAwesome;
+                content: '\f0d9';
+                margin-left: 5px;
+                color: $color;
+                vertical-align: top;
+            }
+        }
+    }
+
+    .box-content {
+        .groups {
+            a {
+                color: $black_3;
+
+                &:hover {
+                    color: $color;
+                }
+            }
+
+            span {
+                color: $black_5;
+                display: inline-block;
+            }
+        }
+    }
+}

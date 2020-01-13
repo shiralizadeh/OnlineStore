@@ -1,0 +1,194 @@
+﻿/*border*/
+.pngs {
+  background-image: url(/images/Template/pngs.png?v=1.4); }
+
+ul.my-account {
+  width: 400px;
+  float: right; }
+  ul.my-account li {
+    float: right;
+    margin: 10px;
+    width: 100px;
+    background-color: #b0bec5;
+    list-style-type: none;
+    text-align: center;
+    position: relative; }
+    ul.my-account li a {
+      padding: 20px 0;
+      display: block;
+      color: #fff;
+      -moz-transition: 0.2s;
+      -o-transition: 0.2s;
+      -webkit-transition: 0.2s;
+      transition: 0.2s; }
+      ul.my-account li a:hover {
+        background-color: #ff6433; }
+      ul.my-account li a i {
+        font-size: 30px;
+        display: block;
+        color: #fff; }
+      ul.my-account li a span {
+        margin-top: 20px;
+        display: block;
+        font-size: 12px; }
+
+.user-panel {
+  background-color: #fff;
+  padding: 10px; }
+  .user-panel .list-btns, .user-panel .btn-plus, .user-panel .btn-edit {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    color: #fff;
+    display: inline-block;
+    padding: 0;
+    border-radius: 2px; }
+    .user-panel .list-btns i, .user-panel .btn-plus i, .user-panel .btn-edit i {
+      display: block;
+      margin-top: 4px; }
+  .user-panel .btn-plus {
+    background-color: #00c853;
+    border: solid 1px #00af48;
+    float: left; }
+    .user-panel .btn-plus:hover {
+      background: #00953e; }
+  .user-panel .btn-edit {
+    background-color: #337ab7;
+    border: solid 1px #2d6da3; }
+    .user-panel .btn-edit:hover {
+      background: #285f8f; }
+  .user-panel .btn-delete {
+    width: 22px;
+    height: 22px;
+    text-align: center;
+    color: #fff;
+    background-color: #ed1c24;
+    border: solid 1px #de1219;
+    padding: 0;
+    vertical-align: top;
+    cursor: pointer;
+    border-radius: 2px; }
+    .user-panel .btn-delete:hover {
+      background: #c61017; }
+  .user-panel table.user-info {
+    margin: 20px 0;
+    width: 100%;
+    border: solid 1px #e5e5e5;
+    font-size: 13px; }
+    .user-panel table.user-info tr td, .user-panel table.user-info tr th {
+      padding: 5px; }
+    .user-panel table.user-info tr th {
+      color: #ff3d00;
+      font-weight: normal; }
+  .user-panel table td {
+    white-space: nowrap; }
+
+.edit-comment-box {
+  padding: 5% 0; }
+  .edit-comment-box .comment {
+    width: 90%; }
+
+.reports {
+  float: left;
+  width: 50%;
+  font-size: 11px; }
+  .reports div.orders,
+  .reports div.comments,
+  .reports div.others {
+    float: left;
+    width: 200px;
+    margin: 10px; }
+    .reports div.orders table,
+    .reports div.comments table,
+    .reports div.others table {
+      margin: 0 auto;
+      width: 100%; }
+      .reports div.orders table caption,
+      .reports div.comments table caption,
+      .reports div.others table caption {
+        padding: 10px;
+        background-color: #455a64;
+        color: #fff; }
+      .reports div.orders table tr:nth-child(2n+1),
+      .reports div.comments table tr:nth-child(2n+1),
+      .reports div.others table tr:nth-child(2n+1) {
+        background-color: #fafbfb; }
+      .reports div.orders table th, .reports div.orders table td,
+      .reports div.comments table th,
+      .reports div.comments table td,
+      .reports div.others table th,
+      .reports div.others table td {
+        padding: 10px; }
+      .reports div.orders table i.fa,
+      .reports div.comments table i.fa,
+      .reports div.others table i.fa {
+        margin-left: 2px; }
+
+/*(max-width: 480px)*/
+@media only screen and (max-width: 479px) {
+  .reports {
+    width: 100%; }
+    .reports div.orders,
+    .reports div.comments,
+    .reports div.others {
+      width: 100%; }
+  ul.my-account {
+    width: 100%; } }
+
+/*(min-width: 480px) and (max-width: 595px)*/
+@media only screen and (min-width: 480px) and (max-width: 599px) {
+  .reports {
+    width: 100%; }
+    .reports div.orders,
+    .reports div.comments,
+    .reports div.others {
+      width: 100%; }
+  ul.my-account {
+    width: 100%; } }
+
+/*(min-width: 595px) and (max-width: 690px)*/
+@media only screen and (min-width: 595px) and (max-width: 689px) {
+  .reports {
+    width: 100%; }
+    .reports div.orders,
+    .reports div.comments,
+    .reports div.others {
+      width: 100%; }
+  ul.my-account {
+    width: 100%; } }
+
+/*(min-width: 690px) and (max-width: 960px)*/
+@media only screen and (min-width: 690px) and (max-width: 959px) {
+  .reports {
+    width: 50%; }
+  ul.my-account {
+    width: 50%; } }
+
+/*(min-width: 960px) and (max-width: 1024px)*/
+@media only screen and (min-width: 960px) and (max-width: 1023px) {
+  .reports {
+    width: 50%; }
+  ul.my-account {
+    width: 50%; } }
+
+/*(min-width: 1024px) and (max-width: 1280px)*/
+@media only screen and (min-width: 1024px) and (max-width: 1279px) {
+  .reports {
+    width: 50%; }
+  ul.my-account {
+    width: 50%; } }
+
+/*(min-width: 1280px) and (max-width: 1440px)*/
+@media only screen and (min-width: 1280px) and (max-width: 1439px) {
+  .reports {
+    width: 50%; }
+  ul.my-account {
+    width: 50%; } }
+
+/*(min-width: 1440px)*/
+@media only screen and (min-width: 1440px) {
+  .reports {
+    width: 50%; }
+  ul.my-account {
+    width: 50%; } }
+

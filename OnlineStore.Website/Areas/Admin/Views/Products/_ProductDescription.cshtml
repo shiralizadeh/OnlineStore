@@ -1,0 +1,14 @@
+﻿@model EditProduct
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Summary)
+            @Html.TextAreaFor(model => model.Summary, new { @class = "form-control required summary" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Text)
+            @Html.TextAreaFor(model => model.Text, new { @class = "form-control ckeditor required" })
+        </div>
+    </div>
+</div>

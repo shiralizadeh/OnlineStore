@@ -1,0 +1,70 @@
+﻿@import "mixins";
+
+.list-items {
+    position: relative;
+    @include full-loading();
+
+    #AddToList {
+        margin-right: 1%;
+    }
+
+    #Items {
+        ul {
+            padding: 0 15px;
+            color: #808080;
+            margin: 10px 0;
+
+            li {
+                span {
+                    display: inline-block;
+                }
+
+                list-style: none;
+                border-bottom: 1px solid #ccc;
+                text-transform: uppercase;
+                padding: 10px;
+                cursor: pointer;
+
+                &:nth-child(2n+1) {
+                    background-color: #eee;
+                }
+
+                a.icon-remove-sign {
+                    float: left;
+                    font-size: 24px;
+                    color: #ff3d00;
+                    line-height: 15px;
+                }
+
+                i.icon-sort {
+                    margin-left: 5px;
+                }
+
+                .date {
+                    color: #ff3d00;
+                    margin: 0 10px;
+                }
+            }
+
+            & + .not-found {
+                color: $red;
+                padding: 5px 10px;
+                text-align: center;
+                background-color: #f2dede;
+                border: solid 1px #f6bebe;
+                margin: 10px 0;
+                display: block;
+            }
+        }
+    }
+
+    .icon-check-sign {
+        font-size: 32px;
+        color: $green;
+        cursor: pointer;
+    }
+}
+
+.persiandate {
+    width: 200px;
+}

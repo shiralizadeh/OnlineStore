@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "اعلان ها";
+    var userID = User.Identity.GetUserId();
+
+    var notifies = UserNotifications.Get(userID);
+    var count = UserNotifications.Count(userID);
+}
+
+<div class="col-lg-12">
+    <section class="panel">
+        <header class="panel-heading">
+            @count اعلان از ابتدا تا امروز دارید.
+        </header>
+        <ul class="list-group">
+            @foreach (var item in notifies)
+            {
+                <li class="list-group-item">
+                    <a href="@item.Url">
+                        @switch (item.NotificationType)
+                        {
+                            case OnlineStore.Models.Enums.NotificationType.Info:
+                                <span class="label label-info"><i class="icon-bullhorn"></i></span>
+                                break;
+                            case OnlineStore.Models.Enums.NotificationType.Success:
+                            <span class="label label-success"><i class="icon-plus"></i></span>
+                                break;
+                            case OnlineStore.Models.Enums.NotificationType.Warning:
+                            <span class="label label-warning"><i class="icon-bell"></i></span>
+                                break;
+                            case OnlineStore.Models.Enums.NotificationType.Danger:
+                            <span class="label label-danger"><i class="icon-bolt"></i></span>
+                                break;
+                            default:
+                                break;
+                        }
+                        &nbsp;&nbsp;
+                        @item.Title
+                    </a>
+                    <span class="small italic pull-left" dir="ltr">@((DateTime.Now.Date == item.LastUpdate.Date ? "" : Utilities.ToPersianDate(item.LastUpdate) + " ") + item.LastUpdate.ToString("HH:mm"))</span>
+                </li>
+            }
+        </ul>
+    </section>
+</div>

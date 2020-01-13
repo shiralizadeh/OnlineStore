@@ -1,0 +1,196 @@
+﻿@model EditGroup
+
+@{
+    ViewBag.Title = "ویرایش گروه";
+}
+
+@using (Html.BeginForm("Edit", (string)ViewBag.Controller, FormMethod.Post, new { @class = "validate", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active"><a href="#group" role="tab" data-toggle="tab">اطلاعات اولیه</a></li>
+        <li><a href="#bannerimages" role="tab" data-toggle="tab">بنرها</a></li>
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="group">
+            <div class="col-sm-6">
+                @Html.Partial("_Status")
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ParentID)
+                    <div>
+                        @Html.Partial("_TreeView", new TreeViewSettings()
+                   {
+                       ControllerName = "/Admin/" + ViewBag.Controller,
+                       JsonMothod = "GetGroups",
+                       FieldName = "ParentID",
+                       TreeViewSelectMode = TreeViewSelectMode.Single,
+                       SelectedID = Model.ParentID,
+                       CurrentID = Model.ID,
+                   })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Title)
+                    @Html.TextBoxFor(model => model.Title, new { @class = "form-control required" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TitleEn)
+                    @Html.TextBoxFor(model => model.TitleEn, new { @class = "form-control required" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Perfix)
+                    @Html.TextBoxFor(model => model.Perfix, new { @class = "form-control required" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Perfix_En)
+                    @Html.TextBoxFor(model => model.Perfix_En, new { @class = "form-control required" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Text)
+                    @Html.TextBoxFor(model => model.Text, new { @class = "form-control" })
+                </div>
+                @if (ViewBag.Controller == "Groups")
+                {
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Image)
+
+                        @if (!String.IsNullOrWhiteSpace(Model.Image))
+                    {
+                            <img src="@(StaticPaths.GroupImages + Model.Image)" alt="فایل آپلود شده" class="pull-left" width="200" />
+                        }
+                        <input type="file" id="Image" name="Image" />
+                        @Html.HiddenFor(model => model.Image)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ButtonImage)
+
+                        @if (!String.IsNullOrWhiteSpace(Model.ButtonImage))
+                    {
+                            <img src="@(StaticPaths.GroupImages + Model.ButtonImage)" alt="فایل آپلود شده" class="pull-left" width="200" />
+                        }
+                        <input type="file" id="ButtonImage" name="ButtonImage" />
+                        @Html.HiddenFor(model => model.ButtonImage)
+                    </div>
+                }
+
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="bannerimages">
+            @Html.Partial("_GroupBanners", Model.Banners)
+            @Html.HiddenFor(item => item.JSONBanners)
+        </div>
+        <div class="clear"></div>
+        <button type="submit" class="btn btn-success">ثبت</button>
+        <a href="/Admin/@ViewBag.Controller" class="btn btn-warning">بازگشت</a>
+    </div>
+}
+
+@section Scripts{
+    
+    @* تصاویر *@
+    <script>
+        var groupBannerTemplate = $('#EditGroupBannerTemplate').html(),
+            $groupBannersList = $('#GroupBannersList'),
+            $addGroupBanner = $('#AddGroupBanner'),
+            $title = $('#Title'),
+            $jsonImages = $('#JSONBanners'),
+            imagesFiles = @Html.Raw(Model.JSONBanners);
+
+        $addGroupBanner.on('click', function () {
+            var title = $title.val().trim();
+            if (title == '')
+            {
+                alert('لطفا عنوان صفحه را وارد نمایید.');
+                return;
+            }
+
+            var tmp = $(groupBannerTemplate),
+                btn = tmp.find('.btn-upload')[0];
+
+            var uploader = new ss.SimpleUpload({
+                button: btn,
+                url: '/Admin/FileUploader/Upload?title=' + encodeURI(title) + '&path=\\Files\\GroupBanners\\',
+                name: 'file',
+                responseType: 'json',
+                startXHR: function() {
+                    $(btn).html('در حال آپلود...');
+                },
+                onSubmit: function() {
+                },
+                onComplete: function(filename, response) {
+                    if (response.Success)
+                    {
+                        var $btn = $(btn),
+                            file = $btn.closest('.row').data('File');
+
+                        $btn.after('<a href="/Files/GroupBanners/' + response.Data + '" target="_blank" class="btn btn-success"><span>فایل با موفقیت آپلود شد </span><i class="icon-check"></i></a>');
+                        $btn.remove();
+
+                        file.Filename = response.Data;
+
+                        refreshJSONImages();
+                    }
+                    else {
+                        alert('رخداد خطا');
+                    }
+                },
+                onError: function() {
+                }
+            });
+
+            var file = {
+                ID: -1 * _.random(1000, 9999),
+                Filename: '',
+                GroupBannerType: 0,
+                Link: '#'
+            };
+            tmp.data('File', file);
+            imagesFiles.push(file);
+
+            $groupBannersList.append(tmp);
+        });
+
+        $groupBannersList.on('keyup', 'input', function () {
+            var $this = $(this),
+                row = $this.closest('.row'),
+                id = row.data('id'),
+                file = row.data('File');
+
+            if (id)
+                file = _.find(imagesFiles, function(item){ return item.ID == id; });
+
+            if ($this.hasClass('link')) {
+                file.Link = $this.val();
+            }
+            else
+            {
+                file.GroupBannerType = parseInt($this.val());
+            }
+
+            refreshJSONImages();
+        });
+
+        $groupBannersList.on('click', '.btn-delete', function () {
+            if (confirm('آیا مایل به حذف فایل مورد نظر هستید؟')) {
+                var $this = $(this),
+                    row = $this.closest('.row'),
+                    id = row.data('id'),
+                    file = row.data('File');
+
+                imagesFiles = _.filter(imagesFiles, function (item) {
+                    return item.ID != (id ? id : file.ID);
+                });
+
+                row.slideUp();
+
+                refreshJSONImages();
+            }
+        });
+
+        function refreshJSONImages() {
+            $jsonImages.val(JSON.stringify(imagesFiles));
+        }
+    </script>
+
+}

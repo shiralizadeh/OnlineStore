@@ -1,0 +1,35 @@
+﻿@model EditStaticContent
+
+@{
+    ViewBag.Title = "ویرایش تنظیمات";
+}
+
+@using (Html.BeginForm("Edit", "StaticContents", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="col-sm-6">
+        @Html.Partial("_Status")
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title)
+            @Html.TextBoxFor(model => model.Title, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.StaticContentType)
+            @Html.EnumDropDownListFor(model => model.StaticContentType, new { @class = "form-control required content-type" })
+        </div>
+        <div class="form-group simple">
+            @Html.LabelFor(model => model.SimpleContent)
+            @Html.TextAreaFor(model => model.SimpleContent, new { @class = "form-control" })
+        </div>
+        <div class="form-group editor" style="display:none">
+            @Html.LabelFor(model => model.EditorContent)
+            @Html.TextAreaFor(model => model.EditorContent, new { @class = "form-control required ckeditor" })
+        </div>
+        <button type="submit" class="btn btn-success">ثبت</button>
+        <a href="/Admin/StaticContents" class="btn btn-warning">بازگشت</a>
+    </div>
+}
+
+@section Scripts{
+    <script src="/js/admin/content-showeditor.js"></script>
+}

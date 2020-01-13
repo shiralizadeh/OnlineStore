@@ -1,0 +1,62 @@
+﻿@model Banner
+
+@{
+    ViewBag.Title = "ویرایش بنر";
+}
+
+@using (Html.BeginForm("Edit", "Banners", FormMethod.Post, new { @class = "validate", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="col-sm-6">
+        @Html.Partial("_Status")
+        <div class="form-group">
+            <span class="label label-info">
+                <span style="font-size:12px">تعداد کلیک ها: @Model.ClickCount</span>
+            </span>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title)
+            @Html.TextBoxFor(model => model.Title, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Filename)
+
+            @if (!String.IsNullOrWhiteSpace(Model.Filename))
+            {
+                <img src="@(StaticPaths.BannerImages + Model.Filename)" alt="@Model.Title" class="pull-left" width="200" />
+            }
+            <input type="file" id="ImageFile" name="ImageFile" />
+            @Html.HiddenFor(model => model.Filename)
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Link)
+            @Html.TextBoxFor(model => model.Link, new { @class = "form-control required" })
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PersianStartDate)
+                    @Html.TextBoxFor(model => model.PersianStartDate, new { @class = "form-control persiandate required", autocomplete = "off" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PersianEndDate)
+                    @Html.TextBoxFor(model => model.PersianEndDate, new { @class = "form-control persiandate required", autocomplete = "off" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.OrderID)
+            @Html.TextBoxFor(model => model.OrderID, new { @class = "form-control required number", })
+        </div>
+        <div class="checkbox">
+            @Html.CheckBoxFor(model => model.IsActive)
+            @Html.LabelFor(model => model.IsActive)
+        </div>
+        <button type="submit" class="btn btn-success">ثبت</button>
+        <a href="/Admin/Banners" class="btn btn-warning">بازگشت</a>
+    </div>
+}

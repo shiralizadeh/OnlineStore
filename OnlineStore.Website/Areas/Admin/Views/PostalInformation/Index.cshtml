@@ -1,0 +1,151 @@
+﻿@model List<PostalInformation>
+
+@{
+    Layout = null;
+    ViewBag.Title = "پرینت اطلاعات پستی";
+}
+
+<!-- Bootstrap core CSS -->
+<link href="~/assets/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link href="~/assets/bootstrap/bootstrap-rtl.min.css" rel="stylesheet" />
+
+<link href="~/assets/admin/font-awesome/css/font-awesome.css" rel="stylesheet" />
+
+<link href="~/css/admin/style.css" rel="stylesheet">
+<link href="/css/admin/postal-information.min.css" rel="stylesheet" />
+
+<script src="~/assets/jquery/jquery-1.11.3.min.js"></script>
+<script src="/assets/print.jquery/print.jquery.js"></script>
+
+<section class="panel">
+    <a class="icon-print btn-print" title="پرینت" target="_blank" href="#"></a>
+    <div class="printable">
+        <ul class="postal-information">
+            @foreach (var item in Model)
+            {
+                var buyerInfo = item.ViewBuyerInfo;
+
+                string fullAddress = String.Empty;
+
+                if (buyerInfo.StateName != String.Empty)
+                {
+                    fullAddress += buyerInfo.StateName + " - ";
+                }
+                if (buyerInfo.CityName != String.Empty)
+                {
+                    fullAddress += buyerInfo.CityName + " - ";
+                }
+                if (buyerInfo.HomeAddress != String.Empty)
+                {
+                    fullAddress += buyerInfo.HomeAddress;
+                }
+
+                <li class="@(Model.Count == 1 ? "width-100" : null)">
+                <fieldset>
+                <legend>فرستنده</legend>
+                <div class="postal-box">
+                <table class="postal-table">
+                <tr>
+                <td colspan="2">
+                <span class="website-url">online-store.com</span>
+                <img class="logo" src="@StaticValues.Logo" />
+                </td>
+                </tr>
+                <tr>
+                <td>
+                تلفن:
+                </td>
+                <td>
+                @StaticValues.Phone
+                </td>
+                </tr>
+                <tr>
+                <td>
+                آدرس:
+                </td>
+                <td>
+                @StaticValues.Address
+                </td>
+                </tr>
+                </table>
+                </div>
+                </fieldset>
+                <fieldset>
+                <legend>گیرنده</legend>
+                <div class="postal-box">
+                <table class="postal-table">
+                <tr>
+                <td>
+                نام:
+                </td>
+                <td>
+                @buyerInfo.Firstname
+                </td>
+                <td>
+                نام خانوادگی:
+                </td>
+                <td>
+                @buyerInfo.Lastname
+                </td>
+                </tr>
+                <tr>
+                <td>
+                تلفن:
+                </td>
+                <td>
+                @buyerInfo.Phone
+                </td>
+                <td>
+                موبایل:
+                </td>
+                <td>
+                @buyerInfo.Mobile
+                </td>
+
+                </tr>
+                <tr>
+                <td>
+                ایمیل:
+                </td>
+                <td>
+                @buyerInfo.Email
+                </td>
+                <td>
+                کد پستی:
+                </td>
+                <td>
+                @buyerInfo.PostalCode
+                </td>
+                </tr>
+                <tr>
+                <td>آدرس:</td>
+                <td colspan="3">
+                @fullAddress
+                </td>
+                </tr>
+                @if (!String.IsNullOrWhiteSpace(item.Description))
+                {
+                    <tr>
+                    <td>توضیحات:</td>
+                    <td colspan="3">
+                    @item.Description
+                    </td>
+                    </tr>
+                }
+                </table>
+                </div>
+                </fieldset>
+                </li>
+            }
+        </ul>
+        <div class="clear"></div>
+    </div>
+</section>
+
+<script>
+    $('.btn-print').on('click', function (e) {
+        e.preventDefault();
+
+        $(".printable").print();
+    });
+</script>

@@ -1,0 +1,58 @@
+﻿@model List<EditProductKeyword>
+
+<script id="EditProductKeywordTemplate" type="text/template">
+    <div class="productKeyworditem">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="form-group search-box">
+                    <input type="text" class="form-control keyword" placeholder="کلیدواژه..." value="" data-keywordid="-1" />
+                    <div class="result-box">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <button data-toggle="button" class="btn btn-xs btn-danger btn-delete">
+                        <i class="icon-trash"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<div class="row editproductKeyword">
+    <div class="col-md-6">
+        <div id="ProductKeywordsList">
+            @foreach (var item in Model)
+            {
+                <div class="productKeyworditem" data-id="@item.ID">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group search-box">
+                                <input class="form-control keyword" disabled placeholder="کلیدواژه..." value="@item.Title" data-keywordid="@item.KeywordID" />
+                                <div class="result-box">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <button data-toggle="button" class="btn btn-xs btn-danger btn-delete">
+                                    <i class="icon-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-4 col-md-offset-8 text-left">
+                <button id="AddProductKeyword" class="btn btn-xs btn-success" type="button" data-toggle="button">
+                    <i class="icon-plus-sign"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

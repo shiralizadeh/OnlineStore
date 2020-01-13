@@ -1,0 +1,17 @@
+﻿@model SitePage
+
+@{
+    ViewBag.Title = Model.Title;
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    BreadCrumbs = Model.BreadCrumb
+})
+
+<div class="responsive-box">
+    <div class="pages-content">
+        @Html.Raw(HttpUtility.HtmlDecode(Model.Content))
+        <div class="clear"></div>
+    </div>
+</div>

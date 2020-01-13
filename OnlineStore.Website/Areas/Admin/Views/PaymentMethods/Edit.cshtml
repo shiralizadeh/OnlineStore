@@ -1,0 +1,39 @@
+﻿@model PaymentMethod
+
+@{
+    ViewBag.Title = "ویرایش روش ارسال";
+}
+
+@using (Html.BeginForm("Edit", "PaymentMethods", FormMethod.Post, new { @class = "validate", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="col-sm-6">
+        @Html.Partial("_Status")
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title)
+            @Html.TextBoxFor(model => model.Title, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Filename)
+
+            @if (!String.IsNullOrWhiteSpace(Model.Filename))
+            {
+                <img src="@(StaticPaths.PaymentMethods + Model.Filename)" alt="فایل آپلود شده" class="pull-left" width="200" />
+            }
+            <input type="file" id="ImageFile" name="ImageFile" />
+            @Html.HiddenFor(model => model.Filename)
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description)
+            @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+        </div>
+        <div class="checkbox">
+            @Html.CheckBoxFor(model => model.IsActive)
+            @Html.LabelFor(model => model.IsActive)
+        </div>
+        <button type="submit" class="btn btn-success">ثبت</button>
+        <a href="/Admin/PaymentMethods" class="btn btn-warning">بازگشت</a>
+    </div>
+}

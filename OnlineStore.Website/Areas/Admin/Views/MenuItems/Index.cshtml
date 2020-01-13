@@ -1,0 +1,78 @@
+﻿@model List<MenuItem>
+@{
+    ViewBag.Title = "مدیریت منوی سایت";
+}
+
+<fieldset class="filter-box">
+    <legend>
+        <a class="filter-header">
+            <i class="open-icon icon icon-plus-sign"></i>
+            <span>جستجو</span>
+        </a>
+    </legend>
+    <div class="control-box">
+        <div class="row form-group">
+            <input type="text" id="Title" class="form-control col-sm-2" placeholder="عنوان..." />
+            <select id="GroupID" class="form-control col-sm-2">
+                <option value="-1">گروه منو</option>
+                @foreach (var item in Model)
+                {
+                    <option value="@item.ID">@item.Title</option>
+                }
+            </select>
+            <select id="MenuItemType" class="form-control col-sm-2">
+                <option value="-1">نوع آیتم</option>
+                <option value="0">بدون لینک</option>
+                <option value="1">لینک</option>
+                <option value="2">صفحه داخلی</option>
+            </select>
+            <a id="btnSearch" class="btn btn-info"><i class="icon-search"></i></a>
+        </div>
+    </div>
+</fieldset>
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "MenuItems",
+    Columns = new List<Column>(){
+                                   new Column() {
+                                       Title = "عنوان",
+                                       DataField = "Title"
+                                   },
+                                   new Column() {
+                                       Title = "پدر",
+                                       DataField = "ParentTitle"
+                                   },
+                                   new Column() {
+                                       Title = "نوع",
+                                       DataField = "fromMenuItemType(MenuItemType)"
+                                   },
+                                   new Column() {
+                                       Title = "ترتیب نمایش",
+                                       DataField = "OrderID"
+                                   },
+                                   new Column() {
+                                       Title = "آخرین ویرایش",
+                                       DataField = "fromNow(LastUpdate)"
+                                   }
+                               }
+})
+
+@section Scripts {
+    <script type="text/javascript">
+        var $title = $('#Title'),
+            $menuItemType = $('#MenuItemType'),
+            $groupID = $('#GroupID');
+
+        jConfigGrid.init({
+            ajaxUrl: '/Admin/MenuItems/',
+            filter: function () {
+                return {
+                    Title: $title.val(),
+                    menuItemType: $menuItemType.val(),
+                    GroupID: $groupID.val()
+                }
+            }
+        });
+    </script>
+}

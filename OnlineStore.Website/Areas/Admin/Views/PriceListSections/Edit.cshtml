@@ -1,0 +1,43 @@
+﻿@model PriceListSection
+
+@{
+    ViewBag.Title = "ویرایش گروه";
+}
+
+@using (Html.BeginForm("Edit", "PriceListSections", FormMethod.Post, new { @class = "validate", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="col-sm-6">
+        @Html.Partial("_Status")
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title)
+            @Html.TextBoxFor(model => model.Title, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.PriceListSectionType)
+            @Html.EnumDropDownListFor(model => model.PriceListSectionType, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Image)
+            @if (!String.IsNullOrWhiteSpace(Model.Image))
+                {
+                <img src="@(StaticPaths.PriceListSectionImages + Model.Image)" alt="@Model.Title" class="pull-left" />
+            }
+            <input type="file" id="Image" name="Image" />
+            @Html.HiddenFor(model => model.Image)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.OrderID)
+            @Html.TextBoxFor(model => model.OrderID, new { @class = "form-control number" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ColumnID)
+            @Html.TextBoxFor(model => model.ColumnID, new { @class = "form-control number" })
+        </div>
+
+        <button type="submit" class="btn btn-success">ثبت</button>
+        <a href="/Admin/PriceListSections" class="btn btn-warning">بازگشت</a>
+    </div>
+}

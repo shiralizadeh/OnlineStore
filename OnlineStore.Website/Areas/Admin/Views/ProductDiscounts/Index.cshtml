@@ -1,0 +1,82 @@
+﻿@{
+    ViewBag.Title = "مدیریت تخفیف محصول";
+}
+
+<fieldset class="filter-box">
+    <legend>
+        <a class="filter-header">
+            <i class="open-icon icon icon-plus-sign"></i>
+            <span>جستجو</span>
+        </a>
+    </legend>
+    <div class="control-box">
+        <div class="row form-group">
+            <input type="text" id="Title" class="form-control col-sm-2" placeholder="عنوان..." />
+            <input type="text" id="FromDate" class="form-control persiandate col-sm-2" placeholder="تاریخ شروع..." />
+            <input type="text" id="ToDate" class="form-control persiandate col-sm-2" placeholder="تاریخ پایان..." />
+            <a id="btnSearch" class="btn btn-info"><i class="icon-search"></i></a>
+        </div>
+    </div>
+</fieldset>
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "ProductDiscounts",
+    Columns = new List<Column>(){
+                                   new Column() {
+                                       Title = "عنوان",
+                                       DataField = "Title"
+                                   },
+                                   new Column() {
+                                       Title = "محصول",
+                                       DataField = "ProductTitle"
+                                   },
+                                   new Column() {
+                                       Title = "گروه",
+                                       DataField = "GroupTitle"
+                                   },
+                                   new Column() {
+                                       Title = "نقش",
+                                       DataField = "RoleTitle"
+                                   },
+                                   new Column() {
+                                       Title = "تاریخ شروع",
+                                       DataField = "toPersianDate(StartDate)"
+                                   },
+                                   new Column() {
+                                       Title = "تاریخ پایان",
+                                       DataField = "toPersianDate(EndDate)"
+                                   },
+                                   new Column() {
+                                       Title = "درصد تخفیف",
+                                       DataField = "fromPercent(Percent)"
+                                   },
+                                   new Column() {
+                                       Title = "وضعیت",
+                                       DataField = "fromProductDiscountStatus(ProductDiscountStatus)"
+                                   },
+                                   new Column() {
+                                       Title = "آخرین ویرایش",
+                                       DataField = "fromNow(LastUpdate)"
+                                   }
+                               }
+})
+
+@section Scripts {
+    <script type="text/javascript">
+        var $title = $('#Title'),
+            $fromDate = $('#FromDate'),
+            $toDate = $('#ToDate');
+
+        jConfigGrid.init({
+            ajaxUrl: '/Admin/ProductDiscounts/',
+            filter: function () {
+                return {
+                    Title: $title.val(),
+                    FromDate: $fromDate.val(),
+                    ToDate: $toDate.val()
+                }
+            }
+        });
+    </script>
+}

@@ -1,0 +1,62 @@
+﻿@model RelatedProductSettings
+
+<section>
+    <div class="box-header box-header-02">
+        <h1>@Model.Title</h1>
+            <div class="box-control">
+                <a href="#" class="btn-next">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                <a href="#" class="btn-prev">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="box-content">
+            <ul id="RelatedProducts" class="owl-carousel simple-carousel">
+                @foreach (var item in Model.Products)
+            {
+                var group = Groups.GetByID(item.GroupID.Value);
+                var url = UrlProvider.GetProductUrl(item.ID, group.UrlPerfix, item.UrlPerfix);
+                var compareUrl = UrlProvider.GetCompareUrl(item.ID);
+                float totalScore = Utilities.CalcRaty(item.SumScore.Value, item.ScoreCount, item.ProductScore);
+
+                var displayTitle = item.DisplayTitle;
+
+                    <li class="product-view" data-productid="@item.ID">
+                        <a href="@url" title="@displayTitle" class="product-img">
+                            <img src="@item.ImageFile" alt="@displayTitle" title="@displayTitle" />
+                        </a>
+                        <div class="product-desc">
+                            <a href="@url" class="group-title">
+                                @group.Title
+                            </a>
+                            <a href="@url" title="@displayTitle">
+                                <h2 class="product-title">@displayTitle</h2>
+                            </a>
+                            <span class="product-price">
+                                @Html.Partial("_Price", new PriceSettings() { Prices = item.Prices, SimplePrice = true, IsUnavailable = item.IsUnavailable })
+                            </span>
+                            <div class="controls">
+                                <a href="@url" class="btn-buy">
+                                    خرید
+                                </a>
+                                <div class="compare-wish">
+                                    <a href="@compareUrl">مقایسه محصول</a>
+                                    <span class="separator">|</span>
+                                    <a href="#" class="link-wishlist">آرزوی من</a>
+                                </div>
+                                <div class="rate-comment">
+                                    @Html.Partial("_Rate", totalScore)
+                                    @if (item.CommentCount > 0)
+                                    {
+                                        <a href="#" class="comment">@item.CommentCount نظر</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </section>

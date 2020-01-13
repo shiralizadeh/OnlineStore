@@ -1,0 +1,85 @@
+﻿@import "mixins";
+
+.contactus-box {
+    font-size: 14px;
+    line-height: 30px;
+    color: $black_0;
+
+    .contact-content-box {
+        background-color: #fff;
+        margin-left: 10px;
+        padding: 10px;
+
+        .contact-form {
+            margin-top: 25px;
+            position: relative;
+            @include full-loading();
+
+            .btn-submit {
+                margin-right: 295px;
+            }
+        }
+    }
+
+    .contact-info-box {
+        background-color: #fff;
+        margin-top: 0;
+
+        h2 {
+            color: $color;
+        }
+
+        .contact-info {
+            color: $black_2;
+            font-size: 13px;
+            line-height: 25px;
+            margin: 0 5px 0 0;
+
+            i {
+                text-align: center;
+                margin-left: 5px;
+                color: $black_3;
+                width: 15px;
+            }
+        }
+    }
+
+    .map {
+        margin-top: 10px;
+    }
+}
+
+/*(max-width: 480px)*/
+@include breakpoint('MobilePortrait') {
+    .contactus-box {
+        .contact-content-box {
+            margin-left: 0;
+        }
+    }
+}
+/*(min-width: 480px) and (max-width: 595px)*/
+@include breakpoint('MobileLandscape') {
+    .contactus-box {
+        .contact-content-box {
+            margin-left: 0;
+        }
+    }
+}
+
+/*(min-width: 595px) and (max-width: 690px)*/
+@include breakpoint('SmallTabletPortrait') {
+    .contactus-box {
+        .contact-content-box {
+            margin-left: 0;
+        }
+    }
+}
+
+/*(min-width: 690px) and (max-width: 960px)*/
+@include breakpoint('TabletPortrait') {
+    .contactus-box {
+        .contact-content-box {
+            margin-left: 0;
+        }
+    }
+}

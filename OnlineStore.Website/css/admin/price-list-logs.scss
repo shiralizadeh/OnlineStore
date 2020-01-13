@@ -1,0 +1,58 @@
+﻿@import "mixins";
+
+.price-list-logs {
+    position: relative;
+    @include full-loading();
+
+    span, i {
+        display: inline-block;
+    }
+
+    li {
+        .product-title {
+            color: $black_1;
+            font-size: 15px;
+            margin: 10px 0;
+        }
+
+        .logs {
+            li {
+                border: solid 1px $black_5;
+                margin: 2px 0;
+
+                span {
+                    padding: 10px;
+
+                    &:first-child {
+                        border-left: solid 1px $black_5;
+                    }
+
+                    &.price-list-field {
+                        background-color: $black_8;
+                        width: 100px;
+                        text-align: center;
+                    }
+
+                    &:last-child {
+                        float: left;
+                        color: $black_5;
+                    }
+                }
+
+                .icon-arrow-left {
+                    color: $blue;
+                    font-size: 18px;
+                    margin: 0 5px;
+                }
+
+                &.green-record {
+                    background-color: #f0fef7;
+                }
+
+                &.red-record {
+                    background-color: #ffe9e9;
+                }
+            }
+        }
+    }
+}

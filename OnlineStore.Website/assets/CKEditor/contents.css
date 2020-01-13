@@ -1,0 +1,17 @@
+@font-face {
+    font-family: 'WYekan';
+    src: url('/fonts/web_Yekan.eot');
+    src: url('/fonts/web_Yekan.eot?#iefix') format('embedded-opentype'), url('/fonts/web_Yekan.woff2') format('woff2'), url('/fonts/web_Yekan.woff') format('woff'), url('/fonts/web_Yekan.ttf') format('truetype'), url('/fonts/web_Yekan.svg') format('svg');
+}
+
+body {
+    direction: rtl;
+    text-align: right;
+    font-family: WYekan, Tahoma;
+    font-size: 14px;
+}
+
+.desc-image {
+    margin: 20px 10px;
+    max-width: 100%;
+}

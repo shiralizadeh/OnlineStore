@@ -1,0 +1,281 @@
+﻿@model FactorSettings
+
+@{
+    var factorInfo = Model.FactorInfo;
+    var buyerInfo = Model.BuyerInfo;
+    string fullAddress = String.Empty,
+           factorDate = String.Empty,
+           total = String.Empty,
+           delivaryPrice = String.Empty;
+    int toPay = 0;
+
+
+    if (Model.IsSuccess)
+    {
+        total = (factorInfo.Total.HasValue ? factorInfo.Total.Value.ToPrice() : "رایگان");
+        delivaryPrice = (factorInfo.DelivaryPrice.HasValue ? factorInfo.DelivaryPrice.Value.ToPrice() : "رایگان");
+
+        ViewBag.Title = "فاکتور خرید با کد" + factorInfo.ID;
+
+        factorDate = Utilities.ToPersianDate(factorInfo.DateTime);
+        toPay = factorInfo.ToPay.Value;
+
+        if (buyerInfo.StateName != String.Empty)
+        {
+            fullAddress += buyerInfo.StateName + " - ";
+        }
+        if (buyerInfo.CityName != String.Empty)
+        {
+            fullAddress += buyerInfo.CityName + " - ";
+        }
+        if (buyerInfo.HomeAddress != String.Empty)
+        {
+            fullAddress += buyerInfo.HomeAddress;
+        }
+
+    }
+    else
+    {
+        ViewBag.Title = "پرداخت ناموفق";
+    }
+
+}
+
+@Html.Partial("_PageTitle", new PageTitleSettings()
+{
+    BreadCrumbs = new List<BreadCrumbLink>() {
+        new BreadCrumbLink() { Title = StaticValues.HomeTitle, Link = "/" },
+        new BreadCrumbLink() { Title = "حساب من", Link = "/My-Account" },
+        new BreadCrumbLink() { Title = "سفارشات", Link = "/My-Account/My-Orders" },
+        new BreadCrumbLink() { Title = "فاکتور خرید", Link = "#" }
+    }
+})
+
+<div class="responsive-box factor-box">
+    @if (Model.IsSuccess)
+    {
+        if (factorInfo.CartStatus == CartStatus.Success)
+        {
+            <div class="alert-box">
+                <div class="alert alert-success text-center">
+                    @Html.Raw(ViewBag.Message)
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="alert-box">
+            <div class="alert alert-error text-center">
+                @Html.Raw(ViewBag.Message)
+            </div>
+        </div>
+    }
+
+    @if (Model.IsSuccess)
+    {
+        <a class="fa fa-print btn-print" title="پرینت" target="_blank" href="#"></a>
+        <div class="printable">
+            <div class="factor">
+                <div class="clear"></div>
+                <div class="factor-top">
+                    <img src="@Model.CompanyLogo" />
+                    <ul>
+                        <li>
+                            شماره فاکتور: @factorInfo.ID
+                        </li>
+                        @if (factorInfo.CartStatus == CartStatus.Success)
+                        {
+                            <li>
+                                کد پیگیری: @factorInfo.SaleReferenceID
+                            </li>
+                        }
+                        <li>
+                            تاریخ سفارش: @factorDate
+                        </li>
+                        <li>
+                            تاریخ صدور فاکتور: @factorDate
+                        </li>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+                <div class="table-responsive">
+                    <table class="buyer-info">
+                        <tr>
+                            <td>
+                                نام:
+                            </td>
+                            <td>
+                                @buyerInfo.Firstname
+                            </td>
+                            <td>
+                                نام خانوادگی:
+                            </td>
+                            <td>
+                                @buyerInfo.Lastname
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                تلفن:
+                            </td>
+                            <td>
+                                @buyerInfo.Phone
+                            </td>
+                            <td>
+                                شماره همراه:
+                            </td>
+                            <td>
+                                @buyerInfo.Mobile
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                ایمیل:
+                            </td>
+                            <td>
+                                @buyerInfo.Email
+                            </td>
+                            <td>
+                                کد پستی:
+                            </td>
+                            <td>
+                                @buyerInfo.PostalCode
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>آدرس:</td>
+                            <td colspan="3">
+                                @fullAddress
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <table class="table table-basket">
+                    <caption>شرح اقلام</caption>
+                    <thead>
+                        <tr>
+                            <th>نام محصول</th>
+                            <th>تعداد</th>
+                            <th>قیمت واحد</th>
+                            <th>قابل پرداخت</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.CartItems)
+                        {
+                            <tr>
+                                <td>
+                                    <span>
+                                        @item.ProductTitle
+                                        @if (item.ProductVarentID.HasValue)
+                                        {
+                                            <br />
+                                            @item.VarientTitle
+                                        }
+                                    </span>
+                                </td>
+                                <td>
+                                    @item.Quantity
+                                </td>
+                                <td>
+                                    @item.Price.ToPrice()
+                                </td>
+                                <td>
+                                    @((item.Price * item.Quantity).ToPrice())
+                                </td>
+                            </tr>
+
+                            foreach (var gift in item.Gifts)
+                            {
+                                <tr>
+                                    <td>
+                                        <span>
+                                            <i class="fa fa-gift"></i>&nbsp;&nbsp;
+                                            @gift.GiftTitle
+                                        </span>
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        @gift.Price.ToPrice()
+                                    </td>
+                                    <td>
+                                        رایگان
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="3">جمع کل:</th>
+                            <th>
+                                @total
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="3">هزینه ارسال:</th>
+                            <th>
+                                @delivaryPrice
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="3">قابل پرداخت:</th>
+                            <th>
+                                @toPay.ToPrice()
+                            </th>
+                        </tr>
+                        <tr>
+                            <td class="paymenttype">
+                                نوع پرداخت: @factorInfo.PaymentMethodType.GetEnumDisplay()
+                            </td>
+                            <td class="sendtype">
+                                نوع ارسال: @factorInfo.SendMethodType.GetEnumDisplay()
+                            </td>
+                        </tr>
+                        @if (!String.IsNullOrWhiteSpace(factorInfo.UserDescription))
+                        {
+                            <tr>
+                                <td colspan="4" class="sendtype">
+                                    توضیحات مشتری: @factorInfo.UserDescription
+                                </td>
+                            </tr>
+                        }
+                    </tfoot>
+                </table>
+                <div class="factor-bottom">
+                    <ul>
+                        <li>وب سایت: @Model.CompanyWebsite</li>
+                        <li>ایمیل: @Model.CompanyEmail</li>
+                        <li>تلفن تماس: <span class="phone-number">@Model.CompanyPhone</span></li>
+                    </ul>
+
+                    <div class="signature">
+                        @Model.CompanyName
+                        <br />
+                        امضا:
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+    }
+    <div class="clear"></div>
+</div>
+
+@section Styles{
+    <link href="/css/factor.min.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="/assets/print.jquery/print.jquery.js"></script>
+    <script>
+        $('.btn-print').on('click', function (e) {
+            e.preventDefault();
+
+            $(".printable").print();
+        });
+    </script>
+}

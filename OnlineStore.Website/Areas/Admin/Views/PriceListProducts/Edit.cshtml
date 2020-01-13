@@ -1,0 +1,60 @@
+﻿@model PriceListProduct
+
+@{
+    ViewBag.Title = "ویرایش محصول بنکداری";
+}
+
+@using (Html.BeginForm("Edit", "PriceListProducts", FormMethod.Post, new { @class = "validate" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="col-sm-6">
+        @Html.Partial("_Status")
+        <div class="form-group">
+            @Html.LabelFor(model => model.PriceListSectionID)
+            @Html.DropDownListFor(model => model.PriceListSectionID,
+                                  PriceListSections.Get().Select(item => new SelectListItem { Text = item.Title, Value = item.ID.ToString() }),
+                                  new { @class = "form-control selectpicker required", data_live_search = "true" })
+        </div>
+        <div class="form-group">
+            @{
+                var list = Products.GetAll().Select(item => new SelectListItem { Text = item.DisplayTitle, Value = item.ID.ToString() }).ToList();
+                list.Insert(0, new SelectListItem() { Text = "انتخاب کنید", Value = null });
+            }
+            @Html.LabelFor(model => model.ProductID)
+            @Html.DropDownListFor(model => model.ProductID, list,
+                                  new { @class = "form-control selectpicker", data_live_search = "true" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title)
+            @Html.TextBoxFor(model => model.Title, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.SubTitle)
+            @Html.TextBoxFor(model => model.SubTitle, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Price)
+            @Html.TextBoxFor(model => model.Price, new { @class = "form-control number" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Guarantee)
+            @Html.TextBoxFor(model => model.Guarantee, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.OrderID)
+            @Html.TextBoxFor(model => model.OrderID, new { @class = "form-control number" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.PriceListProductType)
+            @Html.EnumDropDownListFor(model => model.PriceListProductType, new { @class = "form-control" })
+        </div>
+
+        <div class="checkbox">
+            @Html.CheckBoxFor(model => model.IsAvailable)
+            @Html.LabelFor(model => model.IsAvailable)
+        </div>
+        <button type="submit" class="btn btn-success">ثبت</button>
+        <a href="/Admin/PriceListProducts" class="btn btn-warning">بازگشت</a>
+    </div>
+                }

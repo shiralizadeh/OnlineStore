@@ -1,0 +1,91 @@
+﻿@import "mixins";
+
+.advanced-search-box {
+
+    section.post-list {
+        .post-content {
+            margin-top: 20px;
+        }
+    }
+
+    .box-header {
+        margin: 10px 0;
+
+        h2 {
+            font-size: 18px;
+            color: $black_1;
+
+            &:before {
+                @include fontAwesome;
+                content: '\f0d9';
+                margin-left: 5px;
+                color: $color;
+                vertical-align: top;
+            }
+        }
+    }
+
+    .search-box {
+        margin: 20px 0;
+        width: 50%;
+        height: 38px;
+        border: 2px solid $color;
+        padding: 0 5px;
+        position: relative;
+        background-color: #fff;
+
+        .btn-search {
+            position: absolute;
+            left: 2px;
+            top: 2px;
+            border: 0;
+            background: none;
+            cursor: pointer;
+
+            .fa-search {
+                margin: 5px 8px;
+                font-size: 20px;
+                color: #969696;
+            }
+        }
+
+        #Search {
+            border: 0 none;
+            display: block;
+            padding: 0;
+            width: 100%;
+        }
+
+        #Search:focus, #Search:hover {
+            background: none;
+        }
+    }
+
+    .group-box {
+        background-color: #fff;
+        padding: 10px;
+
+        ul.groups {
+            padding: 5px 0;
+
+            li {
+                list-style-type: circle;
+                margin: 10px 20px;
+                color: $black_1;
+            }
+        }
+    }
+
+    .producer-box {
+        background-color: #fff;
+        margin-top: 15px;
+        padding: 10px;
+
+        ul.brands {
+            li {
+                float: right;
+                margin: 10px;
+            }
+        }
+    }
+}

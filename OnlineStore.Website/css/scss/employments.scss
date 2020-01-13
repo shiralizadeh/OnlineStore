@@ -1,0 +1,64 @@
+﻿@import "mixins";
+
+.employment-box {
+    font-size: 14px;
+    line-height: 30px;
+    color: $black_0;
+
+    .employment-form {
+        padding: 10px;
+        margin-left: 10px;
+        background-color: #fff;
+
+        .box-header.box-header-01 {
+            height: 40px;
+        }
+
+        .radio {
+            display: inline-block;
+
+            label {
+                height: 0;
+                line-height: 0;
+                vertical-align: middle;
+            }
+        }
+    }
+
+    .left-column {
+        .small-box {
+            margin-top: 0;
+        }
+    }
+}
+
+/*(max-width: 480px)*/
+@include breakpoint('MobilePortrait') {
+
+    .left-column {
+        margin-top: 10px;
+    }
+}
+/*(min-width: 480px) and (max-width: 595px)*/
+@include breakpoint('MobileLandscape') {
+
+    .left-column {
+        margin-top: 10px;
+    }
+}
+
+/*(min-width: 595px) and (max-width: 690px)*/
+@include breakpoint('SmallTabletPortrait') {
+
+    .left-column {
+        margin-top: 10px;
+    }
+}
+
+/*(min-width: 690px) and (max-width: 960px)*/
+@include breakpoint('TabletPortrait') {
+
+    .left-column {
+        margin-top: 10px;
+    }
+}

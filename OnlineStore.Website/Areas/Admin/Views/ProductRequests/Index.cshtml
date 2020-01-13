@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "مدیریت متقاضیان محصول";
+}
+
+<fieldset class="filter-box">
+    <legend>
+        <a class="filter-header">
+            <i class="open-icon icon icon-plus-sign"></i>
+            <span>جستجو</span>
+        </a>
+    </legend>
+    <div class="control-box">
+        <div class="row form-group">
+            @Html.Partial("_ProductSimpleSearch", new AjaxSettings { Url = "/ProductRequests/Search" })
+            <select id="ProductRequestStatus" class="form-control col-sm-2">
+                <option value="-1">وضعیت</option>
+                <option value="0">چک نشده</option>
+                <option value="1">رد شده</option>
+                <option value="2">پاسخ داده شده</option>
+            </select>
+            <a id="btnSearch" class="btn btn-info"><i class="icon-search"></i></a>
+        </div>
+    </div>
+</fieldset>
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "ProductRequests",
+    ShowAdd = false,
+    Columns = new List<Column>(){
+
+                                new Column() {
+                                    Title = "عنوان محصول",
+                                    DataField = "ProductTitle"
+                                },
+                                new Column() {
+                                    Title = "ایمیل",
+                                    DataField = "Email"
+                                },
+                                new Column() {
+                                    Title = "شماره همراه",
+                                    DataField = "Mobile"
+                                },
+                                new Column() {
+                                    Title = "توضیحات",
+                                    DataField = "Description"
+                                },
+                                new Column() {
+                                    Title = "وضعیت",
+                                    DataField = "fromProductRequestStatus(ProductRequestStatus)"
+                                },
+                                new Column() {
+                                    Title = "تاریخ ثبت",
+                                    DataField = "toPersianDate(DateTime)"
+                                },
+                                  new Column() {
+                                    Title = "آخرین ویرایش",
+                                    DataField = "fromNow(LastUpdate)"
+                                }
+    }
+})
+
+@section Scripts {
+    <script src="/js/admin/product-simple-search.js"></script>
+    <script type="text/javascript">
+        var $search = $('#Search'),
+            $status = $('#ProductRequestStatus');
+
+        jConfigGrid.init({
+            ajaxUrl: '/Admin/ProductRequests/',
+            filter: function () {
+                return {
+                    ProductID: $search.data('id'),
+                    ProductRequestStatus: $status.val()
+                }
+            }
+        });
+
+        $('#btnSearch').on('click', function (e) {
+            $search.removeAttr('disabled');
+        });
+    </script>
+}
+
+@section Styles{
+    <link href="/css/admin/simple-search.min.css" rel="stylesheet" />
+}

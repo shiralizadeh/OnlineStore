@@ -1,0 +1,41 @@
+﻿fieldset.filter-box {
+    margin-bottom: 20px;
+
+    legend {
+        margin-bottom: 0;
+        padding: 5px 0;
+    }
+
+    input, select {
+        margin: 0 5px;
+    }
+
+    select:focus, input[type="text"]:focus {
+        background-color: #c2d2e5;
+    }
+
+    select.form-control {
+        height: 40px;
+    }
+
+    a#Search {
+        font-size: 20px;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    a.icon-plus-sign {
+        font-size: 20px;
+    }
+
+    .control-box {
+        display: none;
+        background: #eee;
+        padding: 25px 20px 20px;
+    }
+
+    .filter-header {
+        height: 1px;
+        cursor: pointer;
+    }
+}

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.SMSit.Ir/Api-Services/sms_sender.php" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://www.SMSit.Ir/Api-Services/sms_sender.php" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.SMSit.Ir/Api-Services/sms_sender.php">
+      <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="sendsmsRequest">
+    <wsdl:part name="smsid" type="xsd:string" />
+    <wsdl:part name="username" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+    <wsdl:part name="text" type="xsd:string" />
+    <wsdl:part name="recivers" type="xsd:string" />
+    <wsdl:part name="udh" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="sendsmsResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getRealMessageStatusesRequest">
+    <wsdl:part name="smsid" type="xsd:string" />
+    <wsdl:part name="username" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+    <wsdl:part name="follows" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getRealMessageStatusesResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getCreditRequest">
+    <wsdl:part name="smsid" type="xsd:string" />
+    <wsdl:part name="username" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getCreditResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="Recive_smsRequest">
+    <wsdl:part name="smsid" type="xsd:string" />
+    <wsdl:part name="username" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+    <wsdl:part name="count" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="Recive_smsResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="get_recivesmsRequest">
+    <wsdl:part name="smsid" type="xsd:string" />
+    <wsdl:part name="username" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+    <wsdl:part name="start" type="xsd:string" />
+    <wsdl:part name="end" type="xsd:string" />
+    <wsdl:part name="nowork" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="get_recivesmsResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:portType name="API_SMSServerPortType">
+    <wsdl:operation name="sendsms">
+      <wsdl:input message="tns:sendsmsRequest" />
+      <wsdl:output message="tns:sendsmsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getRealMessageStatuses">
+      <wsdl:input message="tns:getRealMessageStatusesRequest" />
+      <wsdl:output message="tns:getRealMessageStatusesResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getCredit">
+      <wsdl:input message="tns:getCreditRequest" />
+      <wsdl:output message="tns:getCreditResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="Recive_sms">
+      <wsdl:input message="tns:Recive_smsRequest" />
+      <wsdl:output message="tns:Recive_smsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="get_recivesms">
+      <wsdl:input message="tns:get_recivesmsRequest" />
+      <wsdl:output message="tns:get_recivesmsResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="API_SMSServerBinding" type="tns:API_SMSServerPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <wsdl:operation name="sendsms">
+      <soap:operation soapAction="http://smspanel.118asnaf.com/Api-Services/sms_sender.php/sendsms" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://www.SMSit.Ir/Api-Services/sms_sender.php" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://www.SMSit.Ir/Api-Services/sms_sender.php" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRealMessageStatuses">
+      <soap:operation soapAction="http://smspanel.118asnaf.com/Api-Services/sms_sender.php/getRealMessageStatuses" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://www.SMSit.Ir/Api-Services/sms_sender.php" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://www.SMSit.Ir/Api-Services/sms_sender.php" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCredit">
+      <soap:operation soapAction="http://smspanel.118asnaf.com/Api-Services/sms_sender.php/getCredit" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://www.SMSit.Ir/Api-Services/sms_sender.php" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://www.SMSit.Ir/Api-Services/sms_sender.php" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Recive_sms">
+      <soap:operation soapAction="http://smspanel.118asnaf.com/Api-Services/sms_sender.php/Recive_sms" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://www.SMSit.Ir/Api-Services/sms_sender.php" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://www.SMSit.Ir/Api-Services/sms_sender.php" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_recivesms">
+      <soap:operation soapAction="http://smspanel.118asnaf.com/Api-Services/sms_sender.php/get_recivesms" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://www.SMSit.Ir/Api-Services/sms_sender.php" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://www.SMSit.Ir/Api-Services/sms_sender.php" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="API_SMSServer">
+    <wsdl:port name="API_SMSServerPort" binding="tns:API_SMSServerBinding">
+      <soap:address location="http://smspanel.118asnaf.com/Api-Services/sms_sender.php" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

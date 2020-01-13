@@ -1,0 +1,222 @@
+﻿@import "mixins";
+
+.post-details {
+    background-color: #fff;
+    margin: 15px 20px 0 0;
+    padding: 10px;
+
+    .post-header {
+        position: relative;
+
+        ul.icons {
+            margin: {
+                bottom: 15px;
+            }
+
+            width: 315px;
+            height: 45px;
+
+            li {
+                float: right;
+                margin: 10px 0 0 10px;
+
+                i {
+                    margin-left: 15px;
+                    color: $black_4;
+                }
+
+                a,
+                span {
+                    font-size: 11px;
+                    display: inline-block;
+                    color: $black_4;
+                }
+            }
+        }
+
+        .rate-comment {
+            position: absolute;
+            left: 0;
+            top: 0;
+
+            p {
+                color: $black_5;
+                display: block;
+                font-size: 12px;
+                text-align: center;
+                vertical-align: middle;
+            }
+
+            .rate {
+                direction: ltr;
+                display: inline-block;
+                position: relative;
+                @include full-loading();
+            }
+        }
+    }
+
+    .image {
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: solid 1px $black_7;
+        text-align: center;
+
+        img {
+            max-width: 100%;
+        }
+    }
+
+    .text {
+        margin: 5px auto;
+        line-height: 30px;
+        font-size: 14px;
+        color: $black_0;
+        padding: 20px;
+
+        h3 {
+            font-size: 18px;
+            color: $black_1;
+        }
+
+        a {
+            text-decoration: underline;
+            color: $color;
+        }
+
+        ul {
+            li {
+                list-style-type: disc;
+            }
+        }
+
+        ol {
+            li {
+                list-style-type: decimal;
+            }
+        }
+
+        .desc-image {
+            margin: 20px 10px;
+            max-width: 100%;
+            height: auto !important;
+        }
+    }
+
+    .related-posts-box {
+        ul {
+            margin-top: 20px;
+
+            li {
+                margin: 0 10px;
+
+                a.title {
+                    font-size: 12px;
+                    line-height: 20px;
+                    height: 20px;
+                    text-align: right;
+                    color: $black_0;
+                    margin: 10px 0;
+                    display: block;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                }
+
+                span.date {
+                    color: $black_6;
+                    float: left;
+                    font-size: 11px;
+                    display: inline-block;
+                }
+            }
+        }
+    }
+
+    .comments-box {
+        margin-top: 25px;
+        color: $black_0;
+
+        .box-content {
+            font-size: 12px;
+        }
+
+        ul {
+            margin-top: 30px;
+        }
+
+        .message-box {
+            position: relative;
+
+            .message:before {
+                border-right: 14px solid transparent;
+                border-top: 15px solid $black_7;
+                bottom: -14px;
+                height: 0;
+                right: 45px;
+                opacity: 1;
+                position: absolute;
+                top: auto;
+                width: 0;
+                z-index: 1;
+                content: "";
+                background-color: $black_9;
+            }
+
+            .message {
+                border: solid 1px $black_7;
+                height: 100%;
+                border-radius: 2px;
+                line-height: 30px;
+                padding: 0 10px;
+                margin-bottom: 20px;
+                @include box-shadow(0,0,4px,$black_7);
+            }
+        }
+
+        .author-info {
+            padding: 0 20px;
+            line-height: 30px;
+            margin-right: 20px;
+
+            .user-image {
+                float: right;
+            }
+
+            .name-date {
+                float: right;
+                width: 155px;
+                margin-right: 10px;
+                height: 90px;
+
+                span.date {
+                    display: block;
+                    color: $black_7;
+                }
+            }
+        }
+    }
+
+    .comment-form {
+        margin-top: 15px;
+
+        h2 {
+            width: 260px;
+        }
+
+        form {
+            margin-top: 30px;
+        }
+    }
+}
+
+/*(max-width: 480px)*/
+@include breakpoint('MobilePortrait') {
+    .post-details {
+        .post-header {
+            ul.icons {
+                width: 280px;
+            }
+        }
+    }
+}

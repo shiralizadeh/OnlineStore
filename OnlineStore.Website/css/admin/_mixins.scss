@@ -1,0 +1,71 @@
+﻿$green: #00c853;
+$red: #ed1c24;
+$yellow: #ffc400;
+$blue: #039be5;
+$purple: #8e24aa;
+
+$success: #00c853;
+$warning: #ffc107;
+$error: #e53935;
+
+$color: #ff3d00;
+
+$black_0: #263238;
+$black_1: #37474f;
+$black_2: #455a64;
+$black_3: #546e7a;
+$black_4: #78909c;
+$black_5: #90a4ae;
+$black_6: #b0bec5;
+$black_7: #cfd8dc; /*border*/
+$black_8: #eceff1;
+$black_9: #fafbfb;
+
+$btn-red: #dd2c00;
+$btn-green: #1b5e20;
+$btn-orange: #ffb400;
+
+
+@mixin border-radius($radius) {
+    -moz-border-radius: $radius;
+    -webkit-border-radius: $radius;
+    border-radius: $radius;
+}
+
+@mixin transition($second) {
+    -moz-transition: $second;
+    -o-transition: $second;
+    -webkit-transition: $second;
+    transition: $second;
+}
+
+@mixin box-shadow($x,$y,$blur,$bcolor) {
+    -moz-box-shadow: $x $y $blur $bcolor;
+    -webkit-box-shadow: $x $y $blur $bcolor;
+    box-shadow: $x $y $blur $bcolor;
+}
+
+@mixin full-loading() {
+    .loading {
+        position: absolute;
+        background-color: #fff;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.5;
+        z-index: 9999;
+
+        img {
+            position: absolute;
+            right: 50%;
+            top: 50%;
+            margin-right: -16px;
+            margin-top: -16px;
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+            border-radius: 50%;
+            width: 32px;
+        }
+    }
+}

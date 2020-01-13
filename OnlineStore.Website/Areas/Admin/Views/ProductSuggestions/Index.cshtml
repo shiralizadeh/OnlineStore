@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "مدیریت ارسال به دوست";
+}
+
+<fieldset class="filter-box">
+    <legend>
+        <a class="filter-header">
+            <i class="open-icon icon icon-plus-sign"></i>
+            <span>جستجو</span>
+        </a>
+    </legend>
+    <div class="control-box">
+        <div class="row form-group">
+            <input type="text" id="FriendEmail" class="form-control col-sm-2" placeholder="ایمیل..." />
+            <input type="text" id="Message" class="form-control col-sm-2" placeholder="متن پیام..." />
+            <a id="btnSearch" class="btn btn-info"><i class="icon-search"></i></a>
+        </div>
+    </div>
+</fieldset>
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "ProductSuggestions",
+    ShowAdd = false,
+    Editable = false,
+    Columns = new List<Column>(){
+
+                                new Column() {
+                                    Title = "IP",
+                                    DataField = "IP"
+                                },
+                                new Column() {
+                                    Title = "نام کاربری",
+                                    DataField = "UserName"
+                                },
+                                new Column() {
+                                    Title = "ایمیل",
+                                    DataField = "FriendEmail"
+                                },
+                                new Column() {
+                                    Title = "پیام",
+                                    DataField = "Message"
+                                },
+                                new Column() {
+                                    Title = "تاریخ ارسال",
+                                    DataField = "fromNow(LastUpdate)"
+                                }
+    }
+})
+
+@section Scripts {
+    <script type="text/javascript">
+        var $friendEmail=$('#FriendEmail'),
+            $message=$('#Message');
+
+        jConfigGrid.init({
+            ajaxUrl: '/Admin/ProductSuggestions/',
+            filter: function () {
+                return {
+                    ProductID: @(ViewBag.ProductID == null ? "null" : ViewBag.ProductID),
+                    FriendEmail: $friendEmail.val(),
+                    Message: $message.val()
+                };
+            }
+        });
+    </script>
+}

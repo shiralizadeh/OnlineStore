@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = "مدیریت کاربران";
+}
+
+<fieldset class="filter-box">
+    <legend>
+        <a class="filter-header">
+            <i class="open-icon icon icon-plus-sign"></i>
+            <span>جستجو</span>
+        </a>
+    </legend>
+    <div class="control-box">
+        <div class="row form-group">
+            <input type="text" id="UserName" class="form-control col-sm-2" placeholder="نام کاربری..." />
+            <input type="text" id="FullName" class="form-control col-sm-2" placeholder="نام و نام خانوادگی..." />
+            <input type="text" id="Email" class="form-control col-sm-2" placeholder="ایمیل..." />
+            <select id="IsActive" class="form-control col-sm-2">
+                <option value="-1">وضعیت کاربر</option>
+                <option value="True">فعال</option>
+                <option value="False">غیر فعال</option>
+            </select>
+            <a id="btnSearch" class="btn btn-info"><i class="icon-search"></i></a>
+        </div>
+    </div>
+</fieldset>
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "OSUsers",
+    Columns = new List<Column>(){
+                                   new Column() {
+                                       Title = "نام کاربری",
+                                       DataField = "UserName"
+                                   },
+                                   new Column() {
+                                       Title = "نام",
+                                       DataField = "Firstname"
+                                   },
+                                   new Column() {
+                                       Title = "نام خانوادگی",
+                                       DataField = "Lastname"
+                                   },
+                                   new Column() {
+                                       Title = "ایمیل",
+                                       DataField = "Email"
+                                   },
+                                   new Column() {
+                                       Title = "وضعیت",
+                                       DataField = "toBooleanStatus(IsActive)"
+                                   },
+                                   new Column() {
+                                       Title = "آخرین ویرایش",
+                                       DataField = "fromNow(LastUpdate)"
+                                   }
+                               }
+})
+
+@section Scripts {
+    <script type="text/javascript">
+        var $userName = $('#UserName'),
+            $fullName = $('#FullName'),
+            $email = $('#Email'),
+            $isActive = $('#IsActive');
+
+        jConfigGrid.init({
+            ajaxUrl: '/Admin/OSUsers/',
+            filter: function () {
+                return {
+                    UserName: $userName.val(),
+                    FullName: $fullName.val(),
+                    Email: $email.val(),
+                    IsActive: $isActive.val()
+                }
+            }
+        });
+    </script>
+}

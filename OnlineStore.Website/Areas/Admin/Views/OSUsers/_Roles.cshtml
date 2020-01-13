@@ -1,0 +1,8 @@
+﻿@model string[]
+
+<select name="RoleIDs" class="form-control selectpicker" multiple>
+    @foreach (var item in OnlineStore.Identity.Roles.Get())
+    {
+        <option value="@item.Id" @(Model.Contains(item.Id) ? "selected" : "")>@item.Name</option>
+    }
+</select>

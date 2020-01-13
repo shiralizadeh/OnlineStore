@@ -1,0 +1,47 @@
+﻿@model CustomerComment
+
+@{
+    ViewBag.Title = "ویرایش سخن مشتریان";
+}
+
+@using (Html.BeginForm("Edit", "CustomerComments", FormMethod.Post, new { @class = "validate", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="col-sm-6">
+        @Html.Partial("_Status")
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserName)
+            @Html.TextBoxFor(model => model.UserName, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title)
+            @Html.TextBoxFor(model => model.Title, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Image)
+
+            @if (!String.IsNullOrWhiteSpace(Model.Image))
+            {
+                <img src="@(StaticPaths.CustomerImages + Model.Image)" alt="@Model.UserName" class="pull-left" width="200" />
+            }
+            <input type="file" id="ImageFile" name="ImageFile" />
+            @Html.HiddenFor(model => model.Image)
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Text)
+            @Html.TextAreaFor(model => model.Text, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.PersianDateTime)
+            @Html.TextBoxFor(model => model.PersianDateTime, new { @class = "form-control persiandate required", autocomplete = "off" })
+        </div>
+        <div class="checkbox">
+            @Html.CheckBoxFor(model => model.IsVisible)
+            @Html.LabelFor(model => model.IsVisible)
+        </div>
+        <button type="submit" class="btn btn-success">ثبت</button>
+        <a href="/Admin/CustomerComments" class="btn btn-warning">بازگشت</a>
+    </div>
+}

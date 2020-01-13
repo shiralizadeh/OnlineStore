@@ -1,0 +1,37 @@
+﻿@model List<ViewScoreParameter>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <form id="SendScore" class="validate ajax" method="post">
+        <div class="row">
+            <ul class="score-parameter">
+                @foreach (var item in Model)
+                                {
+                    <li>
+                        <span>@item.Title</span>
+                        <select id="Parameter@(item.ID)" data-id="@(item.ID)">
+                            <option value="1">بد</option>
+                            <option value="2">متوسط</option>
+                            <option value="3">خوب</option>
+                            <option value="4">خیلی خوب</option>
+                            <option value="5">عالی</option>
+                        </select>
+                    </li>
+                                }
+            </ul>
+        </div>
+        <div class="row">
+            <textarea id="Text" name="Text" rows="5" placeholder="توضیحات..." class="form-control required"></textarea>
+        </div>
+        <div class="row">
+            <button class="btn btn-submit" type="submit">ثبت</button>
+        </div>
+    </form>
+}
+else
+{
+    <div class="alert alert-warning">
+        <i class="fa fa-exclamation-triangle"></i>
+        جهت امتیاز به محصول لطفا <a href="/Login">وارد سایت</a> شوید.
+    </div>
+}

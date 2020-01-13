@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "مدیریت سخن مشتریان";
+}
+
+<fieldset class="filter-box">
+    <legend>
+        <a class="filter-header">
+            <i class="open-icon icon icon-plus-sign"></i>
+            <span>جستجو</span>
+        </a>
+    </legend>
+    <div class="control-box">
+        <div class="row form-group">
+            <input type="text" id="UserName" class="form-control col-sm-2" placeholder="نام و نام خانوادگی..." />
+            <select id="IsVisible" class="form-control col-sm-2">
+                <option value="-1">وضعیت نمایش</option>
+                <option value="True">نمایش</option>
+                <option value="False">عدم نمایش</option>
+            </select>
+            <a id="btnSearch" class="btn btn-info"><i class="icon-search"></i></a>
+        </div>
+    </div>
+</fieldset>
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "CustomerComments",
+    Columns = new List<Column>(){
+                                   new Column() {
+                                       Title = "نام و نام خانوادگی",
+                                       DataField = "UserName"
+                                   },
+                                   new Column() {
+                                       Title = "عنوان",
+                                       DataField = "Title"
+                                   },
+                                   new Column() {
+                                       Title = "سخن مشتری",
+                                       DataField = "Text"
+                                   },
+                                   new Column() {
+                                       Title = "قابل نمایش",
+                                       DataField = "toBooleanYesNo(IsVisible)"
+                                   },
+                                   new Column() {
+                                       Title = "آخرین ویرایش",
+                                       DataField = "fromNow(LastUpdate)"
+                                   }
+                               }
+})
+
+@section Scripts {
+    <script type="text/javascript">
+        var $userName = $('#UserName'),
+            $isVisible = $('#IsVisible');
+
+        jConfigGrid.init({
+            ajaxUrl: '/Admin/CustomerComments/',
+            filter: function () {
+                return {
+                    UserName: $userName.val(),
+                    IsVisible: $isVisible.val()
+                }
+            }
+        });
+    </script>
+}

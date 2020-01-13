@@ -1,0 +1,159 @@
+﻿/*border*/
+.pngs {
+  background-image: url(/images/Template/pngs.png?v=1.4); }
+
+.product-compare {
+  background-color: #fff;
+  padding: 10px;
+  position: relative; }
+  .product-compare .loading {
+    position: absolute;
+    background-color: #fff;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    z-index: 9999; }
+    .product-compare .loading img {
+      position: absolute;
+      right: 50%;
+      top: 50%;
+      margin-right: -16px;
+      margin-top: -16px;
+      -moz-border-radius: 50%;
+      -webkit-border-radius: 50%;
+      border-radius: 50%;
+      width: 32px;
+      height: auto; }
+  .product-compare table {
+    width: 100%; }
+    .product-compare table thead {
+      border-bottom: 0; }
+    .product-compare table tr:hover td {
+      background-color: #e3e8eb; }
+    .product-compare table tr:hover td:first-child {
+      background-color: #ffefeb; }
+    .product-compare table tr th {
+      font-size: 16px;
+      color: #6a6a6a;
+      padding: 15px 10px; }
+      .product-compare table tr th .fa-caret-left {
+        color: #ff3d00;
+        margin-left: 5px;
+        vertical-align: top; }
+    .product-compare table tr td {
+      background-color: #f2f2f2;
+      padding: 10px;
+      border: solid 1px #fff;
+      font-size: 12px;
+      color: #37474f;
+      line-height: 25px;
+      vertical-align: top;
+      /*.product-price {
+                    display: block;
+                    font-size: 16px;
+                    margin-top: 10px;
+                    height: 36px;
+                    line-height: 18px;*/
+      /*}*/ }
+      .product-compare table tr td:first-child {
+        background-color: #fff7f5; }
+      .product-compare table tr td .fa-check {
+        color: #00c853;
+        font-size: 15px; }
+      .product-compare table tr td .fa-times {
+        color: #ed1c24;
+        font-size: 15px; }
+      .product-compare table tr td .product-detail {
+        text-align: center; }
+        .product-compare table tr td .product-detail .fa-times-circle {
+          color: #ed1c24;
+          cursor: pointer; }
+        .product-compare table tr td .product-detail span.title {
+          display: block; }
+      .product-compare table tr td .original-price {
+        position: relative;
+        color: #b0bec5;
+        text-decoration: line-through; }
+      .product-compare table tr td .topay-price {
+        color: #ff3d00; }
+      .product-compare table tr td .regular-price {
+        color: #ff3d00; }
+      .product-compare table tr td .price-isunavailable {
+        color: #ed1c24;
+        font-size: 12px; }
+      .product-compare table tr td .price-comingsoon {
+        color: #039be5;
+        font-size: 12px; }
+      .product-compare table tr td .price-contactus {
+        color: #8e24aa;
+        font-size: 12px; }
+      .product-compare table tr td span {
+        font-size: 11px; }
+      .product-compare table tr td.score .rate {
+        display: inline-block;
+        height: 20px;
+        vertical-align: middle;
+        direction: ltr;
+        cursor: pointer; }
+      .product-compare table tr td.score span.preferentials {
+        vertical-align: top;
+        margin-right: 5px; }
+  .product-compare .search-box {
+    margin: 20px 0;
+    width: 50%;
+    height: 38px;
+    border: 2px solid #ff3d00;
+    padding: 0 5px;
+    position: relative; }
+    .product-compare .search-box .fa-search {
+      margin: 5px 8px;
+      font-size: 20px;
+      color: #969696;
+      position: absolute;
+      left: 2px;
+      top: 2px; }
+    .product-compare .search-box #Search {
+      border: 0 none;
+      display: block;
+      padding: 0;
+      width: 100%; }
+    .product-compare .search-box #Search:focus, .product-compare .search-box #Search:hover {
+      background: none; }
+    .product-compare .search-box .result-box {
+      height: 450px;
+      width: 450px;
+      overflow-y: auto;
+      position: absolute;
+      right: 1px;
+      top: 40px;
+      z-index: 10;
+      background-color: #fff;
+      display: none;
+      -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+      -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15); }
+      .product-compare .search-box .result-box ul {
+        padding: 0 15px;
+        color: #808080; }
+        .product-compare .search-box .result-box ul li {
+          list-style: none;
+          border-bottom: 1px solid #ccc;
+          text-transform: uppercase;
+          font-size: 12px;
+          margin-top: 10px; }
+          .product-compare .search-box .result-box ul li a {
+            height: 100%;
+            display: inline-block;
+            line-height: 20px; }
+            .product-compare .search-box .result-box ul li a img {
+              margin-left: 15px;
+              float: right; }
+            .product-compare .search-box .result-box ul li a .title-box {
+              float: right;
+              width: 300px; }
+      .product-compare .search-box .result-box .not-found {
+        display: block;
+        padding: 15px; }
+

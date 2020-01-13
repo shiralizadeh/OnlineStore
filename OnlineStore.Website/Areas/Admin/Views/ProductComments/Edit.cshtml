@@ -1,0 +1,72 @@
+﻿@model ProductComment
+
+@{
+    ViewBag.Title = "بررسی نظرات";
+
+    string ProductTitle = String.Empty,
+         url = Request.Url.AbsoluteUri,
+         backUrl = "/Admin/ProductComments/";
+
+    if (Model.ID != -1)
+    {
+        url += "?ProductID=" + Model.ProductID;
+        backUrl = "/Admin/ProductComments/index?ProductID=" + Model.ProductID;
+    }
+
+    // Get Product Title
+    ProductTitle = Products.GetTitleByID(Model.ProductID);
+
+}
+
+
+<form action="@url" class="validate" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="col-sm-6">
+        @Html.Partial("_Status")
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductID):
+            <label class="label label-info">@ProductTitle</label>
+        </div>
+
+        @if (!String.IsNullOrWhiteSpace(Model.UserID))
+        {
+            var img = OSUsers.GetByID(Model.UserID).ImageFile;
+
+            <div class="form-group">
+                @Html.Label("تصویر کاربر"):
+                <img src="@(img!=null ? (StaticPaths.OSUsers + img) : "/images/avatar/no-pic.jpg")" alt="@Model.Subject" width="200" />
+            </div>
+            <div class="form-group">
+                @Html.Label("نام کاربر"):
+                <label>@OSUsers.GetByID(Model.UserID).Firstname  @OSUsers.GetByID(Model.UserID).Lastname</label>
+            </div>
+        }
+        else
+        {
+            <div class="form-group">
+                @Html.Label("نام کاربر"):
+                <label>@Model.UserName</label>
+            </div>
+        }
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email):
+            <label>@Model.Email</label>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Subject)
+            @Html.TextBoxFor(model => model.Subject, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Text)
+            @Html.TextAreaFor(model => model.Text, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.CommentStatus)
+            @Html.EnumDropDownListFor(model => model.CommentStatus, new { @class = "form-control required" })
+        </div>
+        <button type="submit" class="btn btn-success">ثبت</button>
+        <a href="@backUrl" class="btn btn-warning">بازگشت</a>
+    </div>
+</form>

@@ -1,0 +1,76 @@
+﻿@model ProductQuestion
+
+@{
+    ViewBag.Title = "ویرایش پرسش های متداول";
+
+    string ProductTitle = String.Empty,
+           url = Request.Url.AbsoluteUri,
+           backUrl = "/Admin/ProductQuestions/";
+
+    if (Model.ID != -1)
+    {
+        if (!url.Contains("ProductID"))
+        {
+            url += "?ProductID=" + Model.ProductID;
+        }
+        backUrl = "/Admin/ProductQuestions/index?ProductID=" + Model.ProductID;
+    }
+
+    // Get Product Title
+    if (Model != null)
+    {
+        ProductTitle = Products.GetTitleByID(Model.ProductID);
+    }
+}
+
+
+<form action="@url" class="validate" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="col-sm-6">
+        @Html.Partial("_Status")
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductID):
+            <a href="/Products/group/title-@Model.ProductID" target="_blank">@ProductTitle</a>
+        </div>
+
+        @if (!String.IsNullOrWhiteSpace(Model.UserID))
+            {
+            <div class="form-group">
+                @Html.Label("نام کاربر"):
+                <label>@OSUsers.GetByID(Model.UserID).Firstname  @OSUsers.GetByID(Model.UserID).Lastname</label>
+                @Html.HiddenFor(model => model.UserID)
+            </div>
+        }
+        else
+        {
+            <div class="form-group">
+                @Html.Label("نام کاربر"):
+                <label>@Model.UserName</label>
+            </div>
+        }
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Question)
+            @Html.TextAreaFor(model => model.Question, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Reply)
+            @Html.TextAreaFor(model => model.Reply, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.QuestionStatus)
+            @Html.EnumDropDownListFor(model => model.QuestionStatus, new { @class = "form-control required" })
+        </div>
+        <div class="checkbox">
+            @Html.CheckBoxFor(model => model.IsVisible)
+            @Html.LabelFor(model => model.IsVisible)
+        </div>
+        <div class="checkbox">
+            <input id="SendEmail" name="SendEmail" type="checkbox" />
+            <label for="SendEmail">ارسال پاسخ به ایمیل کاربر</label>
+        </div>
+        <button type="submit" class="btn btn-success">ثبت</button>
+        <a href="@backUrl" class="btn btn-warning">بازگشت</a>
+    </div>
+</form>

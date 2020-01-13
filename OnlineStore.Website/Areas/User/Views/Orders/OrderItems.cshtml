@@ -1,0 +1,42 @@
+﻿@model List<ViewOrderItem>
+
+@{
+    Layout = null;
+    ViewBag.Title = "جزئیات سفارش";
+
+    int i = 0;
+}
+
+<link href="~/css/template.min.css" rel="stylesheet" />
+
+<div class="responsive-box">
+    <div class="user-panel">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ردیف</th>
+                        <th>عنوان محصول</th>
+                        <th>قیمت</th>
+                        <th>تعداد</th>
+                        <th>تاریخ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+            {
+                i++;
+                        <tr>
+                            <td>@i</td>
+                            <td>@item.ProductTitle</td>
+                            <td>@item.Price.ToPrice()</td>
+                            <td>@item.Quantity</td>
+                            <td>@Utilities.ToPersianDate(item.DateTime)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

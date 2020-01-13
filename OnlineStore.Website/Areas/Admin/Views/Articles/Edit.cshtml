@@ -1,0 +1,102 @@
+﻿@model Article
+
+@{
+    ViewBag.Title = "ویرایش مطالب";
+}
+
+@using (Html.BeginForm("Edit", (string)ViewBag.Controller, FormMethod.Post, new { @class = "validate", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="col-sm-12">
+        @Html.Partial("_Status")
+        <div class="form-group">
+            @Html.LabelFor(model => model.ArticleScore)
+            <a href="#" class="rate" data-score="@Model.ArticleScore" name="score">
+            </a>
+        </div>
+        <div class="form-group">
+            <span class="label label-info">
+                <span style="font-size:12px">بازدید ها: @Model.VisitCount نفر</span>
+            </span>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.GroupID)
+            <div>
+                @Html.Partial("_TreeView", new TreeViewSettings()
+           {
+               ControllerName = "/Admin/Articles",
+               JsonMothod = "GetGroups",
+               FieldName = "GroupID",
+               TreeViewSelectMode = TreeViewSelectMode.Single,
+               SelectedID = Model.GroupID
+           })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title)
+            @Html.TextBoxFor(model => model.Title, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Image)
+
+            @if (!String.IsNullOrWhiteSpace(Model.Image))
+                {
+                <img src="@(StaticPaths.ArticleImages + Model.Image)" alt="فایل آپلود شده" class="pull-left" width="200" />
+            }
+            <input type="file" id="ImageFile" name="ImageFile" />
+            @Html.HiddenFor(model => model.Image)
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Summary)
+            @Html.TextAreaFor(model => model.Summary, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Text)
+            @Html.TextAreaFor(model => model.Text, new { @class = "form-control required ckeditor" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.PersianPublishDate)
+            @Html.TextBoxFor(model => model.PersianPublishDate, new { @class = "form-control persiandate" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ArticleStatus)
+            @Html.EnumDropDownListFor(model => model.ArticleStatus, new { @class = "form-control required" })
+        </div>
+        <div class="checkbox">
+            @Html.CheckBoxFor(model => model.IsVisible)
+            @Html.LabelFor(model => model.IsVisible)
+        </div>
+        <div class="checkbox">
+            @Html.CheckBoxFor(model => model.IsLatestNews)
+            @Html.LabelFor(model => model.IsLatestNews)
+        </div>
+
+        <button type="submit" class="btn btn-success">ثبت</button>
+        <a href="/Admin/@ViewBag.Controller" class="btn btn-warning">بازگشت</a>
+    </div>
+}
+
+@section Scripts{
+    <script src="~/assets/raty/jquery.raty.min.js"></script>
+    <script>
+        renderRaty();
+
+        function renderRaty() {
+            var $scorePane = $('.rate');
+            $scorePane.raty({
+                half: true,
+                readOnly: false,
+                score: function () {
+                    return $(this).attr('data-score');
+                }
+            });
+        }
+    </script>
+
+}
+
+@section Styles{
+    <link href="/assets/raty/jquery.raty.css" rel="stylesheet" />
+}

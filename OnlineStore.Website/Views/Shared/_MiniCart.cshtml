@@ -1,0 +1,131 @@
+﻿@{
+    var userID = User.Identity.GetUserId();
+
+    var cart = CartController.GetCart(this.Context);
+
+    var cartItems = CartItems.GetByCartID(cart.ID, userID);
+
+    int total = 0,
+        topay = 0;
+
+    bool isEmpty = (cartItems.Count == 0);
+
+    foreach (var item in cartItems)
+    {
+        topay += item.Quantity * (item.DiscountPercent > 0 ? item.DiscountPrice : item.Price);
+        total += item.Quantity * item.Price;
+    }
+}
+
+<script id="MiniCartTemplate" type="text/html">
+    <div class="cart-item" data-productid="{{ProductID}}" data-productvarientid="{{ProductVarientID}}" data-packageid="{{PackageID}}">
+        <a href="{{Url}}">
+            <img src="{{Image}}" alt="{{Title}}" />
+        </a>
+        <div class="product-item">
+            <a href="{{Url}}">
+                <h2>{{Title}}</h2>
+            </a>
+            <div class="price-box">
+            </div>
+            <div class="count">{{Quantity}} عدد</div>
+            <a href="#" class="btn-minicart-remove">
+                <i class="fa fa-times"></i>
+            </a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<div class="mini-cart">
+    <a href="#" class="btn-cart">
+        <div class="basket-count-box">
+            <div class="hand"></div>
+            <span>@cartItems.Count</span>
+        </div>
+        <div class="basket-box">
+            <div class="arrow">
+                <i class="fa fa-chevron-down"></i>
+            </div>
+            <span>سبد خرید</span>
+            <div class="totalprice">
+                @if (isEmpty)
+                {
+                    <span class="cart-empty">تجربه خرید مطمئن...</span>
+                }
+                else
+                {
+                    @Html.Raw(topay.ToPrice("{0} <span class='price-unit'>{1}</span>"))
+                }
+            </div>
+        </div>
+    </a>
+    <div class="basket-content">
+        <div class="box-header">
+            <span>سبد خرید</span>
+        </div>
+        <div class="box-content">
+            <div class="cart-empty @(!isEmpty ? "hide" : "")">
+                <i class="fa fa-exclamation-triangle"></i>
+                سبد خرید شما خالی است.
+            </div>
+
+            <div class="cart-items">
+                @foreach (var item in cartItems)
+                {
+                    <div class="cart-item" 
+                         data-productid="@item.ProductID" 
+                         data-productvarientid="@item.ProductVarientID"
+                         data-packageid="@item.PackageID">
+                        <a href="@item.Url">
+                            <img src="@item.Image" alt="@item.Title" />
+                        </a>
+                        <div class="product-item">
+                            <a href="@item.Url">
+                                <h2>@item.Title</h2>
+                            </a>
+                            <div class="price-box">
+                                @if (item.DiscountPrice > 0)
+                                {
+                                    <div class="original-price">
+                                        @Html.Raw(item.Price.ToPrice("{0} <span>{1}</span>"))
+                                    </div>
+                                        <div class="discount-price">
+                                            @Html.Raw(item.DiscountPrice.ToPrice("{0} <span>{1}</span>"))
+                                        </div>
+                                }
+                                else
+                                {
+                                    <div class="regular-price">
+                                        @Html.Raw(item.Price.ToPrice("{0} <span>{1}</span>"))
+                                    </div>
+                                }
+                            </div>
+                            <div class="count">@item.Quantity عدد</div>
+                            <a href="#" class="btn-minicart-remove">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                }
+            </div>
+
+            <div class="total-price">
+                <div class="total-label">جمع کل:</div>
+                <div class="price">
+                    @Html.Raw(total.ToPrice("{0} <span class='price-unit'>{1}</span>"))
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="total-topay">
+                <div class="total-label">قابل پرداخت:</div>
+                <div class="price">
+                    @Html.Raw(topay.ToPrice("{0} <span class='price-unit'>{1}</span>"))
+                </div>
+                <div class="clear"></div>
+            </div>
+            <a href="/Cart" class="btn-checkout">مشاهده سبد خرید</a>
+        </div>
+    </div>
+</div>

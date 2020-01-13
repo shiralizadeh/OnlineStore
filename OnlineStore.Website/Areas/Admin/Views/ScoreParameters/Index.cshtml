@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "مدیریت پارامترهای امتیازدهی";
+}
+
+<fieldset class="filter-box">
+    <legend>
+        <a class="filter-header">
+            <i class="open-icon icon icon-plus-sign"></i>
+            <span>جستجو</span>
+        </a>
+    </legend>
+    <div class="control-box">
+        <div class="row form-group">
+            <input type="text" id="Title" class="form-control col-sm-2" placeholder="عنوان..." />
+            <select id="IsActive" class="form-control col-sm-2">
+                <option value="-1">وضعیت</option>
+                <option value="True">فعال</option>
+                <option value="False">غیرفعال</option>
+            </select>
+            <a id="btnSearch" class="btn btn-info"><i class="icon-search"></i></a>
+        </div>
+    </div>
+</fieldset>
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "ScoreParameters",
+    Columns = new List<Column>(){
+                                   new Column() {
+                                       Title = "عنوان",
+                                       DataField = "Title"
+                                   },
+                                    new Column() {
+                                       Title = "گروه ها",
+                                       DataField = "GroupsTitle"
+                                   },
+                                   new Column() {
+                                       Title = "وضعیت",
+                                       DataField = "toBooleanStatus(IsActive)"
+                                   },
+                                   new Column() {
+                                       Title = "آخرین ویرایش",
+                                       DataField = "fromNow(LastUpdate)"
+                                   }
+                               }
+})
+
+@section Scripts {
+    <script type="text/javascript">
+        var $title = $('#Title'),
+            $isActive = $('#IsActive');
+
+        jConfigGrid.init({
+            ajaxUrl: '/Admin/ScoreParameters/',
+            filter: function () {
+                return {
+                    Title: $title.val(),
+                    IsActive: $isActive.val()
+                }
+            }
+        });
+    </script>
+}

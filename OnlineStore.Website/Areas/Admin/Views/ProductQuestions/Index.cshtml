@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "مدیریت پرسش های متداول";
+
+    string addUrl = String.Empty;
+    bool showAdd = true;
+
+    if (ViewBag.ProductID == null)
+    {
+        showAdd = false;
+    }
+    else
+    {
+        addUrl = "/Admin/ProductQuestions/Edit?ProductID=" + ViewBag.ProductID;
+    }
+}
+
+<fieldset class="filter-box">
+    <legend>
+        <a class="filter-header">
+            <i class="open-icon icon icon-plus-sign"></i>
+            <span>جستجو</span>
+        </a>
+    </legend>
+    <div class="control-box">
+        <div class="row form-group">
+            <input type="text" id="Question" class="form-control col-sm-2" placeholder="پرسش..." />
+            <select id="QuestionStatus" class="form-control col-sm-2">
+                <option value="-1">وضعیت</option>
+                <option value="0">چک نشده</option>
+                <option value="1">پاسخ داده نشده</option>
+                <option value="2">پاسخ داده شده</option>
+            </select>
+            <a id="btnSearch" class="btn btn-info"><i class="icon-search"></i></a>
+        </div>
+    </div>
+</fieldset>
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "ProductQuestions",
+    AddUrl = addUrl,
+    ShowAdd = showAdd,
+    CustomAjax = true,
+    Selectable = true,
+    Columns = new List<Column>(){
+
+                                new Column() {
+                                    Title = "نام",
+                                    DataField = "UserFullName"
+                                },
+                                new Column() {
+                                    Title = "پرسش",
+                                    DataField = "Question"
+                                },
+
+                                new Column() {
+                                    Title = "محصول",
+                                    DataField = "ProductTitle"
+                                },
+
+                                new Column() {
+                                    Title = "وضعیت",
+                                    DataField = "fromQuestionStatus(QuestionStatus)"
+                                },
+                                new Column() {
+                                Title = "قابل نمایش",
+                                DataField = "toBooleanYesNo(IsVisible)"
+                                },
+
+                                 new Column() {
+                                    Title = "ارسال پرسش",
+                                    DataField = "fromNow(DateTime)"
+                                },
+
+                                new Column() {
+                                    Title = "آخرین ویرایش",
+                                    DataField = "fromNow(LastUpdate)"
+                                }
+    }
+})
+
+@section Scripts {
+    <script type="text/javascript">
+        var $question=$('#Question'),
+            $questionStatus=$('#QuestionStatus');
+
+        jConfigGrid.init({
+            ajaxUrl: '/Admin/ProductQuestions/',
+            customAjaxUrl: '/Admin/ProductQuestions/Confirm',
+            filter: function () {
+                return {
+                    ProductID: @(ViewBag.ProductID == null ? "null" : ViewBag.ProductID),
+                    Question: $question.val(),
+                    QuestionStatus: $questionStatus.val()
+                };
+            },
+            customAjaxSuccess: function () {
+                jConfigGrid.refresh();
+                alert('اطلاعات با موفقیت ثبت شد.');
+            },
+            customAjaxError: function () {
+                alert('رخداد خطا');
+            }
+        });
+    </script>
+}

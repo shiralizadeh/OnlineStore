@@ -1,0 +1,81 @@
+﻿@model EmailSend
+
+@{
+    ViewBag.Title = "ویرایش ارسال ایمیل";
+}
+
+@using (Html.BeginForm("Edit", "EmailSends", FormMethod.Post, new { @class = "validate" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="col-sm-6">
+        @Html.Partial("_Status")
+        <div class="form-group">
+            @Html.LabelFor(model => model.FromID)
+            @Html.DropDownListFor(model => model.FromID, new List<SelectListItem>(), new { @class = "form-control emails-list" })
+        </div>
+        @if (Model.To == null)
+        {
+            <div class="form-group">
+                <label class="alert alert-info">لطفا گیرنده ها را با Enter از هم جدا کنید.</label>
+                <br />
+                <label for="emailsList">لیست گیرندگان</label>
+                <textarea id="EmailsList" name="EmailsList" class="form-control required"></textarea>
+            </div>
+        }
+        else
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.To)
+                @Html.TextBoxFor(model => model.To, new { @class = "form-control required email" })
+            </div>
+        }
+        <div class="form-group">
+            @Html.LabelFor(model => model.Subject)
+            @Html.TextBoxFor(model => model.Subject, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Text)
+            @Html.TextAreaFor(model => model.Text, new { @class = "form-control required ckeditor" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.EmailSendStatus)
+            @Html.EnumDropDownListFor(model => model.EmailSendStatus, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Priority)
+            @Html.EnumDropDownListFor(model => model.Priority, new { @class = "form-control required" })
+        </div>
+        <button type="submit" class="btn btn-success">ثبت</button>
+        <a href="/Admin/EmailSends" class="btn btn-warning">بازگشت</a>
+    </div>
+}
+
+@section Scripts{
+    <script>
+        var $emails = $('.emails-list');
+
+        var $loading = $(staticTemplates.Loading);
+        $emails.append($loading);
+
+        $.ajax({
+            url: '/Admin/Emails/GetList',
+            type: 'POST',
+            success: function (result) {
+                if (result.Success) {
+                    for (var i in result.Data) {
+                        var item = result.Data[i];
+                        $emails.append('<option value="' + item.ID + '">' + item.EmailAddress + '</option>');
+                    }
+
+
+                }
+            },
+            error: function () {
+            },
+            complete: function () {
+                $loading.remove();
+            },
+        });
+    </script>
+}

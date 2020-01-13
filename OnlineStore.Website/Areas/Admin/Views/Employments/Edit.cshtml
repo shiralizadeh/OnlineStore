@@ -1,0 +1,142 @@
+﻿@model Employment
+
+@{
+    ViewBag.Title = "بررسی فرم تقاضای استخدام";
+}
+
+@using (Html.BeginForm("Edit", "Employments", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="col-sm-6">
+        @Html.Partial("_Status")
+        <fieldset>
+            <legend>اطلاعات شخصی</legend>
+            <div class="form-group">
+                @Html.LabelFor(model => model.FirstName):
+                <label>@Model.FirstName</label>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.LastName):
+                <label>@Model.LastName</label>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.FatherName):
+                <label>@Model.FatherName</label>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.IDNumber):
+                <label>@Model.IDNumber</label>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.NationalCode):
+                <label>@Model.NationalCode</label>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nationality):
+                <label>@Model.Nationality</label>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Religion):
+                <label>@Model.Religion</label>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Gender):
+                <label>@(Model.Gender ? "مرد" : "زن")</label>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Age):
+                <label>@Model.Age</label>
+            </div>
+            <div class="form-group">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MarriedStatus):
+                    <label>@(Model.MarriedStatus ? "متاهل" : "مجرد")</label>
+                </div>
+            </div>
+            @if (Model.MartialStatus.HasValue)
+            {
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MartialStatus):
+                    <label>@Model.MartialStatus.GetEnumDisplay()</label>
+                </div>
+            }
+        </fieldset>
+        <fieldset>
+            <legend>اطلاعات تماس</legend>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email):
+                <label>@Model.Email</label>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Phone):
+                <label>@Model.Phone</label>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Mobile):
+                <label>@Model.Mobile</label>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Address):
+                <label>@Model.Address</label>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>سوابق تحصیلی</legend>
+            <div class="form-group">
+                @Html.LabelFor(model => model.StudyDegree):
+                <label>@Model.StudyDegree.GetEnumDisplay()</label>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.StudyMajor):
+                <label>@Model.StudyMajor</label>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.StudyText):
+                <label>@Html.Raw(Model.StudyText)</label>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>
+                سوابق شغلی
+            </legend>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ResumeText):
+                <label>@Html.Raw(Model.ResumeText)</label>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>
+                مهارت های آموزشی
+            </legend>
+            <div class="form-group">
+                @Html.LabelFor(model => model.EducationCoursesText):
+                <label>@Html.Raw(Model.EducationCoursesText)</label>
+            </div>
+            @if (Model.DominantLanguages.HasValue)
+            {
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DominantLanguages):
+                    <label>@Model.DominantLanguages.GetEnumDisplay()</label>
+                </div>
+            }
+        </fieldset>
+        @if (!String.IsNullOrWhiteSpace(Model.ResumeFile))
+        {
+            <fieldset>
+                <legend>
+                    رزومه
+                </legend>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ResumeFile):
+                    <a href="@(StaticPaths.ResumeFiles + Model.ResumeFile)">دانلود فایل رزومه</a>
+                </div>
+            </fieldset>
+        }
+        <div class="form-group">
+            @Html.LabelFor(model => model.EmploymentStatus)
+            @Html.EnumDropDownListFor(model => model.EmploymentStatus, new { @class = "form-control required" })
+        </div>
+        <button type="submit" class="btn btn-success">تایید</button>
+        <a href="/Admin/Employments" class="btn btn-warning">بازگشت</a>
+    </div>
+}

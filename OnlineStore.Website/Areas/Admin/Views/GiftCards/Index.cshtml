@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = "مدیریت کد تخفیف";
+}
+
+<fieldset class="filter-box">
+    <legend>
+        <a class="filter-header">
+            <i class="open-icon icon icon-plus-sign"></i>
+            <span>جستجو</span>
+        </a>
+    </legend>
+    <div class="control-box">
+        <div class="row form-group">
+            <input type="text" id="Serial" class="form-control col-sm-2" placeholder="کد تخفیف..." />
+            <input type="text" id="FromDate" class="form-control persiandate col-sm-2" placeholder="تاریخ شروع..." />
+            <input type="text" id="ToDate" class="form-control persiandate col-sm-2" placeholder="تاریخ پایان..." />
+            <select id="IsUsed" class="form-control col-sm-2">
+                <option value="-1">وضعیت استفاده</option>
+                <option value="True">استفاده شده</option>
+                <option value="False">استفاده نشده</option>
+            </select>
+            <a id="btnSearch" class="btn btn-info"><i class="icon-search"></i></a>
+        </div>
+    </div>
+</fieldset>
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "GiftCards",
+    Columns = new List<Column>(){
+                                   new Column() {
+                                       Title = "عنوان",
+                                       DataField = "Serial"
+                                   },
+                                   new Column() {
+                                       Title = "تاریخ شروع",
+                                       DataField = "toPersianDate(StartDate)"
+                                   },
+                                   new Column() {
+                                       Title = "تاریخ پایان",
+                                       DataField = "toPersianDate(EndDate)"
+                                   },
+                                   new Column() {
+                                       Title = "استفاده نامحدود",
+                                       DataField = "toBooleanYesNo(IsUnlimit)"
+                                   },
+                                   new Column() {
+                                       Title = "آیا استفاده شده",
+                                       DataField = "toBooleanYesNo(IsUsed)"
+                                   },
+                                   new Column() {
+                                       Title = "آخرین ویرایش",
+                                       DataField = "fromNow(LastUpdate)"
+                                   }
+                               }
+})
+
+@section Scripts {
+    <script type="text/javascript">
+        var $serial = $('#Serial'),
+            $fromDate = $('#FromDate'),
+            $toDate = $('#ToDate'),
+            $isUsed = $('#IsUsed');
+
+        jConfigGrid.init({
+            ajaxUrl: '/Admin/GiftCards/',
+            filter: function () {
+                return {
+                    Serial: $serial.val(),
+                    FromDate: $fromDate.val(),
+                    ToDate: $toDate.val(),
+                    IsUsed: $isUsed.val()
+                }
+            }
+
+        });
+    </script>
+}

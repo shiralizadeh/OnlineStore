@@ -1,0 +1,25 @@
+﻿@model List<RecentPost>
+
+<a class="fa fa-rss-square rss-link" aria-hidden="true" href="/RSS/LatestPosts" target="_blank"></a>
+<ul class="simple-carousel">
+    @foreach (var item in Model)
+    {
+        try
+        {
+            var group = Groups.GetByID(item.GroupID);
+            var url = UrlProvider.GetPostUrl(item.ID, item.Title, group.TitleEn);
+
+            <li>
+                <a href="@url" class="post-img">
+                    <img alt="@item.Title" title="@item.Title" src="@UrlProvider.GetPostImage(item.Image,StaticValues.LatestNewsImageSize)" />
+                </a>
+                <span class="date">@Utilities.ToPersianDateString(item.LastUpdate)</span>
+                <a href="@url" class="post-title"><h2>@item.Title</h2></a>
+                <p>@item.Summary</p>
+            </li>
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+</ul>

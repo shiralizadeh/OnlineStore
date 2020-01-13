@@ -1,0 +1,25 @@
+﻿@model ScoreComment
+
+@{
+    Layout = "/Views/Layouts/_EmptyLayout.cshtml";
+    ViewBag.Title = "ویرایش نظر";
+}
+
+<link href="/css/my-account.min.css" rel="stylesheet" />
+
+@using (Html.BeginForm("Edit", "ScoreComments", FormMethod.Post, new { @class = "validate" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ID)
+    @Html.Partial("_Status")
+    <div class="responsive-box edit-comment-box">
+        <div class="row">
+            @Html.LabelFor(model => model.Text)
+            @Html.TextAreaFor(model => model.Text, new { @class = "comment required" })
+        </div>
+        <div class="row">
+            <button type="submit" class="btn-submit">ثبت</button>
+        </div>
+        <div class="clear"></div>
+    </div>
+}

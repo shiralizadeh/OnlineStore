@@ -1,0 +1,51 @@
+﻿/*border*/
+.price-list-logs {
+  position: relative; }
+  .price-list-logs .loading {
+    position: absolute;
+    background-color: #fff;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    z-index: 9999; }
+    .price-list-logs .loading img {
+      position: absolute;
+      right: 50%;
+      top: 50%;
+      margin-right: -16px;
+      margin-top: -16px;
+      -moz-border-radius: 50%;
+      -webkit-border-radius: 50%;
+      border-radius: 50%;
+      width: 32px; }
+  .price-list-logs span, .price-list-logs i {
+    display: inline-block; }
+  .price-list-logs li .product-title {
+    color: #37474f;
+    font-size: 15px;
+    margin: 10px 0; }
+  .price-list-logs li .logs li {
+    border: solid 1px #90a4ae;
+    margin: 2px 0; }
+    .price-list-logs li .logs li span {
+      padding: 10px; }
+      .price-list-logs li .logs li span:first-child {
+        border-left: solid 1px #90a4ae; }
+      .price-list-logs li .logs li span.price-list-field {
+        background-color: #eceff1;
+        width: 100px;
+        text-align: center; }
+      .price-list-logs li .logs li span:last-child {
+        float: left;
+        color: #90a4ae; }
+    .price-list-logs li .logs li .icon-arrow-left {
+      color: #039be5;
+      font-size: 18px;
+      margin: 0 5px; }
+    .price-list-logs li .logs li.green-record {
+      background-color: #f0fef7; }
+    .price-list-logs li .logs li.red-record {
+      background-color: #ffe9e9; }
+

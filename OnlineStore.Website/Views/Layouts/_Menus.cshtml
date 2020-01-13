@@ -1,0 +1,50 @@
+﻿@{
+    var items = MenuItems.GetAll(true);
+    var all = AutoMapper.Mapper.Map<List<ViewMenuItem>>(items);
+    var root = all.Where(item => item.ParentID == null).OrderBy(item => item.OrderID);
+
+    int childsCount = 0;
+}
+
+<nav>
+    <span class="menu-title">گروه های محصولات</span>
+    <ul class="root">
+        @foreach (var rootItem in root)
+        {
+            // سطح دوم
+            var childs_1 = all.Where(item => item.ParentID == rootItem.ID).OrderBy(item => item.OrderID);
+            childsCount = childs_1.Count();
+
+            if (childsCount == 0)
+            {
+                <li><a href="@UrlProvider.GetMenuItemUrl(rootItem.Title, rootItem.Link, (byte)rootItem.MenuItemType)">@rootItem.Title</a></li>
+            }
+            else
+            {
+                <li>
+                    <a href="@UrlProvider.GetMenuItemUrl(rootItem.Title, rootItem.Link, (byte)rootItem.MenuItemType)">
+                        @rootItem.Title
+                        <div class="arrow">
+                            <i class="fa fa-angle-left"></i>
+                        </div>
+                    </a>
+                    <div class="submenu">
+                        @for (int i = 0; i < Math.Ceiling(childs_1.Count() / 5.0); i++)
+                        {
+                            <ul>
+                                @foreach (var ch1 in childs_1.Skip(i * 5).Take(5))
+                                {
+                                    <li>
+                                        <a href="@UrlProvider.GetMenuItemUrl(ch1.Title, ch1.Link, (byte)ch1.MenuItemType)">@ch1.Title</a>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    </div>
+                </li>
+            }
+        }
+
+    </ul>
+
+</nav>

@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "مدیریت برنامه کاری کارمندان";
+}
+
+<fieldset class="filter-box">
+    <legend>
+        <a class="filter-header">
+            <i class="open-icon icon icon-plus-sign"></i>
+            <span>جستجو</span>
+        </a>
+    </legend>
+    <div class="control-box">
+        <div class="row form-group">
+            <input type="text" id="Username" class="form-control col-sm-2" placeholder="نام کاربری..." />
+            <a id="btnSearch" class="btn btn-info"><i class="icon-search"></i></a>
+        </div>
+    </div>
+</fieldset>
+
+@Html.Partial("_GridView", new GridViewSettings()
+{
+    ControllerName = "UserWorks",
+    ShowAdd = false,
+    Editable = false,
+    Columns = new List<Column>(){
+
+                                new Column() {
+                                    Title = "نام کاربری",
+                                    DataField = "Username"
+                                },
+                                new Column() {
+                                    Title = "زمان شروع",
+                                    DataField = "toPersianDate(StartTime)"
+                                },
+                                new Column() {
+                                    Title = "زمان پایان",
+                                    DataField = "toPersianDate(EndTime)"
+                                },
+                                new Column() {
+                                    Title = "تاریخ",
+                                    DataField = "fromNow(LastUpdate)"
+                                },
+    }
+})
+
+@section Scripts {
+    <script type="text/javascript">
+        $username = $('#Username');
+
+        jConfigGrid.init({
+            ajaxUrl: '/Admin/UserWorks/',
+            filter: function () {
+                return {
+                    Username: $username.val()
+                }
+            }
+        });
+    </script>
+} 

@@ -1,0 +1,1396 @@
+﻿@model EditProduct
+
+@{
+    if (Model.ID == -1)
+    {
+        ViewBag.Title = "ویرایش محصولات";
+    }
+    else
+    {
+        ViewBag.Title = "ویرایش محصولات - " + Model.Title;
+    }
+
+    bool isAdministrator = User.IsInRole("Administrator");
+}
+
+@using (Html.BeginForm("Edit", "Products", FormMethod.Post, new { ID = "EditProducts", @class = "validate", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="product-info">
+        <div class="form-group">
+            @Html.HiddenFor(model => model.userID)
+            <span class="label label-info">ایجاد کننده محصول: @OSUsers.GetByID(Model.userID).UserName</span>
+        </div>
+        <div class="form-group">
+            <a class="product-link" target="_blank" href="@UrlProvider.GetProductUrl(Model.ID,Model.GroupUrlPerfix,Model.UrlPerfix)">محصول: @Model.Title</a>
+        </div>
+    </div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active"><a href="#product" role="tab" data-toggle="tab">اطلاعات اولیه</a></li>
+        <li><a href="#productdescription" role="tab" data-toggle="tab">توضیحات</a></li>
+        <li><a href="#productprices" role="tab" data-toggle="tab">قیمت</a></li>
+        <li><a href="#productattributes" role="tab" data-toggle="tab">ویژگی ها</a></li>
+        <li><a href="#productvarients" role="tab" data-toggle="tab">انواع کالا</a></li>
+        <li><a href="#productimages" role="tab" data-toggle="tab">عکس ها</a></li>
+        <li><a href="#productfiles" role="tab" data-toggle="tab">فایل ها</a></li>
+        <li><a href="#productmarks" role="tab" data-toggle="tab">نشانه ها</a></li>
+        <li><a href="#productsupplies" role="tab" data-toggle="tab">موجودی</a></li>
+        <li><a href="#productpoints" role="tab" data-toggle="tab">نقاط قوت و ضعف</a></li>
+        <li><a href="#productkeywords" role="tab" data-toggle="tab">کلیدواژه ها</a></li>
+        <li><a href="#productnotes" role="tab" data-toggle="tab">کامنت ها</a></li>
+        <li><a href="#productdiscounts" role="tab" data-toggle="tab">تخفیف ها</a></li>
+        <li><a href="#productPricesLinks" role="tab" data-toggle="tab">لینک در سایر فروشگاه ها</a></li>
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="product">
+            <div class="col-sm-6">
+                @Html.Partial("_Status")
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ProductScore)
+                    <a href="#" class="rate" data-score="@Model.ProductScore">
+                    </a>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Title)
+                    @Html.TextBoxFor(model => model.Title, new { @class = "form-control required" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Title_En)
+                    @Html.TextBoxFor(model => model.Title_En, new { @class = "form-control required" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DisplayTitleType)
+                    @Html.EnumDropDownListFor(model => model.DisplayTitleType, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Groups)
+                    <div>
+                        @Html.Partial("_TreeView", new TreeViewSettings()
+                   {
+                       ControllerName = "/Admin/Groups",
+                       JsonMothod = "GetGroups",
+                       FieldName = "JSONGroups",
+                       TreeViewSelectMode = TreeViewSelectMode.Multiple,
+                       SelectedItems = Model.Groups
+                   })
+                    </div>
+                    <label id="GroupsError" class="error" style="display: none;"></label>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.GroupID)
+                    <div class="row">
+                        <div class="col-md-6">
+                            @Html.DropDownListFor(model => model.GroupID, new List<SelectListItem>(), new { @class = "form-control selectpicker required" })
+                            <script>var groupID = @(Model.GroupID.HasValue ? Model.GroupID.ToString() : "null")</script>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ProducerID)
+                    <div class="row">
+                        <div class="col-md-6">
+                            @Html.DropDownListFor(model => model.ProducerID, new List<SelectListItem>(), new { @class = "form-control selectpicker required" })
+                            <a href="/Admin/Producers">مدیریت تولید کنندگان</a>
+                            <a href="#" id="RefreshProducers" class="icon-refresh pull-left"></a>
+                            <label id="ProducerError" class="error" style="display: none;"></label>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="ProducerIDLoading" class="pull-left" style="display: none;"><img src="~/images/loading.gif" /></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PersianPublishDate)
+                    @Html.TextBoxFor(model => model.PersianPublishDate, new { @class = "form-control persiandate required" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PriceStatus)
+                    @Html.EnumDropDownListFor(model => model.PriceStatus, new { @class = "form-control" })
+                </div>
+                @if (isAdministrator)
+                {
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ProductStatus)
+                        @Html.EnumDropDownListFor(model => model.ProductStatus, new { @class = "form-control" })
+                    </div>
+                }
+                <div class="form-group">
+                    @Html.LabelFor(model => model.OrderID)
+                    @Html.TextBoxFor(model => model.OrderID, new { @class = "form-control number" })
+                </div>
+                <div class="checkbox">
+                    @Html.CheckBoxFor(model => model.HasVarients)
+                    @Html.LabelFor(model => model.HasVarients)
+                </div>
+                <div class="checkbox">
+                    @Html.CheckBoxFor(model => model.IsUnavailable)
+                    @Html.LabelFor(model => model.IsUnavailable)
+                </div>
+                <div class="checkbox">
+                    @Html.CheckBoxFor(model => model.IsInVisible)
+                    @Html.LabelFor(model => model.IsInVisible)
+                </div>
+                <div class="checkbox">
+                    <input id="chkSendSms" name="chkSendSms" type="checkbox" />
+                    <label for="chkSendSms">اطلاع رسانی به متقاضیان محصول</label>
+                    <div class="requests-list" style="display:none">
+                        <div class="emails">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>ردیف</th>
+                                        <th>ایمیل</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="mobiles">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>ردیف</th>
+                                        <th>موبایل</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkbox">
+                    @Html.CheckBoxFor(model => model.IsFreeDelivery)
+                    @Html.LabelFor(model => model.IsFreeDelivery)
+                </div>
+                <button id="btnSubmitProduct" type="submit" class="btn btn-success">ثبت</button>
+                <a href="/Admin/Products" class="btn btn-warning">بازگشت</a>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="productdescription">
+            @Html.Partial("_ProductDescription", Model)
+        </div>
+        <div role="tabpanel" class="tab-pane" id="productprices">
+            @Html.Partial("_ProductPrices", Model)
+        </div>
+        <div role="tabpanel" class="tab-pane" id="productattributes">
+            @Html.Partial("_ProductAttributes", Model)
+        </div>
+        <div role="tabpanel" class="tab-pane" id="productvarients">
+            @Html.Partial("_ProductVarients", Model)
+            @Html.HiddenFor(item => item.JSONVarients)
+        </div>
+        <div role="tabpanel" class="tab-pane" id="productimages">
+            @Html.Partial("_ProductImages", Model.Images)
+            @Html.HiddenFor(item => item.JSONImages)
+        </div>
+        <div role="tabpanel" class="tab-pane" id="productfiles">
+            @Html.Partial("_ProductFiles", Model.Files)
+            @Html.HiddenFor(item => item.JSONFiles)
+        </div>
+        <div role="tabpanel" class="tab-pane" id="productmarks">
+            @Html.Partial("_ProductMarks", Model.Marks)
+            @Html.HiddenFor(item => item.JSONMarks)
+        </div>
+        <div role="tabpanel" class="tab-pane" id="productsupplies">
+            @Html.Partial("_ProductSupplies", Model)
+        </div>
+        <div role="tabpanel" class="tab-pane" id="productpoints">
+            @Html.Partial("_ProductPoints", Model.Points)
+            @Html.HiddenFor(item => item.JSONPoints)
+        </div>
+        <div role="tabpanel" class="tab-pane" id="productkeywords">
+            @Html.Partial("_ProductKeywords", Model.Keywords)
+            @Html.HiddenFor(item => item.JSONKeywords)
+        </div>
+        <div role="tabpanel" class="tab-pane" id="productnotes">
+            @Html.Partial("_ProductNotes", Model.Notes)
+            @Html.Hidden("JSONNotes")
+        </div>
+        <div role="tabpanel" class="tab-pane" id="productdiscounts">
+            @Html.Partial("_ProductDiscounts", Model)
+        </div>
+        <div role="tabpanel" class="tab-pane" id="productPricesLinks">
+            @Html.Partial("_ProductPricesLinks", Model.ProductPricesLinks)
+            @Html.HiddenFor(item => item.JSONProductPricesLinks)
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script src="~/assets/raty/jquery.raty.min.js"></script>
+
+    <script>
+            $('#btnSubmitProduct').on('click', function (e) {
+                if ($('#hfJSONGroups').val() == '[]') {
+                    $('#GroupsError').text('انتخاب گروه اجباری است.').show();
+                    e.preventDefault();
+                }
+                else
+                    $('#GroupsError').hide();
+
+                if (!$('#ProducerID').val()) {
+                    $('#ProducerError').text('انتخاب تولید کننده اجباری است.').show();
+                    e.preventDefault();
+                }
+                else
+                    $('#ProducerError').show();
+            });
+    </script>
+
+    <script>
+        var initProductID = @Model.ID;
+        var initProducerID = @(Model.ID == -1 ? "undefined" : Model.ProducerID.ToString());
+
+        var $producerID = $('#ProducerID'),
+            $groupID = $('#GroupID'),
+            $producerIDLoading = $('#ProducerIDLoading'),
+            $productAttributes = $('#ProductAttributes'),
+            $productAttributesLoading = $('#ProductAttributesLoading'),
+            getProducersAjax = undefined,
+            getProductAttributesAjax = undefined;
+
+        function treeChecked(item, api) {
+            $groupID.empty();
+
+            var items = [];
+            $('#treeView li').each(function () {
+                var $this = $(this),
+                    item = $this.data('itemData.aciTree');
+
+                if (api.isChecked($this))
+                {
+                    var id = api.getId($this),
+                        label = api.getLabel($this);
+
+                    items.push(id);
+
+                    if (!api.hasChildren($this))
+                        $groupID.append('<option value="' + id + '">' + label + '</option>');
+                }
+            });
+
+            $groupID.val(groupID).selectpicker('refresh');
+
+            getProductAttributes(items);
+            getProducers(items);
+        }
+
+        function getProductAttributes(items) {
+            if (getProductAttributesAjax)
+                getProductAttributesAjax.abort();
+
+            $productAttributes.empty();
+            $productAttributesLoading.fadeIn();
+
+            getProductAttributesAjax = $.ajax({
+                url: '/Admin/Products/GetAttributes',
+                type: 'POST',
+                data: { ProductID: initProductID, GroupIDs: items },
+                success: function (result) {
+                    if (result.Success) {
+
+                        var groups = _.groupBy(result.Data, function(item){
+                            return item.AttrGroupID;
+                        });
+
+                        for (var i in groups) {
+                            var groupAttrs = groups[i],
+                                attrGroupTitle = groupAttrs[0].AttrGroupTitle,
+                                $groupAttributes = $('<div />');
+
+                            var $groupBox = $('<fieldset class="group-box"><legend><a class="group-link"><i class="open-icon icon icon-plus-sign"></i><span>' + attrGroupTitle + '</span></a></legend><div class="attrs-box"></div></fieldset>');
+
+                            for (var j in groupAttrs) {
+                                var item = groupAttrs[j];
+
+                                var $formgroup = renderControl(item, 'attr_', true);
+
+                                $groupAttributes.append($formgroup);
+                            }
+
+                            $groupBox.find('.attrs-box').append($groupAttributes);
+
+                            $productAttributes.append($groupBox);
+                            $productAttributes.append('<hr />');
+
+                        }
+
+                        getAttributesLoaded(result.Data);
+                        openAttributesBox();
+                    }
+                },
+                error: function (e) {
+                    if (e.status != 0)
+                        alert('رخداد خطا');
+                },
+                complete: function () {
+                    $productAttributesLoading.fadeOut();
+                },
+            });
+        }
+
+        function renderControl(item, perfix, addtovarients) {
+            var $formgroup = $('<div class="form-group"></div>'),
+                $row = $('<div class="row"></div>').append($formgroup);
+
+            var control = '<label for="' + perfix + item.ID + '">' + item.Title + '</label>';
+
+            var regexMultiperfix = /(\d:.+?,)/g;
+
+            switch (item.AttributeType) {
+                case 0:
+                    control += '<input id="' + perfix + item.ID + '" name="' + perfix + item.ID + '" type="text" value="' + (item.Value ? item.Value : '') + '" class="form-control" />';
+
+                    if (regexMultiperfix.test(item.Posfix))
+                    {
+                        control += '<p class="bg-info">' + item.Posfix + '</p>';
+                    }
+                    break;
+                case 1:
+                    control += '<input id="' + perfix + item.ID + '" name="' + perfix + item.ID + '" type="text" value="' + (item.Value ? item.Value : '') + '" class="form-control" />';
+
+                    if (regexMultiperfix.test(item.Posfix))
+                    {
+                        control += '<p class="bg-info">' + item.Posfix + '</p>';
+                    }
+                    break;
+                case 2:
+                    if (addtovarients)
+                    {
+                        control += '<div class="checkbox addtovarients">';
+                        control += '<input id="attrvar_' + item.ID + '" name="attrvar_' + item.ID + '" data-id="' + item.ID + '" type="checkbox" />';
+                        control += '</div>';
+                    }
+
+                    control += '<select id="' + perfix + item.ID + '" name="' + perfix + item.ID + '" data-id="' + item.ID + '" class="form-control" >';
+                    control += '<option value=""></option>';
+                    _.each(item.Options, function (op) {
+                        control += '<option value="' + op.ID + '" ' + (op.ID == item.Value ? 'selected' : '') + '>' + op.Title + '</option>';
+                    });
+                    control += '</select>';
+                    break;
+                case 3:
+                    if (addtovarients)
+                    {
+                        control += '<div class="checkbox addtovarients">';
+                        control += '<input id="attrvar_' + item.ID + '" name="attrvar_' + item.ID + '" data-id="' + item.ID + '" type="checkbox" />';
+                        control += '</div>';
+                    }
+
+                    control += '<select id="' + perfix + item.ID + '" name="' + perfix + item.ID + '" ' + (addtovarients ? 'multiple' : '') + ' data-id="' + item.ID + '" class="form-control" >';
+                    _.each(item.Options, function (op) {
+                        control += '<option value="' + op.ID + '" ' + (item.Value && item.Value.indexOf(op.ID) != -1 ? 'selected' : '') + '>' + op.Title + '</option>';
+                    });
+                    control += '</select>';
+                    break;
+                case 4:
+                    control = '<div class="checkbox">';
+                    control += '<input id="' + perfix + item.ID + '" name="' + perfix + item.ID + '" type="checkbox" ' + (item.Value ? 'checked' : '') + ' />';
+                    control += '<label for="' + perfix + item.ID + '">' + item.Title + '</label>';
+                    control += '</div>';
+                    break;
+                case 5:
+                    control += '<textarea id="' + perfix + item.ID + '" name="' + perfix + item.ID + '" class="form-control">' + (item.Value ? item.Value : '') + '</textarea>';
+                    break;
+                default:
+                    control += 'نا معلوم';
+                    break;
+            }
+
+            $formgroup.append(control);
+
+            // iCheck
+            $formgroup.find('input[type="checkbox"]').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+                increaseArea: '20%'
+            });
+
+            $formgroup.find('select').selectpicker();
+
+            return $formgroup;
+        }
+
+        function getProducers(items) {
+            if (getProducersAjax)
+                getProducersAjax.abort();
+
+            $producerID.empty().prop('disabled', true).selectpicker('refresh');
+            $producerIDLoading.fadeIn();
+
+            getProducersAjax = $.ajax({
+                url: '/Admin/Products/GetProducers',
+                type: 'POST',
+                data: { GroupIDs: items },
+                success: function (result) {
+                    if (result.Success) {
+                        for (var i in result.Data) {
+                            var item = result.Data[i];
+                            $producerID.append('<option value="' + item.ID + '">' + item.Title + '</option>');
+                        }
+
+                        if (initProducerID) {
+                            $producerID.selectpicker('val', initProducerID);
+                        }
+                    }
+                },
+                error: function (e) {
+                    if (e.status != 0)
+                        alert('رخداد خطا');
+                },
+                complete: function () {
+                    $producerID.prop('disabled', false).selectpicker('refresh');
+                    $producerIDLoading.fadeOut();
+                },
+            });
+        }
+
+        function refreshProducers() {
+            var api = $('#treeView').aciTree('api'),
+                items = [];
+
+            $('#treeView li').each(function () {
+                var $this = $(this),
+                    item = $this.data('itemData.aciTree');
+
+                if (api.isChecked($this))
+                {
+                    var id = api.getId($this),
+                        label = api.getLabel($this);
+
+                    items.push(id);
+
+                    if (!api.hasChildren($this))
+                        $groupID.append('<option value="' + id + '">' + label + '</option>');
+                }
+            });
+
+            getProducers(items);
+        }
+
+        function openAttributesBox() {
+
+            $('.group-box').on('click','a.group-link',function () {
+                var $groupBox=($(this).closest('.group-box')),
+                    $attrsBox = $groupBox.find('.attrs-box'),
+                    $icon =$groupBox.find('i.open-icon');
+
+                if ($attrsBox.css('display') == 'block') {
+                    $icon.removeClass('icon-minus-sign').addClass('icon-plus-sign');
+                }
+                else {
+                    $icon.removeClass('icon-plus-sign').addClass('icon-minus-sign');
+                }
+
+                $attrsBox.slideToggle();
+            });
+        }
+
+        $('#RefreshProducers').on('click',function (e) {
+            e.preventDefault();
+            refreshProducers();
+        })
+    </script>
+
+    <script>
+        var productImageTemplate = $('#EditProductImageTemplate').html(),
+            $productImagesList = $('#ProductImagesList'),
+            $addProductImage = $('#AddProductImage'),
+            $title = $('#Title'),
+            $jsonImages = $('#JSONImages'),
+            imagesFiles = @Html.Raw(Model.JSONImages);
+
+        $addProductImage.on('click', function () {
+            var title = $title.val().trim();
+            if (title == '')
+            {
+                alert('لطفا عنوان محصول را وارد نمایید.');
+                return;
+            }
+
+            var tmp = $(productImageTemplate),
+                btn = tmp.find('.btn-upload')[0];
+
+            var uploader = new ss.SimpleUpload({
+                button: btn,
+                url: '/Admin/FileUploader/Upload?title=' + encodeURI(title) + '&path=\\Files\\ProductImages\\',
+                name: 'file',
+                responseType: 'json',
+                startXHR: function() {
+                    $(btn).html('در حال آپلود...');
+                },
+                onSubmit: function() {
+                },
+                onComplete: function(filename, response) {
+                    if (response.Success)
+                    {
+                        var $btn = $(btn),
+                            file = $btn.closest('.row').data('File');
+
+                        $btn.after('<a href="/Files/ProductImages/' + response.Data + '" target="_blank" class="btn btn-success"><span>فایل با موفقیت آپلود شد </span><i class="icon-check"></i></a>');
+                        $btn.remove();
+
+                        file.Filename = response.Data;
+
+                        refreshJSONImages();
+                    }
+                    else {
+                        alert('رخداد خطا');
+                    }
+                },
+                onError: function() {
+                }
+            });
+
+            var file = { ID: -1 * _.random(1000, 9999), Filename: '', ProductImagePlace: 1 };
+            tmp.data('File', file);
+            imagesFiles.push(file);
+
+            $productImagesList.append(tmp);
+        });
+
+        $productImagesList.on('click', 'select', function () {
+            var $this = $(this),
+                row = $this.closest('.row'),
+                id = row.data('id'),
+                file = row.data('File');
+
+            if (id)
+                file = _.find(imagesFiles, function(item){ return item.ID == id; });
+
+            file.ProductImagePlace = parseInt($this.val());
+
+            refreshJSONImages();
+        });
+
+        $productImagesList.on('click', '.btn-delete', function () {
+            if (confirm('آیا مایل به حذف فایل مورد نظر هستید؟')) {
+                var $this = $(this),
+                    row = $this.closest('.row'),
+                    id = row.data('id'),
+                    file = row.data('File');
+
+                imagesFiles = _.filter(imagesFiles, function (item) {
+                    return item.ID != (id ? id : file.ID);
+                });
+
+                row.slideUp();
+
+                refreshJSONImages();
+            }
+        });
+
+        function refreshJSONImages() {
+            $jsonImages.val(JSON.stringify(imagesFiles));
+        }
+    </script>
+
+    <script>
+        var productFileTemplate = $('#EditProductFileTemplate').html(),
+            $productFilesList = $('#ProductFilesList'),
+            $addProductFile = $('#AddProductFile'),
+            $title = $('#Title'),
+            $jsonFiles = $('#JSONFiles'),
+            fileFiles = @Html.Raw(Model.JSONFiles);
+
+        $addProductFile.on('click', function () {
+            var title = $title.val();
+            if (title == '')
+            {
+                alert('لطفا عنوان محصول را وارد نمایید.');
+                return;
+            }
+
+            var tmp = $(productFileTemplate),
+                btn = tmp.find('.btn-upload')[0];
+
+            var uploader = new ss.SimpleUpload({
+                button: btn,
+                url: '/Admin/FileUploader/Upload?title=' + title + '&path=\\Files\\ProductFiles\\',
+                name: 'file',
+                responseType: 'json',
+                startXHR: function() {
+                    $(btn).html('در حال آپلود...');
+                },
+                onSubmit: function() {
+                },
+                onComplete: function(filename, response) {
+                    if (response.Success)
+                    {
+                        var $btn = $(btn),
+                            file = $btn.closest('.row').data('File');
+
+                        $btn.after('<a href="/Files/ProductFiles/' + response.Data + '" target="_blank" class="btn btn-success"><span>فایل با موفقیت آپلود شد </span><i class="icon-check"></i></a>');
+                        $btn.remove();
+
+                        file.Filename = response.Data;
+
+                        refreshJSONFiles();
+                    }
+                    else {
+                        alert('رخداد خطا');
+                    }
+                },
+                onError: function() {
+                    alert('رخداد خطا در آپلود عکس');
+                }
+            });
+
+            var file = { ID: -1 * _.random(1000, 9999), Filename: '', Title: '' };
+            tmp.data('File', file);
+            fileFiles.push(file);
+
+            $productFilesList.append(tmp);
+        });
+
+        $productFilesList.on('keyup', 'input', function () {
+            var $this = $(this),
+                row = $this.closest('.row'),
+                id = row.data('id'),
+                file = row.data('File');
+
+            if (id)
+                file = _.find(fileFiles, function(item){ return item.ID == id; });
+
+            file.Title = $this.val();
+
+            refreshJSONFiles();
+        });
+
+        $productFilesList.on('click', '.btn-delete', function () {
+            if (confirm('آیا مایل به حذف فایل مورد نظر هستید؟')) {
+                var $this = $(this),
+                    row = $this.closest('.row'),
+                    id = row.data('id'),
+                    file = row.data('File');
+
+                fileFiles = _.filter(fileFiles, function (item) {
+                    return item.ID != (id ? id : file.ID);
+                });
+
+                row.slideUp();
+
+                refreshJSONFiles();
+            }
+        });
+
+        function refreshJSONFiles() {
+            $jsonFiles.val(JSON.stringify(fileFiles));
+        }
+    </script>
+
+    <script>
+        var productMarkTemplate = $('#EditProductMarkTemplate').html(),
+            $productMarksList = $('#ProductMarksList'),
+            $addProductMark = $('#AddProductMark'),
+            $jsonMarks = $('#JSONMarks'),
+            marks = @Html.Raw(Model.JSONMarks);
+
+        $addProductMark.on('click', function () {
+            var tmp = $(productMarkTemplate);
+
+            var mark = {
+                ID: -1 * _.random(1000, 9999),
+                Title: '',
+                Color: '',
+                PersianStartDate: '',
+                PersianEndDate: '',
+            };
+
+            tmp.data('Mark', mark);
+            marks.push(mark);
+
+            $productMarksList.append(tmp);
+
+            tmp.find('.persiandate').MdPersianDateTimePicker({
+                EnableTimePicker: false
+            }).on('keydown', function (e) {
+                if (e.keyCode != 9)
+                    e.preventDefault();
+            });
+        });
+
+        $productMarksList.on('keyup change', 'input', function () {
+            var $this = $(this),
+                row = $this.closest('.productmarkitem'),
+                id = row.data('id'),
+                mark = row.data('Mark');
+
+            if (id)
+                mark = _.find(marks, function(item){ return item.ID == id; });
+
+            if ($this.hasClass('title')) {
+                mark.Title = $this.val();
+            }
+            else if ($this.hasClass('color')) {
+                mark.Color = $this.val();
+            }
+            else if ($this.hasClass('persianstartdate')) {
+                mark.PersianStartDate = $this.val();
+            }
+            else if ($this.hasClass('persianenddate')) {
+                mark.PersianEndDate = $this.val();
+            }
+
+            refreshJSONMarks();
+        });
+
+        $productMarksList.on('click', '.btn-delete', function () {
+            if (confirm('آیا مایل به حذف نشانه مورد نظر هستید؟')) {
+                var $this = $(this),
+                    row = $this.closest('.productmarkitem'),
+                    id = row.data('id'),
+                    mark = row.data('Mark');
+
+                marks = _.filter(marks, function (item) {
+                    return item.ID != (id ? id : mark.ID);
+                });
+
+                row.slideUp();
+
+                refreshJSONMarks();
+            }
+        });
+
+        function refreshJSONMarks() {
+            $jsonMarks.val(JSON.stringify(marks));
+        }
+    </script>
+
+    <script>
+        var productPointTemplate = $('#EditProductPointTemplate').html(),
+            $productPointsList = $('#ProductPointsList'),
+            $addProductPoint = $('#AddProductPoint'),
+            $jsonPoints = $('#JSONPoints'),
+            Points = @Html.Raw(Model.JSONPoints);
+
+        $addProductPoint.on('click', function () {
+            var tmp = $(productPointTemplate);
+
+            var Point = {
+                ID: -1 * _.random(1000, 9999),
+                Text: '',
+                ProductPointType:'1'
+            };
+
+            tmp.data('Point', Point);
+            Points.push(Point);
+
+            $productPointsList.append(tmp);
+
+        });
+
+        $productPointsList.on('keyup change', 'input,select', function () {
+            var $this = $(this),
+                row = $this.closest('.productPointitem'),
+                id = row.data('id'),
+                Point = row.data('Point');
+            if (id)
+                Point = _.find(Points, function(item){ return item.ID == id; });
+
+            if ($this.hasClass('text')) {
+                Point.Text = $this.val();
+            }
+            else if ($this.hasClass('point')) {
+                Point.ProductPointType = $this.val();
+            }
+
+            refreshJSONPoints();
+        });
+
+        $productPointsList.on('click', '.btn-delete', function () {
+            if (confirm('آیا مایل به حذف نقطه مورد نظر هستید؟')) {
+                var $this = $(this),
+                    row = $this.closest('.productPointitem'),
+                    id = row.data('id'),
+                    Point = row.data('Point');
+
+                Points = _.filter(Points, function (item) {
+                    return item.ID != (id ? id : Point.ID);
+                });
+
+                row.slideUp();
+
+                refreshJSONPoints();
+            }
+        });
+
+        function refreshJSONPoints() {
+            $jsonPoints.val(JSON.stringify(Points));
+        }
+    </script>
+
+    <script>
+        var productKeywordTemplate = $('#EditProductKeywordTemplate').html(),
+            $productKeywordsList = $('#ProductKeywordsList'),
+            $addProductKeyword = $('#AddProductKeyword'),
+            $jsonKeywords = $('#JSONKeywords'),
+            keywords = @Html.Raw(Model.JSONKeywords);
+
+        $addProductKeyword.on('click', function () {
+            var tmp = $(productKeywordTemplate);
+
+            var keyword = {
+                ID: -1 * _.random(1000, 9999),
+                KeywordID: -1,
+                Title: ''
+            };
+
+            tmp.data('Keyword', keyword);
+            keywords.push(keyword);
+
+            $productKeywordsList.append(tmp);
+
+            refreshJSONKeywords();
+        });
+
+        $productKeywordsList.on('keyup change', 'input', function () {
+            var $this = $(this),
+                row = $this.closest('.productKeyworditem'),
+                id = row.data('id'),
+                keyword = row.data('Keyword');
+
+            if (id)
+                keyword = _.find(keywords, function(item){ return item.ID == id; });
+
+            keyword.Title = $this.val();
+
+            refreshJSONKeywords();
+        });
+
+        $productKeywordsList.on('click', '.btn-delete', function () {
+            if (confirm('آیا مایل به حذف کلیدواژه مورد نظر هستید؟')) {
+                var $this = $(this),
+                    row = $this.closest('.productKeyworditem'),
+                    id = row.data('id'),
+                    keyword = row.data('Keyword');
+
+                keywords = _.filter(keywords, function (item) {
+                    return item.ID != (id ? id : keyword.ID);
+                });
+
+                row.slideUp();
+
+                refreshJSONKeywords();
+            }
+        });
+
+        function refreshJSONKeywords() {
+            $jsonKeywords.val(JSON.stringify(keywords));
+        }
+
+        // جستجوی کلیدواژه
+        var getProductsTimer = undefined,
+            hideResultTimer = undefined;
+
+        $productKeywordsList.on('keyup paste','input', function () {
+            if (getProductsTimer)
+                clearTimeout(getProductsTimer);
+
+            if (hideResultTimer)
+                clearTimeout(hideResultTimer);
+
+            var $key=$(this),
+                $resultBox=$key.next('.result-box');
+
+            $resultBox.empty();
+
+            if ($key.val().length > 2) {
+                $resultBox.slideDown();
+                $resultBox.html('<span class="not-found">در حال جستجو...</span>');
+
+                getProductsTimer = setTimeout(function () {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Admin/Products/SearchKeywords',
+                        data: {
+                            Key: $key.val(),
+                        },
+                        success: function (response) {
+                            if (response.Success) {
+                                if (response.Data.length == 0) {
+                                    $resultBox.html('<span class="not-found">موردی یافت نشد.</span>');
+                                    hideResultTimer = setTimeout(function (){ $resultBox.fadeOut(); }, 2000);
+                                }
+                                else {
+                                    $resultBox.empty();
+                                    var $ul = $('<ul>');
+
+                                    for (var i = 0; i < response.Data.length; i++) {
+                                        var item = response.Data[i];
+
+                                        var li = '<li><a class="keyword-item" href="#" data-id="' + item.ID + '">' + item.Title + '</a></li>';
+
+                                        $ul.append(li);
+                                    }
+
+                                    $resultBox.append($ul);
+                                }
+                            }
+                            else {
+                                alert('خطا');
+                            }
+                        },
+                        error: function () {
+                        },
+                    });
+
+                }, 800);
+            }
+            else {
+                $resultBox.slideUp();
+            }
+
+        });
+
+        // انتخاب کلیدواژه
+        $productKeywordsList.on('click', '.keyword-item', function (e) {
+            e.preventDefault();
+
+            var $this = $(this),
+                id = $this.data('id'),
+                row = $this.closest('.productKeyworditem'),
+                keyword = row.data('Keyword'),
+                $resultBox = $this.closest('.result-box'),
+                $key = $this.closest('.search-box').children('.keyword');
+
+            $resultBox.hide();
+            $key.val($this.text());
+
+            keyword.Title = $this.text();
+            keyword.KeywordID = id;
+
+            refreshJSONKeywords();
+        });
+    </script>
+
+    <script>
+        var productNoteTemplate = $('#EditProductNoteTemplate').html(),
+            $productNotesList = $('#ProductNotesList'),
+            $addProductNote = $('#AddProductNote'),
+            $jsonNotes = $('#JSONNotes'),
+            notes = [];
+
+        $addProductNote.on('click', function () {
+            var tmp = $(productNoteTemplate);
+
+            var Note = {
+                ID: -1 * _.random(1000, 9999),
+                Note: '',
+            };
+
+            tmp.data('Note', Note);
+            notes.push(Note);
+
+            $productNotesList.append(tmp);
+
+        });
+
+        $productNotesList.on('keyup change', 'textarea', function () {
+            var $this = $(this),
+                row = $this.closest('.productNoteitem'),
+                Note = row.data('Note');
+
+            if ($this.hasClass('note')) {
+                Note.Note = $this.val();
+            }
+
+            refreshJSONNotes();
+        });
+
+        function refreshJSONNotes() {
+            $jsonNotes.val(JSON.stringify(notes));
+        }
+    </script>
+
+    @{
+        var initVarientAttrs = Newtonsoft.Json.JsonConvert.SerializeObject(
+                                   Model.Varients
+                                        .SelectMany(item => item.Attributes)
+                                        .GroupBy(item => item.AttributeID)
+                                        .Select(item => item.Key)
+                                        .ToList()
+                               );
+    }
+    <script>
+        var $productVarientAttrsBox = $('#ProductVarientAttrsBox'),
+            $newVarients = $('#NewVarients'),
+            $jsonVarients = $('#JSONVarients'),
+            initVarientAttrs = @Html.Raw(initVarientAttrs),
+            productVarientAttrs = [],
+            productVarients = @Html.Raw(Model.JSONVarients),
+            productVarientTemplate = $('#ProductVarientTemplate').html();
+
+        function getAttributesLoaded(items) {
+            if (initVarientAttrs)
+            {
+                for (var i in initVarientAttrs) {
+                    var attrID = initVarientAttrs[i],
+                        attr = _.find(items, function(item){ return item.ID == attrID; });
+
+                    if (attr)
+                    {
+                        productVarientAttrs.push(attr);
+                        $('#attrvar_' + attr.ID).iCheck('check');
+                    }
+                }
+
+                renderProductVarientAttrs();
+            }
+
+            $('.addtovarients input').on('ifChanged', function () {
+                var $this = $(this),
+                    id = $this.data('id');
+
+                if (this.checked)
+                {
+                    var attr = _.find(items, function(item){ return item.ID == id; });
+                    productVarientAttrs.push(attr);
+                }
+                else {
+                    productVarientAttrs = _.filter(productVarientAttrs, function(item){ return item.ID != id; });
+                }
+
+                renderProductVarientAttrs();
+            });
+        }
+
+        $('#btnAddVarient').on('click', function (e) {
+            e.preventDefault();
+
+            var $this = $(this),
+                $parent = $this.parent(),
+                $title = $parent.find('input.attrvar-title'),
+                $priceCode = $parent.find('input.attrvar-pricecode');
+
+            if ($title.val() == '')
+            {
+                $title.focus();
+                return;
+            }
+
+            if ($priceCode.val() == '')
+            {
+                $priceCode.focus();
+                return;
+            }
+
+            var item = {
+                ID: -1,
+                Title: $title.val(),
+                PriceCode: $priceCode.val(),
+                LastUpdate: null,
+                Attributes: [],
+
+                Price: -1,
+                Count: 0,
+                PriceType: 1,
+            };
+
+            var selects = $parent.find('select');
+
+            if (selects.length == 0)
+            {
+                alert('لطفا متغیرهای مورد نیاز را در بخش ویژگی ها انتخاب نمایید.');
+                return;
+            }
+
+            selects.each(function () {
+                var $this = $(this),
+                    $option = $this.find(':selected'),
+                    id = $this.data('id');
+
+                item.Attributes.push({
+                    AttributeID: id,
+                    AttributeOptionTitle: $option.text(),
+                    AttributeOptionID: $option.val()
+                });
+            });
+
+            productVarients.push(item);
+
+            $jsonVarients.val(JSON.stringify(productVarients));
+
+            $title.val('');
+            renderNewVarient(item);
+        });
+
+        $('#ProductVarientsResult').on('change', 'input, select', function (e) {
+            var $this = $(this),
+                $fieldset = $this.closest('fieldset');
+
+            var varient = undefined;
+            if ($fieldset.data('id'))
+                varient = _.find(productVarients, function (item) { return item.ID == $fieldset.data('id') });
+            else
+                varient = $fieldset.data('Varient');
+
+            if ($this.is('.varient-price'))
+            {
+                var price = parseInt($this.val());
+                varient.Price = (price == NaN ? -1 : price);
+
+                var newPrice = $this.val();
+                var oldPrice = $this.closest('tr').prev('tr').find('td:eq(1)').children('.input-group').text();
+
+                if (oldPrice) {
+                    oldPrice = oldPrice.replace(/\,/g, '').replace('تومان','').replace('ریال','');
+                    var dif = newPrice - oldPrice;
+
+                    if ((dif <= 0 && dif <= -50000) || (dif > 0 && dif >= 50000)) {
+                        var ok = confirm('قیمت وارد شده خارج از حد مجاز است آیا تمایل به ادامه دارید؟');
+                        if (!ok) {
+                            $this.val('');
+                        }
+                    }
+                }
+            }
+
+            if ($this.is('.varient-count'))
+            {
+                var count = parseInt($this.val());
+                varient.Count = (count == NaN ? -1 : count);
+            }
+
+            if ($this.is('.varient-pricetype'))
+                varient.PriceType = $this.val();
+
+            $jsonVarients.val(JSON.stringify(productVarients));
+        });
+
+        $('.btn-deletevarient').on('click', function (e) {
+            e.preventDefault();
+
+            var $this = $(this),
+                $fieldset = $this.closest('fieldset');
+
+            var varient = _.find(productVarients, function (item) {
+                return item.ID == $fieldset.data('id');
+            });
+
+            if (confirm('آیا مایل به حذف ' + $fieldset.find('legend span').text() + ' هستید؟')) {
+                $.ajax({
+                    url: '/Admin/Products/DeleteProductVarient',
+                    type: 'POST',
+                    data: { id: varient.ID },
+                    success: function (result) {
+                        if (result.Success) {
+                            $fieldset.css({ 'opacity': 0.5 }).attr('disabled', 'disabled');
+
+                            productVarients = _.filter(productVarients, function (item) { return item.ID != varient.ID });
+                            $jsonVarients.val(JSON.stringify(productVarients));
+
+                            toastr.success('حذف با موفقیت انجام شد.', 'انواع کالا');
+                        }
+                        else {
+                            toastr.error('رخداد خطا در حذف.', 'انواع کالا');
+                        }
+                    },
+                    error: function () {
+                        toastr.error('رخداد خطا در حذف.', 'انواع کالا');
+                    }
+                });
+            }
+        });
+
+        $('.chk-isenabled').on('ifChanged', function () {
+            var $this = $(this),
+                        $fieldset = $this.closest('fieldset'),
+                        isEnabled = this.checked;
+
+            console.log($this.val(), $this.iCheck('val'));
+
+            var varient = _.find(productVarients, function (item) {
+                return item.ID == $fieldset.data('id');
+            });
+
+            $.ajax({
+                url: '/Admin/Products/UpdateProductVarient',
+                type: 'POST',
+                data: { id: varient.ID, isEnabled: isEnabled },
+                success: function (result) {
+                    if (result.Success) {
+                        var $next = $this.closest('legend').children('span').removeClass('text-warning text-success');
+                        $next.addClass(isEnabled ? 'text-success' : 'text-warning');
+
+                        if (isEnabled)
+                            toastr.success('فعال سازی با موفقیت انجام شد.', 'انواع کالا');
+                        else
+                            toastr.warning('غیر فعال سازی با موفقیت انجام شد.', 'انواع کالا');
+                    }
+                    else {
+                        toastr.error('رخداد خطا در حذف.', 'انواع کالا');
+                    }
+                },
+                error: function () {
+                    toastr.error('رخداد خطا در حذف.', 'انواع کالا');
+                }
+            });
+        });
+
+        function renderProductVarientAttrs() {
+            $productVarientAttrsBox.empty();
+
+            for (var i in productVarientAttrs) {
+                var attr = productVarientAttrs[i],
+                    control = renderControl(attr, 'attrvar_', false);
+
+                $productVarientAttrsBox.append(control);
+            }
+        }
+
+        function renderNewVarient(varient) {
+            var productVarient = $(productVarientTemplate);
+
+            var attrTitles = _.map(varient.Attributes, function (item) { return item.AttributeOptionTitle; }).join('، ');
+
+            productVarient.data('Varient', varient).find('legend').text(varient.Title + ' (' + varient.PriceCode + ') - ' + attrTitles);
+
+            $newVarients.append(productVarient);
+        }
+
+    </script>
+
+    <script>
+        $(function () {
+            renderRaty();
+        });
+
+        function renderRaty() {
+            var $scorePane = $('.rate');
+            $scorePane.raty({
+                half: true,
+                readOnly: false,
+                score: function () {
+                    return $(this).attr('data-score');
+                }
+            });
+        }
+    </script>
+
+    <script>
+        var $chkSendSms = $('#chkSendSms'),
+            $requestsList = $('.requests-list'),
+            $requestsEmails = $('.requests-list .emails tbody'),
+            $requestsMobiles = $('.requests-list .mobiles tbody');
+
+        $chkSendSms.on('ifChanged', function () {
+            if ($chkSendSms.prop('checked')) {
+                $.ajax({
+                    url: '/Admin/Products/GetProductRequests',
+                    type: 'Post',
+                    data: {
+                        ProductID: initProductID
+                    },
+                    success: function (response) {
+
+                        if (response.Success) {
+                            for (var i = 0; i < response.Data.Emails.length; i++) {
+                                $requestsEmails.append('<tr><td>' + (i + 1) + '</td><td>' + response.Data.Emails[i] + '</td></tr>');
+                            }
+
+                            for (var i = 0; i < response.Data.Mobiles.length; i++) {
+                                $requestsMobiles.append('<tr><td>' + (i + 1) + '</td><td>' + response.Data.Mobiles[i] + '</td></tr>');
+                            }
+                        }
+                    },
+                    complete: function () {
+                        $requestsList.slideDown();
+                    }
+                });
+            }
+            else {
+                $requestsList.slideUp();
+                $requestsEmails.empty();
+                $requestsMobiles.empty();
+            }
+        })
+    </script>
+
+    <script>
+        var productLinkTemplate = $('#EditProductLinkTemplate').html(),
+            $productLinksList = $('#ProductLinksList'),
+            $addProductLink = $('#AddProductLink'),
+            $jsonProductLinks = $('#JSONProductPricesLinks'),
+            Links = @Html.Raw(Model.JSONProductPricesLinks);
+
+        $addProductLink.on('click', function () {
+            var tmp = $(productLinkTemplate);
+
+            var Link = {
+                ID: -1 * _.random(1000, 9999),
+                Link: '',
+                WebsiteName:'0'
+            };
+
+            tmp.data('Link', Link);
+            Links.push(Link);
+
+            $productLinksList.append(tmp);
+
+        });
+
+        $productLinksList.on('keyup change', 'input,select', function () {
+            var $this = $(this),
+                row = $this.closest('.productLinkitem'),
+                id = row.data('id'),
+                Link = row.data('Link');
+
+            if (id)
+                Link = _.find(Links, function(item){ return item.ID == id; });
+
+            if ($this.hasClass('link')) {
+                Link.Link = $this.val();
+            }
+            else if ($this.hasClass('website')) {
+                Link.WebsiteName = $this.val();
+            }
+
+            refreshJSONProductsLinks();
+        });
+
+        $productLinksList.on('click', '.btn-delete', function () {
+            if (confirm('آیا مایل به حذف لینک مورد نظر هستید؟')) {
+                var $this = $(this),
+                    row = $this.closest('.productLinkitem'),
+                    id = row.data('id'),
+                    Link = row.data('Link');
+
+                Links = _.filter(Links, function (item) {
+                    return item.ID != (id ? id : Link.ID);
+                });
+
+                row.slideUp();
+
+                refreshJSONProductsLinks();
+            }
+        });
+
+        function refreshJSONProductsLinks() {
+            $jsonProductLinks.val(JSON.stringify(Links));
+        }
+
+        $('.btn-showvarient').click(function (e) {
+            var $this = $(this);
+
+            $this.closest('fieldset').find('.hide').removeClass('hide');
+            $this.remove();
+
+            e.preventDefault();
+        });
+
+        $('.varient-header').click(function (e) {
+            var $this = $(this);
+
+            $this.closest('fieldset').find('table').toggleClass('hide');
+
+            e.preventDefault();
+        });
+    </script>
+
+}
+
+@section Styles{
+    <link href="~/css/admin/simple-search.min.css" rel="stylesheet" />
+    <link href="/assets/raty/jquery.raty.css" rel="stylesheet" />
+}

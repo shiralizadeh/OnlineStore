@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "کاربر جدید";
+}
+
+@using (Html.BeginForm("Add", "Users", FormMethod.Post, new { @class = "validate ajax" }))
+{
+    <div class="col-sm-6">
+        @Html.Partial("_Error")
+        @Html.Partial("_Success")
+        @Html.Partial("_Loading")
+        <div class="form-group">
+            <label for="Username">نام کاربری</label>
+            <input type="text" class="form-control required" id="Username" name="Username" placeholder="نام کاربری" value="" />
+        </div>
+        <div class="form-group">
+            <label for="Email">ایمیل</label>
+            <input type="text" class="form-control required email" id="Email" name="Email" placeholder="ایمیل" value="" />
+        </div>
+        <div class="form-group">
+            <label for="Password">کلمه عبور</label>
+            <input type="password" class="form-control required" id="Password" name="Password" minlength="6" placeholder="کلمه عبور" value="" />
+        </div>
+        <button type="submit" class="btn btn-success">ثبت</button>
+    </div>
+}

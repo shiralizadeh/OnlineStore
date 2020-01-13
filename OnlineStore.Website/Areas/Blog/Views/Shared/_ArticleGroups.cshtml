@@ -1,0 +1,16 @@
+﻿@{
+    var groups = Groups.GetAll(GroupType.Blogs);
+}
+@if (groups.Count > 0)
+{
+    <nav>
+        <span class="menu-title">دسته بندی آنلاین استور</span>
+        <ul class="root">
+            @foreach (var item in groups)
+            {
+                <li><a href="@UrlProvider.GetBlogGroupUrl(item.TitleEn)" title="@item.TitleEn">@item.Title</a></li>
+            }
+        </ul>
+    </nav>
+}
+
